@@ -1,5 +1,7 @@
 local instance = require("yan.instance.instance")
 local physicsInstance = require("yan.instance.physics_instance")
+local screen = require("yan.instance.ui.screen")
+local label = require("yan.instance.ui.label")
 
 function love.load()
     --[[player = instance:New()
@@ -20,6 +22,15 @@ function love.load()
     ground.Size.X = 30000
     ground.Size.Y = 50
     ground.Shape = "rectangle"
+    
+    myScreen = screen:New(myScreen)
+    myScreen.Enabled = true
+    myLabel = label:New(myLabel, myScreen, "Hello World", 16, "left")
+    myLabel.Size.X = 500
+    
+    myLabel2 = label:New(myLabel2, myScreen, "really long text that should wrap if i did this properly", 16, "left")
+    myLabel2.Position.Y = 50
+    myLabel2.Size.X = 50
 end
 
 local x = 0
@@ -33,4 +44,5 @@ end
 function love.draw()
     player.instance:Draw()
     ground:Draw()
+    myScreen:Draw()
 end
