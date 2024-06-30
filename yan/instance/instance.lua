@@ -12,7 +12,9 @@ function instance:New(o)
         Rotation = 0,
         Size = {X = 1, Y = 1},
         Offset = {X = 0, Y = 0},
-        Sprite = nil
+        Sprite = nil,
+        Shape = nil,
+        Color = {R = 1, G = 1, B = 1, A = 1}
     }
     setmetatable(o, self)
     
@@ -28,18 +30,35 @@ function instance:SetSprite(spritePath)
 end
 
 function instance:Draw()
-    if self.Sprite == nil then return end
-
-    love.graphics.draw(
-        self.Sprite,
-        self.Position.X,
-        self.Position.Y,
-        self.Rotation,
-        self.Size.X,
-        self.Size.Y,
-        self.Offset.X,
-        self.Offset.Y
+    love.graphics.setColor(
+        self.Color.R,
+        self.Color.G,
+        self.Color.B,
+        self.Color.A
     )
+
+    if self.Sprite ~= nil then
+        love.graphics.draw(
+            self.Sprite,
+            self.Position.X,
+            self.Position.Y,
+            self.Rotation,
+            self.Size.X,
+            self.Size.Y,
+            self.Offset.X,
+            self.Offset.Y
+        )
+    elseif self.Shape == "rectangle" then
+        love.graphics.rectangle(
+            "fill",
+            self.Position.X,
+            self.Position.Y,
+            self.Size.X,
+            self.Size.Y
+        )
+    end
+
+    
 end
 
 return instance

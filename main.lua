@@ -17,15 +17,20 @@ function love.load()
     
     ground = physicsInstance:New(ground, world, "static", "rectangle", {X = 30000, Y = 50}, 0, 0)
     ground.body:setY(300)
+    ground.Size.X = 30000
+    ground.Size.Y = 50
+    ground.Shape = "rectangle"
 end
 
 local x = 0
 
 function love.update(dt)
     player:Update(dt)
+    ground:Update()
     world:update(dt)
 end
 
 function love.draw()
     player.instance:Draw()
+    ground:Draw()
 end
