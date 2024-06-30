@@ -1,5 +1,5 @@
 local instance = {}
-
+instance.__index = instance
 --[[instance.Position = {X = 0, Y = 0}
 instance.Rotation = 0
 instance.Size = {X = 1, Y = 1}
@@ -15,7 +15,6 @@ function instance:New(o)
     }
     setmetatable(o, self)
     
-    self.__index = self
     return o
 end
 
