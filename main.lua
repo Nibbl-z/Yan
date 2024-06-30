@@ -15,7 +15,7 @@ function love.load()
     player = require("examples.player")
     player:Init(world)
     
-    ground = physicsInstance:New(ground, world, "static", "rectangle", {X = 30000, Y = 50}, 0)
+    ground = physicsInstance:New(ground, world, "static", "rectangle", {X = 30000, Y = 50}, 0, 0)
     ground.body:setY(300)
 end
 

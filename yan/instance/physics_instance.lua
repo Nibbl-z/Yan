@@ -2,7 +2,7 @@ local physicsInstance = {}
 local instance = require("yan.instance.instance")
 physicsInstance.__index = instance
 
-function physicsInstance:New(o, world, bodyType, shape, size, restitution)
+function physicsInstance:New(o, world, bodyType, shape, size, restitution, damping)
     o = o or instance:New(o)
     setmetatable(o, self)
    
@@ -15,6 +15,7 @@ function physicsInstance:New(o, world, bodyType, shape, size, restitution)
     o.fixture = love.physics.newFixture(o.body, o.shape)
     o.fixture:setUserData(o.Name)
     o.fixture:setRestitution(restitution)
+    o.body:setLinearDamping(damping)
     
     function o:Update()
         self.Position.X = self.body:getX()
@@ -23,6 +24,22 @@ function physicsInstance:New(o, world, bodyType, shape, size, restitution)
 
     function o:ApplyForce(x, y)
         self.body:applyForce(x, y)
+    end
+
+    function o:ApplyLinearImpulse(x, y, maxX, maxY)
+        self.body:applyLinearImpulse(x, y)
+        
+        if maxX and maxY then
+            local vX, vY = self.body:getLinearVelocity()
+
+            if vX > maxX then 
+                vX = maxX
+            elseif vX < -maxX then 
+                vX = -maxX 
+            end
+
+            self.body:setLinearVelocity(vX, vY)
+        end
     end
     
     return o
