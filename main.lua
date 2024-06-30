@@ -25,11 +25,12 @@ function love.load()
     
     myScreen = screen:New(myScreen)
     myScreen.Enabled = true
-    myLabel = label:New(myLabel, myScreen, "Hello World", 100, "right")
+    myLabel = label:New(myLabel, myScreen, "Hello World", 100, "left")
     myLabel.Size.X = 500
+    myLabel:SetPosition(0.5,0,0,0)
     
     myLabel2 = label:New(myLabel2, myScreen, "really long text that should wrap if i did this properly", 16, "left")
-    myLabel2.Position.Y = 50
+    myLabel2:SetPosition(0,50,0,50)
     myLabel2.Size.X = 50
 end
 
