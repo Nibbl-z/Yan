@@ -11,6 +11,7 @@ function instance:New(o)
         Position = {X = 0, Y = 0},
         Rotation = 0,
         Size = {X = 1, Y = 1},
+        Offset = {X = 0, Y = 0},
         Sprite = nil
     }
     setmetatable(o, self)
@@ -35,7 +36,9 @@ function instance:Draw()
         self.Position.Y,
         self.Rotation,
         self.Size.X,
-        self.Size.Y
+        self.Size.Y,
+        self.Offset.X,
+        self.Offset.Y
     )
 end
 

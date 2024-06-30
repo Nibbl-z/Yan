@@ -12,22 +12,20 @@ function love.load()
     
     world = love.physics.newWorld(0, 1000, true)
     
-    object = physicsInstance:New(object, world, "dynamic", "rectangle", {X = 50, Y = 50}, 0)
-    object.body:setX(200)
-
-    object:SetSprite("/examples/player.png")
+    player = require("examples.player")
+    player:Init(world)
     
-    ground = physicsInstance:New(ground, world, "static", "rectangle", {X = 500, Y = 50}, 0)
+    ground = physicsInstance:New(ground, world, "static", "rectangle", {X = 30000, Y = 50}, 0)
     ground.body:setY(300)
 end
 
 local x = 0
 
 function love.update(dt)
-    object:Update()
+    player:Update(dt)
     world:update(dt)
 end
 
 function love.draw()
-    object:Draw()
+    player.instance:Draw()
 end
