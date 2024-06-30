@@ -9,13 +9,16 @@ function label:New(o, screen, text, textSize, align)
     o.Text = text
     o.TextSize = textSize
     o.Align = align
+
+    o.Font = love.graphics.newFont(o.TextSize)
     
     screen:AddElement(o)
 
     function o:Draw()
+        love.graphics.setFont(o.Font)
         love.graphics.printf(o.Text, o.Position.X, o.Position.Y, o.Size.X, o.Align)
     end
-
+    
     return o
 end
 
