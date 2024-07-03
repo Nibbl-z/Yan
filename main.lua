@@ -3,6 +3,7 @@ local physicsInstance = require("yan.instance.physics_instance")
 local screen = require("yan.instance.ui.screen")
 local label = require("yan.instance.ui.label")
 local guiBase = require("yan.instance.ui.guibase")
+local textButton = require("yan.instance.ui.textbutton")
 
 function love.load()
     --[[player = instance:New()
@@ -33,26 +34,52 @@ function love.load()
     element:SetPosition(0, 20, 0, 20)
     element:SetSize(1, -40, 1, -40)
     
-    text = label:New(nil, myScreen, "My awesome text which is really cool", 64, "center")
-    text:SetPosition(0.5, 0, 0, 0)
-    text:SetSize(0.5, 0, 0.5, 0)
+    text = label:New(nil, myScreen, "My awesome text which is really cool", 32, "center")
+    text:SetPosition(0.5, 0, 0.5, 0)
+    text:SetSize(1, 0, 0, 0)
     text:SetAnchorPoint(0.5, 0.5)
     text:SetColor(0,1,0,1)
     text.ZIndex = 1
     
-    text2 = label:New(nil, myScreen, "THIS TEXT IS BETTER", 100, "center")
+    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center")
+    button:SetPosition(0, 40, 0, 40)
+    button:SetSize(0.4,0,0.1,0)
+    button:SetButtonColor(0.5,0.5,0.5,1)
+    button.ZIndex = 3
+    
+    button.MouseEnter = function ()
+        button:SetButtonColor(0.3,0.3,0.3,1)
+    end
+    
+    button.MouseLeave = function ()
+        button:SetButtonColor(0.5,0.5,0.5,1)
+    end
+    
+    button.MouseDown = function ()
+        print("down")
+        button.Text = "Thanks!!!"
+        button:SetButtonColor(0,1,0,1)
+    end
+
+    button.MouseUp = function ()
+        print("up")
+        button.Text = "Click me!!!"
+        button:SetButtonColor(0.5,0.5,0.5,1)
+    end
+    
+    --[[text2 = label:New(nil, myScreen, "THIS TEXT IS BETTER", 100, "center")
     text2:SetPosition(0.5, 0, 0, 0)
     text2:SetSize(0.5, 0, 0.5, 0)
     text2:SetAnchorPoint(0.5, 0.5)
     text2:SetColor(1,0,0,1)
     text2.ZIndex = 2
-
+    
     text3 = label:New(nil, myScreen, "THIS TEXT IS EVEN BETTER", 150, "center")
     text3:SetPosition(0, 0, 0, 0)
     text3:SetSize(1, 0, 1, 0)
     text3:SetAnchorPoint(0,0)
     text3:SetColor(0,0,1,1)
-    text3.ZIndex = 3
+    text3.ZIndex = 3]]
 end
 
 local x = 0
@@ -61,6 +88,7 @@ function love.update(dt)
     player:Update(dt)
     ground:Update()
     world:update(dt)
+    myScreen:Update()
 end
 
 function love.draw()

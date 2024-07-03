@@ -14,7 +14,8 @@ function instance:New(o)
         Offset = {X = 0, Y = 0},
         Sprite = nil,
         Shape = nil,
-        Color = {R = 1, G = 1, B = 1, A = 1}
+        Color = {R = 1, G = 1, B = 1, A = 1},
+        Type = "Instance"
     }
     setmetatable(o, self)
     

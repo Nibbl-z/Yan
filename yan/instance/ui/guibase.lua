@@ -6,6 +6,7 @@ function guiBase:New(o, screen)
     o = o or instance:New(o)
     setmetatable(o, self)
     
+    o.Type = "GuiBase"
     o.Position = {
         XOffset = o.Position.X,
         XScale = 0,
@@ -22,7 +23,7 @@ function guiBase:New(o, screen)
 
     o.AnchorPoint = {X = 0, Y = 0}
     o.ZIndex = 1
-
+    
     screen:AddElement(o)
     
     function o:GetDrawingCoordinates()
@@ -30,7 +31,7 @@ function guiBase:New(o, screen)
         local sY = o.Size.YScale * love.graphics.getHeight() + o.Size.YOffset
         
         local pX = (o.Position.XScale * love.graphics.getWidth() - sX * o.AnchorPoint.X) + o.Position.XOffset
-        local pY = (o.Position.YScale * love.graphics.getHeight() + sY * o.AnchorPoint.Y) + o.Position.YOffset
+        local pY = (o.Position.YScale * love.graphics.getHeight() - sY * o.AnchorPoint.Y) + o.Position.YOffset
 
         return pX, pY, sX, sY
     end

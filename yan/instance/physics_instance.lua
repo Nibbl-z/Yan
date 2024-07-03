@@ -5,7 +5,7 @@ physicsInstance.__index = instance
 function physicsInstance:New(o, world, bodyType, shape, size, restitution, damping)
     o = o or instance:New(o)
     setmetatable(o, self)
-   
+    o.Type = "PhysicsInstance"
     o.body = love.physics.newBody(world, o.Position.X, o.Position.Y, bodyType)
     
     if shape == "rectangle" then
