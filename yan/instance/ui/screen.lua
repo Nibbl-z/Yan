@@ -16,7 +16,12 @@ function screen:New(o)
     function o:Draw()
         if o.Enabled == false then return end
 
-        for _, element in ipairs(o.Elements) do
+        local elements = o.Elements
+        table.sort(elements, function(a,b) 
+            return (a.ZIndex or 0) < (b.ZIndex or 0) 
+        end)
+
+        for _, element in ipairs(elements) do
             element:Draw()
         end
     end

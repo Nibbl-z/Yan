@@ -21,6 +21,7 @@ function guiBase:New(o, screen)
     }
 
     o.AnchorPoint = {X = 0, Y = 0}
+    o.ZIndex = 1
 
     screen:AddElement(o)
     
