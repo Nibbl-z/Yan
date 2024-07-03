@@ -20,14 +20,22 @@ function guiBase:New(o, screen)
         YScale = 0
     }
 
+    o.AnchorPoint = {X = 0, Y = 0}
+
     screen:AddElement(o)
-
-    function o:Draw()
-        local pX = o.Position.XScale * love.graphics.getWidth() + o.Position.XOffset
-        local pY = o.Position.YScale * love.graphics.getHeight() + o.Position.YOffset
-
+    
+    function o:GetDrawingCoordinates()
         local sX = o.Size.XScale * love.graphics.getWidth() + o.Size.XOffset
         local sY = o.Size.YScale * love.graphics.getHeight() + o.Size.YOffset
+        
+        local pX = (o.Position.XScale * love.graphics.getWidth() - sX * o.AnchorPoint.X) + o.Position.XOffset
+        local pY = (o.Position.YScale * love.graphics.getHeight() + sY * o.AnchorPoint.Y) + o.Position.YOffset
+
+        return pX, pY, sX, sY
+    end
+
+    function o:Draw()
+        local pX, pY, sX, sY = o:GetDrawingCoordinates()
 
         love.graphics.rectangle("line", pX, pY, sX, sY)
     end
@@ -48,6 +56,12 @@ function guiBase:New(o, screen)
             YOffset = yO,
             YScale = yS
         }
+    end
+
+    function o:SetAnchorPoint(x, y)
+       o.AnchorPoint = {
+            X = x, Y = y
+       } 
     end
 
     return o

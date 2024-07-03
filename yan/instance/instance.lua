@@ -18,6 +18,12 @@ function instance:New(o)
     }
     setmetatable(o, self)
     
+    function o:SetColor(r, g, b, a)
+        o.Color = {
+            R = r, G = g, B = b, A = a
+        }
+    end
+
     return o
 end
 
@@ -57,8 +63,6 @@ function instance:Draw()
             self.Size.Y
         )
     end
-
-    
 end
 
 return instance

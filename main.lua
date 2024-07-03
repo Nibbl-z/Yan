@@ -32,6 +32,13 @@ function love.load()
     element = guiBase:New(element, myScreen)
     element:SetPosition(0, 20, 0, 20)
     element:SetSize(1, -40, 1, -40)
+
+    text = label:New(element, myScreen, "My awesome text which is really cool", 64, "center")
+    text:SetPosition(0.5, 0, 0, 0)
+    text:SetSize(0.5, 0, 0.5, 0)
+    text:SetAnchorPoint(0.5, 0.5)
+    print(text.Color.R)
+    text:SetColor(0,1,0,1)
 end
 
 local x = 0
