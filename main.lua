@@ -2,16 +2,19 @@ local instance = require("yan.instance.instance")
 local physicsInstance = require("yan.instance.physics_instance")
 local screen = require("yan.instance.ui.screen")
 local label = require("yan.instance.ui.label")
+local guiBase = require("yan.instance.ui.guibase")
 
 function love.load()
     --[[player = instance:New()
     player:SetSprite("/examples/player.png")
-
+    
     notPlayer = instance:New()
     notPlayer:SetSprite("/examples/player.png")
     notPlayer.Size.X = 2
     notPlayer.Position.X = 200]]
     
+    love.window.setMode(800, 600, {resizable = true})
+
     world = love.physics.newWorld(0, 1000, true)
     
     player = require("examples.player")
@@ -25,13 +28,10 @@ function love.load()
     
     myScreen = screen:New(myScreen)
     myScreen.Enabled = true
-    myLabel = label:New(myLabel, myScreen, "Hello World", 100, "left")
-    myLabel.Size.X = 500
-    myLabel:SetPosition(0.5,0,0,0)
     
-    myLabel2 = label:New(myLabel2, myScreen, "really long text that should wrap if i did this properly", 16, "left")
-    myLabel2:SetPosition(0,50,0,50)
-    myLabel2.Size.X = 50
+    element = guiBase:New(element, myScreen)
+    element:SetPosition(0, 20, 0, 20)
+    element:SetSize(1, -40, 1, -40)
 end
 
 local x = 0
