@@ -24,7 +24,7 @@ function screen:New(o)
         local isDown = love.mouse.isDown(1)
         
         for _, element in ipairs(o.Elements) do
-            if element.Type == "TextButton" then
+            if element.Type == "TextButton" or element.Type == "ImageButton" then
                 local pX, pY, sX, sY = element:GetDrawingCoordinates()
                 
                 if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
@@ -35,7 +35,7 @@ function screen:New(o)
                         
                         table.insert(hovered, element)
                     end
-
+                    
                     if utils:TableFind(clicked, element) == false then
                         if isDown then
                             if element.MouseDown ~= nil then
@@ -48,13 +48,15 @@ function screen:New(o)
                         if not isDown then
                             if element.MouseUp ~= nil then
                                 element.MouseUp()
-
-                                if element.MouseEnter ~= nil then
-                                    element.MouseEnter()
-                                end
                                 
-                                table.remove(clicked, utils:TableFind(clicked, element))
+                                
                             end
+
+                            if element.MouseEnter ~= nil then
+                                element.MouseEnter()
+                            end
+                            
+                            table.remove(clicked, utils:TableFind(clicked, element))
                         end
                     end
                 else

@@ -24,4 +24,8 @@ function player:Update(dt)
     end
 end
 
+function player:GooseAround()
+    self.instance.Size.Y = self.instance.Size.Y * 1.1
+end
+
 return player

@@ -12,7 +12,7 @@ function textbutton:New(o, screen, text, textSize, align)
     o.Align = align
 
     o.Font = love.graphics.newFont(o.TextSize)
-
+    
     o.ButtonColor = {
         R = 0,
         G = 0,
