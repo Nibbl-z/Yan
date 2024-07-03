@@ -5,7 +5,7 @@ local label = require("yan.instance.ui.label")
 local guiBase = require("yan.instance.ui.guibase")
 local textButton = require("yan.instance.ui.textbutton")
 local imageButton = require("yan.instance.ui.imagebutton")
-
+local image = require("yan.instance.ui.image")
 function love.load()
     --[[player = instance:New()
     player:SetSprite("/examples/player.png")
@@ -85,7 +85,17 @@ function love.load()
     
     imgButton.MouseDown = function ()
         imgButton.Size.XScale = imgButton.Size.XScale + 0.01
+        imgButton.Size.YScale = imgButton.Size.YScale + 0.01
     end
+
+    imgButton.ZIndex = -2
+
+    img = image:New(nil, myScreen, "/examples/baloon.jpg")
+    img:SetPosition(0.5,0,0.5,0)
+    img:SetSize(0.3,0,0.3,0)
+    img:SetAnchorPoint(0.5,0,0.5,0)
+    img:SetColor(1,1,1,1)
+    img.ZIndex = -1
     
     
     --[[text2 = label:New(nil, myScreen, "THIS TEXT IS BETTER", 100, "center")
