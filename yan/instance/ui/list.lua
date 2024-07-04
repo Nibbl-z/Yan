@@ -2,11 +2,12 @@ local list = {}
 local guibase = require("yan.instance.ui.guibase")
 list.__index = guibase
 
-function list:New(o, screen)
+function list:New(o, screen, padding)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
 
     o.Type = "List"
+    o.Padding = padding or 0
     
     function o:GetYOffsetForListItem(element)
         if #o.Children == 0 then return 0 end
@@ -17,9 +18,12 @@ function list:New(o, screen)
         
         for i = 1, element.LayoutOrder - 1 do
             local currentItem = o.Children[i]
-            local _, _, _, itemY = currentItem:GetDrawingCoordinates(true)
+            if currentItem ~= nil then
+                local _, _, _, itemY = currentItem:GetDrawingCoordinates(true)
 
-            totalOffset = totalOffset + itemY
+                totalOffset = totalOffset + itemY + o.Padding
+            end
+            
         end
 
         print(element.Name, totalOffset)

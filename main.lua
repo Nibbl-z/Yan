@@ -104,19 +104,19 @@ function love.load()
     
     --[[]]
     
-    myList = list:New(nil, myScreen)
+    myList = list:New(nil, myScreen, 25)
     myList:SetPosition(0,10,0,10)
     myList:SetSize(0.3,0,0.7,0)
-
+    
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
     parentImage:SetSize(0.5,0,0.4,0)
     parentImage.Name = "Balloon"
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetSize(0.5,0,0.4,0)
+    childImage:SetSize(0.5,0,0.2,0)
     childImage.Name = "PlayYan"
     
-    descendantImage = image:New(nil, myScreen, "examples/player.png")
+    descendantImage = image:New(nil, myScreen, "examples/nibblabunga.png")
     descendantImage:SetSize(0.5,0,0.4,0)
     descendantImage.Name = "Goose"
 
@@ -139,6 +139,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.setBackgroundColor(0.5,0.5,0.5,1)
     player.instance:Draw()
     ground:Draw()
     myScreen:Draw()
