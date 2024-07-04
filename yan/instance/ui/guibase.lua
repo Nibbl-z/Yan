@@ -25,13 +25,14 @@ function guiBase:New(o, screen)
 
     o.AnchorPoint = {X = 0, Y = 0}
     o.ZIndex = 1
-
+    o.LayoutOrder = 1
+    
     o.Children = {}
     o.Parent = nil
     
     screen:AddElement(o)
     
-    function o:GetDrawingCoordinates()
+    function o:GetDrawingCoordinates(ignoreYOffset)
         local sizeWidth = love.graphics.getWidth()
         local sizeHeight = love.graphics.getHeight()
         local pXOffset = 0
@@ -39,7 +40,13 @@ function guiBase:New(o, screen)
 
         if o.Parent ~= nil then
             pXOffset, pYOffset, sizeWidth, sizeHeight = o.Parent:GetDrawingCoordinates()
+            
+            if o.Parent.Type == "List" and ignoreYOffset ~= true then
+                pYOffset = pYOffset + o.Parent:GetYOffsetForListItem(o)
+            end
         end
+
+        
         
         local sX = o.Size.XScale * sizeWidth + o.Size.XOffset
         local sY = o.Size.YScale * sizeHeight + o.Size.YOffset
@@ -88,8 +95,6 @@ function guiBase:New(o, screen)
     end
 
     function o:GetChild(elementName)
-        print("dude...")
-        print(#o.Children)
         for i, child in pairs(o.Children) do
             if child.Parent ~= o then
                 table.remove(i, o.Children)
@@ -118,11 +123,10 @@ function guiBase:New(o, screen)
             if child.Parent ~= o then
                 table.remove(i, o.Children)
             end
-            print(i, child.Name)
             if child.Name == elementName then
                 return child
             else
-                local dillyDally = child:GetDescendant(elementName)
+                local dillyDally = child:GetDescendant(elementName) -- thanks josh for giving me this awesome variable name, i appreciate it
                 
                 if dillyDally ~= nil then
                     return dillyDally

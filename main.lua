@@ -6,6 +6,8 @@ local guiBase = require("yan.instance.ui.guibase")
 local textButton = require("yan.instance.ui.textbutton")
 local imageButton = require("yan.instance.ui.imagebutton")
 local image = require("yan.instance.ui.image")
+local list = require("yan.instance.ui.list")
+
 function love.load()
     --[[player = instance:New()
     player:SetSprite("/examples/player.png")
@@ -98,44 +100,33 @@ function love.load()
     img.ZIndex = -1
     
     
-    --[[text2 = label:New(nil, myScreen, "THIS TEXT IS BETTER", 100, "center")
-    text2:SetPosition(0.5, 0, 0, 0)
-    text2:SetSize(0.5, 0, 0.5, 0)
-    text2:SetAnchorPoint(0.5, 0.5)
-    text2:SetColor(1,0,0,1)
-    text2.ZIndex = 2
+    --[[]]
     
-    text3 = label:New(nil, myScreen, "THIS TEXT IS EVEN BETTER", 150, "center")
-    text3:SetPosition(0, 0, 0, 0)
-    text3:SetSize(1, 0, 1, 0)
-    text3:SetAnchorPoint(0,0)
-    text3:SetColor(0,0,1,1)
-    text3.ZIndex = 3]]
+    --[[]]
+    
+    myList = list:New(nil, myScreen)
+    myList:SetPosition(0,10,0,10)
+    myList:SetSize(0.3,0,0.7,0)
 
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
-    parentImage:SetPosition(0.5,0,0.5,0)
-    parentImage:SetSize(0.5,0,0.5,0)
-    parentImage:SetAnchorPoint(0.5,0.5)
+    parentImage:SetSize(0.5,0,0.4,0)
     parentImage.Name = "Balloon"
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetPosition(0,20,0,20)
-    childImage:SetSize(1,-40,1,-40)
+    childImage:SetSize(0.5,0,0.4,0)
     childImage.Name = "PlayYan"
-    childImage:SetParent(parentImage)
-    print(#parentImage.Children)
-    descendantImage = image:New(nil, myScreen, "examples/player.png")
-    descendantImage:SetPosition(0.5,0,0.5,0)
-    descendantImage:SetSize(0.3,0,0.3,0)
-    descendantImage:SetAnchorPoint(0.5,0.5)
-    print(#parentImage.Children)
-    descendantImage:SetParent(childImage)
-    descendantImage.Name = "Goose"
     
-    descendantImage:GetAncestor("Balloon"):SetSize(0.2,0,0.8,0)
-    parentImage:GetChild("PlayYan"):SetSize(0.2,0,0.2,0)
+    descendantImage = image:New(nil, myScreen, "examples/player.png")
+    descendantImage:SetSize(0.5,0,0.4,0)
+    descendantImage.Name = "Goose"
 
-    parentImage:GetDescendant("Goose"):SetSize(2,0,2,0)
+    parentImage:SetParent(myList)
+    childImage:SetParent(myList)
+    descendantImage:SetParent(myList)
+    
+    parentImage.LayoutOrder = 1
+    childImage.LayoutOrder = 2
+    descendantImage.LayoutOrder = 3
 end
 
 local x = 0
