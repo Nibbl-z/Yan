@@ -2,6 +2,8 @@ local guiBase = {}
 local instance = require("yan.instance.instance")
 guiBase.__index = instance
 
+local utils = require("yan.utils")
+
 function guiBase:New(o, screen)
     o = o or instance:New(o)
     setmetatable(o, self)
@@ -79,9 +81,56 @@ function guiBase:New(o, screen)
     end
     
     function o:SetParent(element)
-        table.insert(element.Children, o)
 
+        table.insert(element.Children, o)
+        
         o.Parent = element
+    end
+
+    function o:GetChild(elementName)
+        print("dude...")
+        print(#o.Children)
+        for i, child in pairs(o.Children) do
+            if child.Parent ~= o then
+                table.remove(i, o.Children)
+            end
+            
+            if child.Name == elementName then
+                return child
+            end
+        end
+        
+        return nil
+    end
+    
+    function o:GetAncestor(elementName)
+        if o.Parent.Name == elementName then
+            return o.Parent
+        else
+            return o.Parent:GetAncestor(elementName)
+        end
+    end
+    
+    function o:GetDescendant(elementName)
+        if #o.Children == 0 then return nil end
+
+        for i, child in ipairs(o.Children) do
+            if child.Parent ~= o then
+                table.remove(i, o.Children)
+            end
+            print(i, child.Name)
+            if child.Name == elementName then
+                return child
+            else
+                local dillyDally = child:GetDescendant(elementName)
+                
+                if dillyDally ~= nil then
+                    return dillyDally
+                end
+            end
+        end
+        
+        
     end
 
     return o

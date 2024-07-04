@@ -5,9 +5,9 @@ instance.Rotation = 0
 instance.Size = {X = 1, Y = 1}
 instance.Sprite = nil]]
 
-function instance:New(o)
+function instance:New(o, name)
     o = o or {
-        Name = "",
+        Name = name,
         Position = {X = 0, Y = 0},
         Rotation = 0,
         Size = {X = 1, Y = 1},
@@ -18,6 +18,11 @@ function instance:New(o)
         Type = "Instance"
     }
     setmetatable(o, self)
+
+    if name == nil then
+        math.randomseed(love.timer.getTime())
+        o.Name = tostring(love.timer.getTime() * 1000 * math.random(1,1000))
+    end
     
     function o:SetColor(r, g, b, a)
         o.Color = {

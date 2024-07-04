@@ -116,17 +116,26 @@ function love.load()
     parentImage:SetPosition(0.5,0,0.5,0)
     parentImage:SetSize(0.5,0,0.5,0)
     parentImage:SetAnchorPoint(0.5,0.5)
+    parentImage.Name = "Balloon"
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
     childImage:SetPosition(0,20,0,20)
     childImage:SetSize(1,-40,1,-40)
+    childImage.Name = "PlayYan"
     childImage:SetParent(parentImage)
-
+    print(#parentImage.Children)
     descendantImage = image:New(nil, myScreen, "examples/player.png")
     descendantImage:SetPosition(0.5,0,0.5,0)
     descendantImage:SetSize(0.3,0,0.3,0)
     descendantImage:SetAnchorPoint(0.5,0.5)
+    print(#parentImage.Children)
     descendantImage:SetParent(childImage)
+    descendantImage.Name = "Goose"
+    
+    descendantImage:GetAncestor("Balloon"):SetSize(0.2,0,0.8,0)
+    parentImage:GetChild("PlayYan"):SetSize(0.2,0,0.2,0)
+
+    parentImage:GetDescendant("Goose"):SetSize(2,0,2,0)
 end
 
 local x = 0
