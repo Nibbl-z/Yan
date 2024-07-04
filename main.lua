@@ -31,7 +31,7 @@ function love.load()
     myScreen = screen:New(myScreen)
     myScreen.Enabled = true
     
-    element = guiBase:New(element, myScreen)
+    --[[element = guiBase:New(element, myScreen)
     element:SetPosition(0, 20, 0, 20)
     element:SetSize(1, -40, 1, -40)
     
@@ -42,7 +42,7 @@ function love.load()
     text:SetColor(0,1,0,1)
     text.ZIndex = 1
     
-    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center")
+    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center")
     button:SetPosition(0, 40, 0, 40)
     button:SetSize(0.4,0,0.1,0)
     button:SetButtonColor(0.5,0.5,0.5,1)
@@ -111,6 +111,22 @@ function love.load()
     text3:SetAnchorPoint(0,0)
     text3:SetColor(0,0,1,1)
     text3.ZIndex = 3]]
+
+    parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
+    parentImage:SetPosition(0.5,0,0.5,0)
+    parentImage:SetSize(0.5,0,0.5,0)
+    parentImage:SetAnchorPoint(0.5,0.5)
+
+    childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
+    childImage:SetPosition(0,20,0,20)
+    childImage:SetSize(1,-40,1,-40)
+    childImage:SetParent(parentImage)
+
+    descendantImage = image:New(nil, myScreen, "examples/player.png")
+    descendantImage:SetPosition(0.5,0,0.5,0)
+    descendantImage:SetSize(0.3,0,0.3,0)
+    descendantImage:SetAnchorPoint(0.5,0.5)
+    descendantImage:SetParent(childImage)
 end
 
 local x = 0
