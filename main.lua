@@ -7,6 +7,7 @@ local textButton = require("yan.instance.ui.textbutton")
 local imageButton = require("yan.instance.ui.imagebutton")
 local image = require("yan.instance.ui.image")
 local list = require("yan.instance.ui.list")
+local textinput = require("yan.instance.ui.textinput")
 
 function love.load()
     --[[player = instance:New()
@@ -87,7 +88,7 @@ function love.load()
     parentImage:SetSize(1,0,0.4,0)
     parentImage.Name = "Balloon"
     parentImage:SetPadding(0,10,0,10)
-
+    
     button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center")
     button:SetPosition(0,0,0,0)
     button:SetSize(1,0,1,0)
@@ -133,6 +134,26 @@ function love.load()
     parentImage.LayoutOrder = 1
     childImage.LayoutOrder = 2
     descendantImage.LayoutOrder = 3
+
+    input = textinput:New(nil, myScreen, "Type something here...", 16)
+    input:SetColor(0.4,0.4,0.4,1)
+    input:SetPosition(1,-10,0,10)
+    input:SetAnchorPoint(1,0)
+    input:SetSize(0.4,0,0.2,0)
+    
+    input.MouseDown = function ()
+        input:SetColor(0.2,0.2,0.2,1)
+        print("Gup!")
+        input.IsTyping = true
+    end
+
+    input.MouseEnter = function ()
+        input:SetColor(0.3,0.3,0.3,1)
+    end
+
+    input.MouseLeave = function ()
+        input:SetColor(0.4,0.4,0.4,1)
+    end
 end
 
 local x = 0
@@ -142,6 +163,14 @@ function love.update(dt)
     ground:Update()
     world:update(dt)
     myScreen:Update()
+end
+
+function love.keypressed(key)
+    input:KeyPressed(key)
+end
+
+function love.textinput(t)
+    input:TextInput(t)
 end
 
 function love.draw()

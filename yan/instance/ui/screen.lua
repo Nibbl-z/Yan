@@ -12,6 +12,8 @@ function screen:New(o)
     o.Enabled = false
     o.Elements = {}
 
+    o.KeyboardInput = false
+
     function o:AddElement(element)
         table.insert(o.Elements, element)
     end
@@ -24,7 +26,7 @@ function screen:New(o)
         local isDown = love.mouse.isDown(1)
         
         for _, element in ipairs(o.Elements) do
-            if element.Type == "TextButton" or element.Type == "ImageButton" then
+            if element.Type == "TextButton" or element.Type == "ImageButton" or element.Type == "TextInput" then
                 local pX, pY, sX, sY = element:GetDrawingCoordinates()
                 
                 if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
@@ -73,6 +75,10 @@ function screen:New(o)
                         end
                         
                         table.remove(hovered, utils:TableFind(hovered, element))
+                    end
+
+                    if isDown and element.Type == "TextInput" then
+                        element.IsTyping = false
                     end
                 end
             end

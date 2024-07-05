@@ -5,7 +5,7 @@ list.__index = guibase
 function list:New(o, screen, padding, align)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
-
+    
     o.Type = "List"
     o.ListPadding = padding or 0
     o.Align = align or "left"
@@ -26,8 +26,6 @@ function list:New(o, screen, padding, align)
             end
             
         end
-
-        print(element.Name, totalOffset)
 
         return totalOffset
     end
