@@ -23,6 +23,13 @@ function guiBase:New(o, screen)
         YScale = 0
     }
 
+    o.Padding = {
+        XOffset = 0,
+        XScale = 0,
+        YOffset = 0,
+        YScale = 0
+    }
+
     o.AnchorPoint = {X = 0, Y = 0}
     o.ZIndex = 1
     o.LayoutOrder = 1
@@ -41,6 +48,8 @@ function guiBase:New(o, screen)
         if o.Parent ~= nil then
             pXOffset, pYOffset, sizeWidth, sizeHeight = o.Parent:GetDrawingCoordinates()
             
+            
+            
             if o.Parent.Type == "List" and ignoreYOffset ~= true then
                 pYOffset = pYOffset + o.Parent:GetYOffsetForListItem(o)
                 
@@ -50,6 +59,12 @@ function guiBase:New(o, screen)
                     pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset)) 
                 end
             end
+
+            pXOffset = pXOffset + o.Parent.Padding.XOffset + (sizeWidth * o.Parent.Padding.XScale)
+            pYOffset = pYOffset + o.Parent.Padding.YOffset + (sizeHeight * o.Parent.Padding.YScale)
+            
+            sizeWidth = sizeWidth - (o.Parent.Padding.XOffset + (sizeWidth * o.Parent.Padding.XScale)) * 2
+            sizeHeight = sizeHeight - (o.Parent.Padding.YOffset + (sizeHeight * o.Parent.Padding.YScale)) * 2
         end
 
         
@@ -91,6 +106,15 @@ function guiBase:New(o, screen)
        o.AnchorPoint = {
             X = x, Y = y
        } 
+    end
+
+    function o:SetPadding(xS, xO, yS, yO)
+        o.Padding = {
+            XOffset = xO,
+            XScale = xS,
+            YOffset = yO,
+            YScale = yS
+        }
     end
     
     function o:SetParent(element)

@@ -7,7 +7,7 @@ function list:New(o, screen, padding, align)
     setmetatable(o, self)
 
     o.Type = "List"
-    o.Padding = padding or 0
+    o.ListPadding = padding or 0
     o.Align = align or "left"
     
     function o:GetYOffsetForListItem(element)
@@ -22,7 +22,7 @@ function list:New(o, screen, padding, align)
             if currentItem ~= nil then
                 local _, _, _, itemY = currentItem:GetDrawingCoordinates(true)
 
-                totalOffset = totalOffset + itemY + o.Padding
+                totalOffset = totalOffset + itemY + o.ListPadding
             end
             
         end

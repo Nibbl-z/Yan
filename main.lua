@@ -44,9 +44,53 @@ function love.load()
     text:SetColor(0,1,0,1)
     text.ZIndex = 1
     
+    
+
+    imgButton = imageButton:New(nil, myScreen, "/examples/baloon.jpg")
+    imgButton:SetPosition(1,0,0,0)
+    imgButton:SetSize(0.2,0,0.2,0)
+    imgButton:SetAnchorPoint(1,0,0,0)
+    
+    imgButton.MouseEnter = function ()
+        imgButton:SetColor(0.7,0.7,0.7,1)
+    end
+    
+    imgButton.MouseLeave = function ()
+        imgButton:SetColor(1,1,1,1)
+    end
+    
+    imgButton.MouseDown = function ()
+        imgButton.Size.XScale = imgButton.Size.XScale + 0.01
+        imgButton.Size.YScale = imgButton.Size.YScale + 0.01
+    end
+    
+    imgButton.ZIndex = -2
+
+    img = image:New(nil, myScreen, "/examples/baloon.jpg")
+    img:SetPosition(0.5,0,0.5,0)
+    img:SetSize(0.3,0,0.3,0)
+    img:SetAnchorPoint(0.5,0,0.5,0)
+    img:SetColor(1,1,1,1)
+    img.ZIndex = -1
+    
+    
+    --[[]]
+    
+    --[[]]
+    
+    myList = list:New(nil, myScreen, 10, "left")
+    myList:SetPosition(0,10,0,10)
+    myList:SetSize(0.3,0,0.7,0)
+    myList:SetPadding(0,20,0,20)
+    
+    parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
+    parentImage:SetSize(1,0,0.4,0)
+    parentImage.Name = "Balloon"
+    parentImage:SetPadding(0,10,0,10)
+
     button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center")
-    button:SetPosition(0, 40, 0, 40)
-    button:SetSize(0.4,0,0.1,0)
+    button:SetPosition(0,0,0,0)
+    button:SetSize(1,0,1,0)
     button:SetButtonColor(0.5,0.5,0.5,1)
     button.ZIndex = 3
     
@@ -72,52 +116,14 @@ function love.load()
         button:SetButtonColor(0.5,0.5,0.5,1)
     end
 
-    imgButton = imageButton:New(nil, myScreen, "/examples/baloon.jpg")
-    imgButton:SetPosition(1,0,0,0)
-    imgButton:SetSize(0.2,0,0.2,0)
-    imgButton:SetAnchorPoint(1,0,0,0)
-
-    imgButton.MouseEnter = function ()
-        imgButton:SetColor(0.7,0.7,0.7,1)
-    end
-    
-    imgButton.MouseLeave = function ()
-        imgButton:SetColor(1,1,1,1)
-    end
-    
-    imgButton.MouseDown = function ()
-        imgButton.Size.XScale = imgButton.Size.XScale + 0.01
-        imgButton.Size.YScale = imgButton.Size.YScale + 0.01
-    end
-
-    imgButton.ZIndex = -2
-
-    img = image:New(nil, myScreen, "/examples/baloon.jpg")
-    img:SetPosition(0.5,0,0.5,0)
-    img:SetSize(0.3,0,0.3,0)
-    img:SetAnchorPoint(0.5,0,0.5,0)
-    img:SetColor(1,1,1,1)
-    img.ZIndex = -1
-    
-    
-    --[[]]
-    
-    --[[]]
-    
-    myList = list:New(nil, myScreen, 25, "left")
-    myList:SetPosition(0,10,0,10)
-    myList:SetSize(0.3,0,0.7,0)
-    
-    parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
-    parentImage:SetSize(0.5,0,0.4,0)
-    parentImage.Name = "Balloon"
+    button:SetParent(parentImage)
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetSize(0.5,0,0.2,0)
+    childImage:SetSize(1,0,0.2,0)
     childImage.Name = "PlayYan"
     
     descendantImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    descendantImage:SetSize(0.5,0,0.4,0)
+    descendantImage:SetSize(1,0,0.4,0)
     descendantImage.Name = "Goose"
 
     parentImage:SetParent(myList)
