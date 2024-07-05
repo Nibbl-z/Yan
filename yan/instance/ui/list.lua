@@ -2,12 +2,13 @@ local list = {}
 local guibase = require("yan.instance.ui.guibase")
 list.__index = guibase
 
-function list:New(o, screen, padding)
+function list:New(o, screen, padding, align)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
 
     o.Type = "List"
     o.Padding = padding or 0
+    o.Align = align or "left"
     
     function o:GetYOffsetForListItem(element)
         if #o.Children == 0 then return 0 end

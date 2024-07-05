@@ -104,7 +104,7 @@ function love.load()
     
     --[[]]
     
-    myList = list:New(nil, myScreen, 25)
+    myList = list:New(nil, myScreen, 25, "left")
     myList:SetPosition(0,10,0,10)
     myList:SetSize(0.3,0,0.7,0)
     

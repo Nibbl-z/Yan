@@ -43,6 +43,12 @@ function guiBase:New(o, screen)
             
             if o.Parent.Type == "List" and ignoreYOffset ~= true then
                 pYOffset = pYOffset + o.Parent:GetYOffsetForListItem(o)
+                
+                if o.Parent.Align == "center" then
+                    pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset) * 0.5) 
+                elseif o.Parent.Align == "right" then
+                    pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset)) 
+                end
             end
         end
 
