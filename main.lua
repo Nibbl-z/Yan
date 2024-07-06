@@ -144,7 +144,6 @@ function love.load()
     input.MouseDown = function ()
         input:SetColor(0.2,0.2,0.2,1)
         print("Gup!")
-        input.IsTyping = true
     end
 
     input.MouseEnter = function ()
@@ -154,9 +153,11 @@ function love.load()
     input.MouseLeave = function ()
         input:SetColor(0.4,0.4,0.4,1)
     end
-end
 
-local x = 0
+    input.OnEnter = function ()
+        print(input.Text)
+    end
+end
 
 function love.update(dt)
     player:Update(dt)
@@ -165,8 +166,8 @@ function love.update(dt)
     myScreen:Update()
 end
 
-function love.keypressed(key)
-    input:KeyPressed(key)
+function love.keypressed(key, scancode, rep)
+    input:KeyPressed(key, scancode, rep)
 end
 
 function love.textinput(t)

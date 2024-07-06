@@ -42,6 +42,9 @@ function screen:New(o)
                         if isDown then
                             if element.MouseDown ~= nil then
                                 element.MouseDown()
+                                if element.Type == "TextInput" then
+                                    element.IsTyping = true
+                                end
 
                                 table.insert(clicked, element)
                             end
@@ -76,7 +79,7 @@ function screen:New(o)
                         
                         table.remove(hovered, utils:TableFind(hovered, element))
                     end
-
+                    
                     if isDown and element.Type == "TextInput" then
                         element.IsTyping = false
                     end
