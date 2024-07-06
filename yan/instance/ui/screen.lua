@@ -92,6 +92,7 @@ function screen:New(o)
 
     function o:Draw()
         if o.Enabled == false then return end
+        if o.SceneEnabled == false then return end
 
         local elements = o.Elements
         table.sort(elements, function(a,b) 

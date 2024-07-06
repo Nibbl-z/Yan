@@ -8,6 +8,7 @@ local imageButton = require("yan.instance.ui.imagebutton")
 local image = require("yan.instance.ui.image")
 local list = require("yan.instance.ui.list")
 local textinput = require("yan.instance.ui.textinput")
+local sceneManager = require("yan.scenemanager")
 
 function love.load()
     --[[player = instance:New()
@@ -107,7 +108,7 @@ function love.load()
         print("down")
         button.Text = "Thanks!!!"
         button:SetButtonColor(0,1,0,1)
-        
+        sceneManager:SetSceneEnabled("awesome scene", true)
         player:GooseAround()
     end
 
@@ -156,7 +157,17 @@ function love.load()
 
     input.OnEnter = function ()
         print(input.Text)
+        sceneManager:SetSceneEnabled("awesome scene", false)
     end
+
+    sceneManager:NewScene("awesome scene")
+    sceneManager:AddToScene("awesome scene", {
+        player.instance,
+        ground
+    })
+
+    sceneManager:NewScene("User interface??")
+    sceneManager:AddToScene("User interface??", {myScreen})
 end
 
 function love.update(dt)

@@ -18,15 +18,19 @@ function physicsInstance:New(o, world, bodyType, shape, size, restitution, dampi
     o.body:setLinearDamping(damping)
     
     function o:Update()
+        if self.SceneEnabled == false then return end
+
         self.Position.X = self.body:getX()
         self.Position.Y = self.body:getY()
     end 
 
     function o:ApplyForce(x, y)
+        if self.SceneEnabled == false then return end
         self.body:applyForce(x, y)
     end
 
     function o:ApplyLinearImpulse(x, y, maxX, maxY)
+        if self.SceneEnabled == false then return end
         self.body:applyLinearImpulse(x, y)
         
         if maxX and maxY then
