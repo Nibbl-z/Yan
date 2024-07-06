@@ -1,2 +1,35 @@
 # Yan
- a love2d library that does things
+Yan is a simple instance/UI library for Love2D
+
+### Features
+- Position and scale UI elements relative to the window size
+- UI elements can be parented to other UI elements to make their positioning relative to the parent
+- Add instances to scenes, which can be enabled and disabled
+- Several UI elements, including text labels, buttons, images, lists, and text input fields
+
+### How to use
+Download the `yan` folder and put it into your Love2D project. 
+Instances can be created by requiring their script, for example:
+```lua
+local instance = require("yan.instance.instance")
+```
+Create a new instance by calling the `New` function on any instance, for example:
+```lua
+local player = physicsInstance:New(nil, world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
+```
+
+For UI elements, you must first create a screen, which is an instance that holds UI elements.
+
+```lua
+myScreen = screen:New(myScreen)
+myScreen.Enabled = true
+    
+text = label:New(nil, myScreen, "Hello world!", 32, "center")
+text:SetPosition(0.5, 0, 0.5, 0)
+text:SetSize(1, 0, 0, 0)
+text:SetAnchorPoint(0.5, 0.5)
+text:SetColor(0,1,0,1)
+text.ZIndex = 1
+```
+
+To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the screen, which will draw all the UI elements based on their ZIndex for you.
