@@ -12,6 +12,7 @@ Download the `yan` folder and put it into your Love2D project.
 Instances can be created by requiring their script, for example:
 ```lua
 local instance = require("yan.instance.instance")
+local label = require("yan.instance.ui.label")
 ```
 Create a new instance by calling the `New` function on any instance, for example:
 ```lua
@@ -33,3 +34,11 @@ text.ZIndex = 1
 ```
 
 To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the screen, which will draw all the UI elements based on their ZIndex for you.
+
+To add instances to a scene, create a new scene with `SceneManager:NewScene()`, then add the instances to the scene with `SceneManager:AddToScene()`, for example:
+```lua
+local SceneManager = require("yan.scenemanager")
+SceneManager:NewScene("User interface")
+SceneManager:AddToScene("User interface", {myScreen})
+```
+Scenes can be enabled or disabled with ```SceneManager:SetSceneEnabled("User interface", true)``` and ```SceneManager:SetSceneEnabled("User interface", false)```
