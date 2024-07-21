@@ -2,7 +2,7 @@ local label = {}
 local guibase = require("yan.instance.ui.guibase")
 label.__index = guibase
 
-function label:New(o, screen, text, textSize, align, fontPath)
+function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -10,6 +10,7 @@ function label:New(o, screen, text, textSize, align, fontPath)
     o.Text = text
     o.TextSize = textSize
     o.Align = align
+    o.VerticalAlign = verticalAlign
     
     if fontPath ~= nil then
         o.Font = love.graphics.newFont(fontPath, o.TextSize)
@@ -22,11 +23,21 @@ function label:New(o, screen, text, textSize, align, fontPath)
         
         love.graphics.setFont(o.Font)
         love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        
+        local yOffset = 0
+        
+        if o.VerticalAlign == "center" then
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 0.5 - ((o.Font:getHeight() / 2) * #lines)
+        elseif o.VerticalAlign == "bottom" then
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 1 - ((o.Font:getHeight()) * #lines)
+        end
 
         love.graphics.printf(
             o.Text, 
             pX,
-            pY,
+            pY + yOffset,
             sX, 
             o.Align
         )

@@ -11,7 +11,7 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
     o.TextSize = textSize
     o.Align = align
     o.VerticalAlign = verticalAlign
-
+    
     if fontPath ~= nil then
         o.Font = love.graphics.newFont(fontPath, o.TextSize)
     else
@@ -31,7 +31,7 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
             R = r, G = g, B = b, A = a
         }
     end
-
+    
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
@@ -43,11 +43,13 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
         
         local yOffset = 0
-
+        
         if o.VerticalAlign == "center" then
-            yOffset = sY * 0.5 - (o.TextSize)
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 0.5 - ((o.Font:getHeight() / 2) * #lines)
         elseif o.VerticalAlign == "bottom" then
-            yOffset = sY * 1
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 1 - ((o.Font:getHeight()) * #lines)
         end
         
         love.graphics.printf(

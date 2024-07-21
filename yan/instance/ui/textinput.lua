@@ -4,7 +4,7 @@ textinput.__index = guibase
 
 local utf8 = require("utf8")
 
-function textinput:New(o, screen, placeholderText, textSize, fontPath)
+function textinput:New(o, screen, placeholderText, textSize, align, verticalAlign, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -13,6 +13,8 @@ function textinput:New(o, screen, placeholderText, textSize, fontPath)
     o.IsTyping = false
     o.TextSize = textSize
     o.Type = "TextInput"
+    o.Align = align
+    o.VerticalAlign = verticalAlign
     
     if fontPath ~= nil then
         o.Font = love.graphics.newFont(fontPath, o.TextSize)
@@ -80,14 +82,24 @@ function textinput:New(o, screen, placeholderText, textSize, fontPath)
         
         love.graphics.setFont(o.Font)
         
+        local yOffset = 0
+        
+        if o.VerticalAlign == "center" then
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 0.5 - ((o.Font:getHeight() / 2) * #lines)
+        elseif o.VerticalAlign == "bottom" then
+            local _, lines = o.Font:getWrap(o.Text, sX)
+            yOffset = sY * 1 - ((o.Font:getHeight()) * #lines)
+        end
         
         if o.Text == "" and o.IsTyping == false then
             love.graphics.setColor(o.PlaceholderTextColor.R, o.PlaceholderTextColor.G, o.PlaceholderTextColor.B, o.PlaceholderTextColor.A)
             love.graphics.printf(
                 o.PlaceholderText, 
                 pX,
-                pY,
-                sX
+                pY + yOffset,
+                sX,
+                o.Align
             )
         else
             love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
@@ -95,15 +107,17 @@ function textinput:New(o, screen, placeholderText, textSize, fontPath)
                 love.graphics.printf(
                 o.Text .. "|", 
                 pX,
-                pY,
-                sX
+                pY + yOffset,
+                sX,
+                o.Align
             )
             else
                 love.graphics.printf(
                 o.Text, 
                 pX,
-                pY,
-                sX
+                pY + yOffset,
+                sX,
+                o.Align
             )
             end
         end

@@ -35,9 +35,9 @@ function love.load()
     myScreen = screen:New(myScreen)
     myScreen.Enabled = true
     
-    text = label:New(nil, myScreen, "My awesome text which is really cool", 32, "center", "/examples/Plumpfull.ttf")
+    text = label:New(nil, myScreen, "My awesome text which is really cool", 32, "center", "center", "/examples/Plumpfull.ttf")
     text:SetPosition(0.5, 0, 0.5, 0)
-    text:SetSize(1, 0, 0, 0)
+    text:SetSize(1, 0, 1, 0)
     text:SetAnchorPoint(0.5, 0.5)
     text:SetColor(0,1,0,1)
     text.ZIndex = 5
@@ -132,7 +132,7 @@ function love.load()
     childImage.LayoutOrder = 2
     descendantImage.LayoutOrder = 3
 
-    input = textinput:New(nil, myScreen, "Type something here...", 16)
+    input = textinput:New(nil, myScreen, "Type something here...", 16, "center", "bottom", "/examples/Plumpfull.ttf")
     input:SetColor(0.4,0.4,0.4,1)
     input:SetPosition(1,-10,1,-10)
     input:SetAnchorPoint(1,1)
