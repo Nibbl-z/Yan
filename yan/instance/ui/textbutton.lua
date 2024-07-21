@@ -2,7 +2,7 @@ local textbutton = {}
 local guibase = require("yan.instance.ui.guibase")
 textbutton.__index = guibase
 
-function textbutton:New(o, screen, text, textSize, align, verticalAlign)
+function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -11,8 +11,13 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign)
     o.TextSize = textSize
     o.Align = align
     o.VerticalAlign = verticalAlign
+
+    if fontPath ~= nil then
+        o.Font = love.graphics.newFont(fontPath, o.TextSize)
+    else
+        o.Font = love.graphics.newFont(o.TextSize)
+    end
     
-    o.Font = love.graphics.newFont(o.TextSize)
     
     o.ButtonColor = {
         R = 0,

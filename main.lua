@@ -35,16 +35,12 @@ function love.load()
     myScreen = screen:New(myScreen)
     myScreen.Enabled = true
     
-    --[[element = guiBase:New(element, myScreen)
-    element:SetPosition(0, 20, 0, 20)
-    element:SetSize(1, -40, 1, -40)
-    
-    text = label:New(nil, myScreen, "My awesome text which is really cool", 32, "center")
+    text = label:New(nil, myScreen, "My awesome text which is really cool", 32, "center", "/examples/Plumpfull.ttf")
     text:SetPosition(0.5, 0, 0.5, 0)
     text:SetSize(1, 0, 0, 0)
     text:SetAnchorPoint(0.5, 0.5)
     text:SetColor(0,1,0,1)
-    text.ZIndex = 1
+    text.ZIndex = 5
     
     
 
@@ -90,7 +86,7 @@ function love.load()
     parentImage.Name = "Balloon"
     parentImage:SetPadding(0,10,0,10)
     
-    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center")
+    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center", "/examples/nulshock bd.otf")
     button:SetPosition(0,0,0,0)
     button:SetSize(1,0,1,0)
     button:SetButtonColor(0.5,0.5,0.5,1)
@@ -106,7 +102,7 @@ function love.load()
     
     button.MouseDown = function ()
         print("down")
-        button.Text = "Thanks!!!"
+        button.Text = "welcome back goose"
         button:SetButtonColor(0,1,0,1)
         sceneManager:SetSceneEnabled("awesome scene", true)
         player:GooseAround()
@@ -114,7 +110,7 @@ function love.load()
 
     button.MouseUp = function ()
         print("up")
-        button.Text = "Click me!!!"
+        button.Text = "Click me to bring the goose back!!!"
         button:SetButtonColor(0.5,0.5,0.5,1)
     end
 
@@ -138,8 +134,8 @@ function love.load()
 
     input = textinput:New(nil, myScreen, "Type something here...", 16)
     input:SetColor(0.4,0.4,0.4,1)
-    input:SetPosition(1,-10,0,10)
-    input:SetAnchorPoint(1,0)
+    input:SetPosition(1,-10,1,-10)
+    input:SetAnchorPoint(1,1)
     input:SetSize(0.4,0,0.2,0)
     
     input.MouseDown = function ()
@@ -159,13 +155,13 @@ function love.load()
         print(input.Text)
         sceneManager:SetSceneEnabled("awesome scene", false)
     end
-
+    
     sceneManager:NewScene("awesome scene")
     sceneManager:AddToScene("awesome scene", {
         player.instance,
         ground
     })
-
+    
     sceneManager:NewScene("User interface??")
     sceneManager:AddToScene("User interface??", {myScreen})
 end

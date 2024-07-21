@@ -4,7 +4,7 @@ textinput.__index = guibase
 
 local utf8 = require("utf8")
 
-function textinput:New(o, screen, placeholderText, textSize)
+function textinput:New(o, screen, placeholderText, textSize, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -14,7 +14,11 @@ function textinput:New(o, screen, placeholderText, textSize)
     o.TextSize = textSize
     o.Type = "TextInput"
     
-    o.Font = love.graphics.newFont(o.TextSize)
+    if fontPath ~= nil then
+        o.Font = love.graphics.newFont(fontPath, o.TextSize)
+    else
+        o.Font = love.graphics.newFont(o.TextSize)
+    end
     
     o.TextColor = {
         R = 1, G = 1, B = 1, A = 1
