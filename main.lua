@@ -123,7 +123,7 @@ function love.load()
     descendantImage = image:New(nil, myScreen, "examples/nibblabunga.png")
     descendantImage:SetSize(1,0,0.4,0)
     descendantImage.Name = "Goose"
-
+    
     parentImage:SetParent(myList)
     childImage:SetParent(myList)
     descendantImage:SetParent(myList)
@@ -132,7 +132,7 @@ function love.load()
     childImage.LayoutOrder = 2
     descendantImage.LayoutOrder = 3
 
-    input = textinput:New(nil, myScreen, "Type something here...", 16, "center", "bottom", "/examples/Plumpfull.ttf")
+    input = textinput:New(nil, myScreen, "Type something here...", 16, "right", "bottom", "/examples/Plumpfull.ttf")
     input:SetColor(0.4,0.4,0.4,1)
     input:SetPosition(1,-10,1,-10)
     input:SetAnchorPoint(1,1)
@@ -174,11 +174,11 @@ function love.update(dt)
 end
 
 function love.keypressed(key, scancode, rep)
-    input:KeyPressed(key, scancode, rep)
+    myScreen:KeyPressed(key, scancode, rep)
 end
 
 function love.textinput(t)
-    input:TextInput(t)
+    myScreen:TextInput(t)
 end
 
 function love.draw()

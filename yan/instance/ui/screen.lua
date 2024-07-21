@@ -86,10 +86,24 @@ function screen:New(o)
                 end
             end
         end
-
-        
+    end
+    
+    function o:TextInput(t)
+        for _, element in ipairs(o.Elements) do
+            if element.Type == "TextInput" then
+                element:TextInput(t)
+            end
+        end
     end
 
+    function o:KeyPressed(key, scancode, rep)
+        for _, element in ipairs(o.Elements) do
+            if element.Type == "TextInput" then
+                element:KeyPressed(key, scancode, rep)
+            end
+        end
+    end
+    
     function o:Draw()
         if o.Enabled == false then return end
         if o.SceneEnabled == false then return end
