@@ -36,4 +36,10 @@ function uimanager:KeyPressed(key, scancode, rep)
     end
 end
 
+function uimanager:WheelMoved(x, y)
+    for _, screen in ipairs(self.Screens) do
+        screen:WheelMoved(x, y)
+    end
+end
+
 return uimanager

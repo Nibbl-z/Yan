@@ -79,6 +79,7 @@ function love.load()
     myList:SetSize(0.3,0,0.6,0)
     myList:SetPadding(0,20,0,20)
     myList.MaskChildren = true
+    myList.Scrollable = true
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
     parentImage:SetSize(1,0,0.6,0)
     parentImage.Name = "Balloon"
@@ -144,6 +145,10 @@ end
 
 function love.textinput(t)
     uiManager:TextInput(t)
+end
+
+function love.wheelmoved(x, y)
+    uiManager:WheelMoved(x, y)
 end
 
 function love.draw()

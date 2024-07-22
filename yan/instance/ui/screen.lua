@@ -137,6 +137,14 @@ function screen:New(o)
             end
         end
     end
+
+    function o:WheelMoved(x, y)
+        for _, element in ipairs(o.Elements) do
+            if element.Type == "List" then
+                element:WheelMoved(x, y)
+            end
+        end
+    end
     
     function o:Draw()
         if o.Enabled == false then return end
@@ -148,7 +156,11 @@ function screen:New(o)
         end)
 
         for _, element in ipairs(elements) do
+            if element.Type ~= "Image" and element.Type ~= "ImageButton" then -- excluding these because they need the stencil in the stencil for rounded corners or whatever
+                element:Stencil()
+            end
             element:Draw()
+            love.graphics.setStencilTest()
         end
     end
 
