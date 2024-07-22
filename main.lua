@@ -10,6 +10,7 @@ local list = require("yan.instance.ui.list")
 local textinput = require("yan.instance.ui.textinput")
 local sceneManager = require("yan.scenemanager")
 local uiManager = require("yan.uimanager")
+local themeManager = require("yan.thememanager")
 
 function love.load()
     --[[player = instance:New()
@@ -87,33 +88,21 @@ function love.load()
     parentImage.Name = "Balloon"
     parentImage:SetPadding(0,10,0,10)
     
-    button = textButton:New(nil, myScreen, "Click me!!!", 20, "center", "center", "/examples/nulshock bd.otf")
+    button = textButton:New(nil, myScreen, "Click this themed button!!! yay!!!", 20, "center", "center", "/examples/nulshock bd.otf")
     button:SetPosition(0,0,0,0)
     button:SetSize(1,0,1,0)
-    button:SetButtonColor(0.5,0.5,0.5,1)
+    
+    myTheme = themeManager:NewTheme()
+    myTheme.Font = "/examples/Plumpfull.ttf"
+    myTheme:SetColor(0.4, 1, 0.4, 1)
+    myTheme:SetHoverColor(0.3, 0.8, 0.3, 1)
+    myTheme:SetSelectedColor(0.2, 0.7, 0.2, 1)
+    myTheme:SetTextColor(1,1,1,1)
+    button:ApplyTheme(myTheme)
+
     button.ZIndex = 3
     
-    button.MouseEnter = function ()
-        button:SetButtonColor(0.3,0.3,0.3,1)
-    end
-    
-    button.MouseLeave = function ()
-        button:SetButtonColor(0.5,0.5,0.5,1)
-    end
-    
-    button.MouseDown = function ()
-        print("down")
-        button.Text = "welcome back goose"
-        button:SetButtonColor(0,1,0,1)
-        sceneManager:SetSceneEnabled("awesome scene", true)
-        player:GooseAround()
-    end
 
-    button.MouseUp = function ()
-        print("up")
-        button.Text = "Click me to bring the goose back!!!"
-        button:SetButtonColor(0.5,0.5,0.5,1)
-    end
 
     button:SetParent(parentImage)
 

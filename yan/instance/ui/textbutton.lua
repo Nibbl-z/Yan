@@ -62,6 +62,35 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         
         love.graphics.setColor(1,1,1,1)
     end
+    
+    function o:ApplyTheme(theme)
+        o:SetButtonColor(theme:GetColor())
+        o:SetColor(theme:GetTextColor())
+
+        function o:MouseEnterDefault()
+            print("hi")
+            o:SetButtonColor(theme:GetHoverColor())
+        end
+        
+        function o:MouseLeaveDefault()
+            print("bye")
+            o:SetButtonColor(theme:GetColor())
+        end
+
+        function o:MouseDownDefault()
+            print("ddown")
+            o:SetButtonColor(theme:GetSelectedColor())
+        end
+
+        function o:MouseUpDefault()
+            print("uppies")
+            o:SetButtonColor(theme:GetColor())
+        end
+
+        if theme.Font ~= nil then
+            o.Font = love.graphics.newFont(theme.Font, o.TextSize)
+        end
+    end
 
     return o
 end

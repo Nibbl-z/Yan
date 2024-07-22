@@ -37,6 +37,10 @@ function screen:New(o)
                             element.MouseEnter()
                         end
                         
+                        if element.MouseEnterDefault ~= nil then
+                            element.MouseEnterDefault()
+                        end
+                        
                         table.insert(hovered, element)
                     end
                     
@@ -47,20 +51,38 @@ function screen:New(o)
                                 if element.Type == "TextInput" then
                                     element.IsTyping = true
                                 end
-
+                                
                                 table.insert(clicked, element)
+                            end
+
+                            if element.MouseDownDefault ~= nil then
+                                element.MouseDownDefault()
+
+                                if element.Type == "TextInput" then
+                                    element.IsTyping = true
+                                end
+                                
+                                if element.MouseDown == nil then table.insert(clicked, element) end
                             end
                         end
                     elseif utils:TableFind(clicked, element) ~= false then
                         if not isDown then
-                            if element.MouseUp ~= nil then
-                                element.MouseUp()
-                                
-                                
+                            if element.MouseUpDefault ~= nil then
+                                element.MouseUpDefault()
                             end
 
+                            if element.MouseUp ~= nil then
+                                element.MouseUp()
+                            end
+
+                            
+                            
                             if element.MouseEnter ~= nil then
                                 element.MouseEnter()
+                            end
+
+                            if element.MouseEnterDefault ~= nil then
+                                element.MouseEnterDefault()
                             end
                             
                             table.remove(clicked, utils:TableFind(clicked, element))
@@ -69,14 +91,24 @@ function screen:New(o)
                 else
                     if utils:TableFind(hovered, element) ~= false then
                         if utils:TableFind(clicked, element) ~= false then
+                            if element.MouseUpDefault ~= nil then
+                                element.MouseUpDefault()
+                            end
+
                             if element.MouseUp ~= nil then
                                 element:MouseUp()
                                 table.remove(clicked, utils:TableFind(clicked, element))
                             end
+
+                            
                         end
 
                         if element.MouseLeave ~= nil then
                             element.MouseLeave()
+                        end
+
+                        if element.MouseLeaveDefault ~= nil then
+                            element.MouseLeaveDefault()
                         end
                         
                         table.remove(hovered, utils:TableFind(hovered, element))
