@@ -3,6 +3,7 @@ local instance = require("yan.instance.instance")
 screen.__index = instance
 
 local utils = require("yan.utils")
+local uimanager = require("yan.uimanager")
 
 function screen:New(o)
     o = o or instance:New(o)
@@ -11,6 +12,7 @@ function screen:New(o)
     o.Type = "Screen"
     o.Enabled = false
     o.Elements = {}
+    o.ZIndex = 1
 
     o.KeyboardInput = false
 
@@ -107,7 +109,7 @@ function screen:New(o)
     function o:Draw()
         if o.Enabled == false then return end
         if o.SceneEnabled == false then return end
-
+        
         local elements = o.Elements
         table.sort(elements, function(a,b) 
             return (a.ZIndex or 0) < (b.ZIndex or 0) 
@@ -117,6 +119,8 @@ function screen:New(o)
             element:Draw()
         end
     end
+
+    uimanager:AddScreen(o)
     
     return o
 end

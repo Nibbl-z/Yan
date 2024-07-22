@@ -9,6 +9,7 @@ local image = require("yan.instance.ui.image")
 local list = require("yan.instance.ui.list")
 local textinput = require("yan.instance.ui.textinput")
 local sceneManager = require("yan.scenemanager")
+local uiManager = require("yan.uimanager")
 
 function love.load()
     --[[player = instance:New()
@@ -170,20 +171,21 @@ function love.update(dt)
     player:Update(dt)
     ground:Update()
     world:update(dt)
-    myScreen:Update()
+
+    uiManager:Update()
 end
 
 function love.keypressed(key, scancode, rep)
-    myScreen:KeyPressed(key, scancode, rep)
+    uiManager:KeyPressed(key, scancode, rep)
 end
 
 function love.textinput(t)
-    myScreen:TextInput(t)
+    uiManager:TextInput(t)
 end
 
 function love.draw()
     love.graphics.setBackgroundColor(0.5,0.5,0.5,1)
     player.instance:Draw()
     ground:Draw()
-    myScreen:Draw()
+    uiManager:Draw()
 end
