@@ -15,6 +15,7 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
     o.Type = "TextInput"
     o.Align = align
     o.VerticalAlign = verticalAlign
+    o.CornerRoundness = 0
     
     if fontPath ~= nil then
         o.Font = love.graphics.newFont(fontPath, o.TextSize)
@@ -78,7 +79,7 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
         
         love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
         
-        love.graphics.rectangle("fill", pX, pY, sX, sY, 0, 0)
+        love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         love.graphics.setFont(o.Font)
         

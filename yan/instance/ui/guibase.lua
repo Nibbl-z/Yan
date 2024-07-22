@@ -199,6 +199,10 @@ function guiBase:New(o, screen)
         if o.Type == "TextInput" then
             o:SetPlaceholderTextColor(theme:GetPlaceholderTextColor())
         end
+
+        if o.CornerRoundness ~= nil then
+            o.CornerRoundness = theme.CornerRoundness
+        end
     end
 
     return o

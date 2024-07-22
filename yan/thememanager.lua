@@ -32,7 +32,7 @@ function thememanager:NewTheme()
     function theme:SetPlaceholderTextColor(r, g, b, a)
         theme.PlaceholderTextColor = {R = r, G = g, B = b, A = a}
     end
-
+    
     function theme:GetColor()
         return theme.Color.R, theme.Color.G, theme.Color.B, theme.Color.A
     end

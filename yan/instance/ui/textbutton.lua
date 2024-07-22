@@ -11,6 +11,7 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
     o.TextSize = textSize
     o.Align = align
     o.VerticalAlign = verticalAlign
+    o.CornerRoundness = 5
     
     if fontPath ~= nil then
         o.Font = love.graphics.newFont(fontPath, o.TextSize)
@@ -33,7 +34,7 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         
         love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
         
-        love.graphics.rectangle("fill", pX, pY, sX, sY, 5, 5)
+        love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         love.graphics.setFont(o.Font)
         love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)

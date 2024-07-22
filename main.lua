@@ -13,14 +13,7 @@ local uiManager = require("yan.uimanager")
 local themeManager = require("yan.thememanager")
 
 function love.load()
-    --[[player = instance:New()
-    player:SetSprite("/examples/player.png")
-    
-    notPlayer = instance:New()
-    notPlayer:SetSprite("/examples/player.png")
-    notPlayer.Size.X = 2
-    notPlayer.Position.X = 200]]
-    
+
     love.window.setMode(800, 600, {resizable = true})
     myTheme = themeManager:NewTheme()
     myTheme.Font = "/examples/Plumpfull.ttf"
@@ -28,6 +21,8 @@ function love.load()
     myTheme:SetHoverColor(0.3, 0.8, 0.3, 1)
     myTheme:SetSelectedColor(0.2, 0.7, 0.2, 1)
     myTheme:SetTextColor(1,1,1,1)
+    myTheme.CornerRoundness = 1342
+
     world = love.physics.newWorld(0, 1000, true)
     
     player = require("examples.player")
@@ -50,7 +45,6 @@ function love.load()
     text.ZIndex = 5
     text:ApplyTheme(myTheme)    
     
-
     imgButton = imageButton:New(nil, myScreen, "/examples/baloon.jpg")
     imgButton:SetPosition(1,0,0,0)
     imgButton:SetSize(0.2,0,0.2,0)
@@ -79,9 +73,6 @@ function love.load()
     img.ZIndex = -1
     
     
-    --[[]]
-    
-    --[[]]
     
     myList = list:New(nil, myScreen, 10, "left")
     myList:SetPosition(0,10,0,10)
@@ -161,3 +152,4 @@ function love.draw()
     ground:Draw()
     uiManager:Draw()
 end
+
