@@ -11,9 +11,11 @@ function imagebutton:New(o, screen, image)
     o.CornerRoundness = 16
 
     function o:Draw()
+        
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
         local function stencilFunc()
+            o:Stencil()
             love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         end
         
@@ -26,6 +28,8 @@ function imagebutton:New(o, screen, image)
         love.graphics.setColor(1,1,1,1)
         
         love.graphics.setStencilTest()
+    
+        
     end
 
     return o

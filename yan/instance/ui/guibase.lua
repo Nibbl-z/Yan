@@ -36,6 +36,7 @@ function guiBase:New(o, screen)
     
     o.Children = {}
     o.Parent = nil
+    o.MaskChildren = false
     
     screen:AddElement(o)
     
@@ -77,7 +78,21 @@ function guiBase:New(o, screen)
         
         return pX, pY, sX, sY
     end
-
+    
+    function o:Stencil()
+        if o.Parent ~= nil then
+            
+            if o.Parent.MaskChildren == true then
+                pX, pY, sX, sY = o.Parent:GetDrawingCoordinates()
+                
+                love.graphics.stencil(function ()
+                    love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness or 0, o.CornerRoundness or 0)
+                end, "replace", 1)
+                love.graphics.setStencilTest("greater", 0)
+            end
+        end
+    end
+    
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
 
@@ -103,9 +118,9 @@ function guiBase:New(o, screen)
     end
 
     function o:SetAnchorPoint(x, y)
-       o.AnchorPoint = {
-            X = x, Y = y
-       } 
+        o.AnchorPoint = {
+                X = x, Y = y
+        } 
     end
 
     function o:SetPadding(xS, xO, yS, yO)

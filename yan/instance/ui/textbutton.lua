@@ -30,6 +30,8 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
     end
     
     function o:Draw()
+        o:Stencil()
+
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
         love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
@@ -58,6 +60,8 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         )
         
         love.graphics.setColor(1,1,1,1)
+
+        love.graphics.setStencilTest()
     end
     
     --[[function o:ApplyTheme(theme)

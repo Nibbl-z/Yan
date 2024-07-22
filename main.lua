@@ -21,7 +21,7 @@ function love.load()
     myTheme:SetHoverColor(0.3, 0.8, 0.3, 1)
     myTheme:SetSelectedColor(0.2, 0.7, 0.2, 1)
     myTheme:SetTextColor(1,1,1,1)
-    myTheme.CornerRoundness = 1342
+    myTheme.CornerRoundness = 10
 
     world = love.physics.newWorld(0, 1000, true)
     
@@ -76,33 +76,33 @@ function love.load()
     
     myList = list:New(nil, myScreen, 10, "left")
     myList:SetPosition(0,10,0,10)
-    myList:SetSize(0.3,0,0.7,0)
+    myList:SetSize(0.3,0,0.6,0)
     myList:SetPadding(0,20,0,20)
-    
+    myList.MaskChildren = true
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
-    parentImage:SetSize(1,0,0.4,0)
+    parentImage:SetSize(1,0,0.6,0)
     parentImage.Name = "Balloon"
     parentImage:SetPadding(0,10,0,10)
     
     button = textButton:New(nil, myScreen, "Click this themed button!!! yay!!!", 20, "center", "center", "/examples/nulshock bd.otf")
-    button:SetPosition(0,0,0,0)
-    button:SetSize(1,0,1,0)
+    button:SetPosition(0.75,0,0.75,0)
+    button:SetSize(0.5, 0, 0.5, 0)
     
     
     button:ApplyTheme(myTheme)
-
+    
     button.ZIndex = 3
     
-
-
-    button:SetParent(parentImage)
+    
+    img.MaskChildren = true
+    button:SetParent(img)
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetSize(1,0,0.2,0)
+    childImage:SetSize(1,0,0.5,0)
     childImage.Name = "PlayYan"
     
     descendantImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    descendantImage:SetSize(1,0,0.4,0)
+    descendantImage:SetSize(1,0,0.8,0)
     descendantImage.Name = "Goose"
     
     parentImage:SetParent(myList)
@@ -116,7 +116,7 @@ function love.load()
     input = textinput:New(nil, myScreen, "Type something here...", 16, "right", "bottom", "/examples/Plumpfull.ttf")
     input:SetPosition(1,-10,1,-10)
     input:SetAnchorPoint(1,1)
-    input:SetSize(0.4,0,0.2,0)
+    input:SetSize(0.2,0,0.2,0)
     
     input:ApplyTheme(myTheme)
     
