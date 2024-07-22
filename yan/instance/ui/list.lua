@@ -1,5 +1,6 @@
 local list = {}
 local guibase = require("yan.instance.ui.guibase")
+local utils = require("yan.utils")
 list.__index = guibase
 
 function list:New(o, screen, padding, align, scrollable)
@@ -10,13 +11,15 @@ function list:New(o, screen, padding, align, scrollable)
     o.ListPadding = padding or 0
     o.Align = align or "left"
     o.Scrollable = scrollable
-
+    
     o.ScrollOffset = 0
+    o.ScrollSpeed = 20
+    o.ScrollSize = {Size = 2, Offset = 0}
     
     function o:GetYOffsetForListItem(element)
         if #o.Children == 0 then return 0 end
         
-        if element.LayoutOrder == 1 then return 0 end
+        if element.LayoutOrder == 1 then return 0 + o.ScrollOffset end
 
         local totalOffset = 0
         
@@ -30,13 +33,20 @@ function list:New(o, screen, padding, align, scrollable)
             
         end
 
-        return totalOffset
+        return totalOffset + o.ScrollOffset
     end
     
     function o:WheelMoved(x, y)
-        o.ScrollOffset = o.ScrollOffset + y
+        if o.Scrollable == false then return end
+        local pX, pY, sX, sY = o:GetDrawingCoordinates()
+        
+        local mX, mY = love.mouse.getPosition()
+        
+        if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
+            o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -(sY * o.ScrollSize.Size) + sY + o.ScrollSize.Offset)
+        end
     end
-
+    
     return o
 end
 
