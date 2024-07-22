@@ -18,11 +18,21 @@ function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
         o.Font = love.graphics.newFont(o.TextSize)
     end
     
+    o.TextColor = {
+        R = 0, G = 0, B = 0, A = 1
+    }
+
+    function o:SetTextColor(r, g, b, a)
+        o.TextColor = {
+            R = r, G = g, B = b, A = a
+        }
+    end
+    
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
         love.graphics.setFont(o.Font)
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
         
         local yOffset = 0
         

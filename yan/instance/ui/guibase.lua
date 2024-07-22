@@ -163,8 +163,42 @@ function guiBase:New(o, screen)
                 end
             end
         end
-        
-        
+    end
+
+    function o:ApplyTheme(theme)
+        if o.Type ~= "Image" and o.Type ~= "ImageButton" then
+            o:SetColor(theme:GetColor())
+        end
+       
+        if o.Type == "TextButton" or o.Type == "TextInput" then
+            function o:MouseEnterDefault()
+                o:SetColor(theme:GetHoverColor())
+            end
+            
+            function o:MouseLeaveDefault()
+                o:SetColor(theme:GetColor())
+            end
+    
+            function o:MouseDownDefault()
+                o:SetColor(theme:GetSelectedColor())
+            end
+    
+            function o:MouseUpDefault()
+                o:SetColor(theme:GetColor())
+            end
+        end
+
+        if o.Type == "Label" or o.Type == "TextButton" or o.Type == "TextInput" then
+            o:SetTextColor(theme:GetTextColor())
+
+            if theme.Font ~= nil then
+                o.Font = love.graphics.newFont(theme.Font, o.TextSize)
+            end
+        end
+
+        if o.Type == "TextInput" then
+            o:SetPlaceholderTextColor(theme:GetPlaceholderTextColor())
+        end
     end
 
     return o

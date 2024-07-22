@@ -22,7 +22,12 @@ function love.load()
     notPlayer.Position.X = 200]]
     
     love.window.setMode(800, 600, {resizable = true})
-
+    myTheme = themeManager:NewTheme()
+    myTheme.Font = "/examples/Plumpfull.ttf"
+    myTheme:SetColor(0.4, 1, 0.4, 1)
+    myTheme:SetHoverColor(0.3, 0.8, 0.3, 1)
+    myTheme:SetSelectedColor(0.2, 0.7, 0.2, 1)
+    myTheme:SetTextColor(1,1,1,1)
     world = love.physics.newWorld(0, 1000, true)
     
     player = require("examples.player")
@@ -41,9 +46,9 @@ function love.load()
     text:SetPosition(0.5, 0, 0.5, 0)
     text:SetSize(1, 0, 1, 0)
     text:SetAnchorPoint(0.5, 0.5)
-    text:SetColor(0,1,0,1)
+    text:SetTextColor(0,1,0,1)
     text.ZIndex = 5
-    
+    text:ApplyTheme(myTheme)    
     
 
     imgButton = imageButton:New(nil, myScreen, "/examples/baloon.jpg")
@@ -92,12 +97,7 @@ function love.load()
     button:SetPosition(0,0,0,0)
     button:SetSize(1,0,1,0)
     
-    myTheme = themeManager:NewTheme()
-    myTheme.Font = "/examples/Plumpfull.ttf"
-    myTheme:SetColor(0.4, 1, 0.4, 1)
-    myTheme:SetHoverColor(0.3, 0.8, 0.3, 1)
-    myTheme:SetSelectedColor(0.2, 0.7, 0.2, 1)
-    myTheme:SetTextColor(1,1,1,1)
+    
     button:ApplyTheme(myTheme)
 
     button.ZIndex = 3
@@ -123,28 +123,11 @@ function love.load()
     descendantImage.LayoutOrder = 3
 
     input = textinput:New(nil, myScreen, "Type something here...", 16, "right", "bottom", "/examples/Plumpfull.ttf")
-    input:SetColor(0.4,0.4,0.4,1)
     input:SetPosition(1,-10,1,-10)
     input:SetAnchorPoint(1,1)
     input:SetSize(0.4,0,0.2,0)
     
-    input.MouseDown = function ()
-        input:SetColor(0.2,0.2,0.2,1)
-        print("Gup!")
-    end
-
-    input.MouseEnter = function ()
-        input:SetColor(0.3,0.3,0.3,1)
-    end
-
-    input.MouseLeave = function ()
-        input:SetColor(0.4,0.4,0.4,1)
-    end
-
-    input.OnEnter = function ()
-        print(input.Text)
-        sceneManager:SetSceneEnabled("awesome scene", false)
-    end
+    input:ApplyTheme(myTheme)
     
     sceneManager:NewScene("awesome scene")
     sceneManager:AddToScene("awesome scene", {

@@ -18,16 +18,12 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         o.Font = love.graphics.newFont(o.TextSize)
     end
     
-    
-    o.ButtonColor = {
-        R = 0,
-        G = 0,
-        B = 0,
-        A = 1
+    o.TextColor = {
+        R = 0, G = 0, B = 0, A = 1
     }
-    
-    function o:SetButtonColor(r, g, b, a)
-        o.ButtonColor = {
+
+    function o:SetTextColor(r, g, b, a)
+        o.TextColor = {
             R = r, G = g, B = b, A = a
         }
     end
@@ -35,12 +31,12 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.setColor(o.ButtonColor.R, o.ButtonColor.G, o.ButtonColor.B, o.ButtonColor.A)
+        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
         
         love.graphics.rectangle("fill", pX, pY, sX, sY, 5, 5)
         
         love.graphics.setFont(o.Font)
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
         
         local yOffset = 0
         
@@ -63,7 +59,7 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
         love.graphics.setColor(1,1,1,1)
     end
     
-    function o:ApplyTheme(theme)
+    --[[function o:ApplyTheme(theme)
         o:SetButtonColor(theme:GetColor())
         o:SetColor(theme:GetTextColor())
 
@@ -87,10 +83,8 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
             o:SetButtonColor(theme:GetColor())
         end
 
-        if theme.Font ~= nil then
-            o.Font = love.graphics.newFont(theme.Font, o.TextSize)
-        end
-    end
+        
+    end]]
 
     return o
 end
