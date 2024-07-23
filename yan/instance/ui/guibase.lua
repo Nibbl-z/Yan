@@ -95,7 +95,7 @@ function guiBase:New(o, screen)
     
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
-
+        
         love.graphics.rectangle("line", pX, pY, sX, sY)
     end
 
