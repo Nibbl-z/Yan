@@ -22,7 +22,7 @@ function guiBase:New(o, screen)
         YOffset = o.Size.Y,
         YScale = 0
     }
-
+    
     o.Padding = {
         XOffset = 0,
         XScale = 0,
@@ -217,6 +217,11 @@ function guiBase:New(o, screen)
 
         if o.CornerRoundness ~= nil then
             o.CornerRoundness = theme.CornerRoundness
+        end
+
+        if o.Type == "List" then
+            o:SetScrollbarColor(theme:GetScrollbarColor())
+            o.ScrollbarWidth = theme.ScrollbarWidth
         end
     end
 

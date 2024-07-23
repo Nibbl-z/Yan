@@ -80,6 +80,8 @@ function love.load()
     myList:SetPadding(0,20,0,20)
     myList.MaskChildren = true
     myList.Scrollable = true
+    myList.ZIndex = -1
+    myList:ApplyTheme(myTheme)
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
     parentImage:SetSize(1,0,0.6,0)
     parentImage.Name = "Balloon"

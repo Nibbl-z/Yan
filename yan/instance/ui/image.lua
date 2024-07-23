@@ -8,7 +8,7 @@ function imagebutton:New(o, screen, image)
     
     o.Type = "Image"
     o.Image = love.graphics.newImage(image)
-    o.CornerRoundness = 16
+    o.CornerRoundness = 0
 
     function o:Draw()
         

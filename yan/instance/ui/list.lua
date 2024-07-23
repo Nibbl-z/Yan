@@ -11,10 +11,21 @@ function list:New(o, screen, padding, align, scrollable)
     o.ListPadding = padding or 0
     o.Align = align or "left"
     o.Scrollable = scrollable
-    
+    o.CornerRoundness = 16
+
     o.ScrollOffset = 0
     o.ScrollSpeed = 20
     o.ScrollSize = {Size = 3, Offset = 25}
+
+    o.ScrollbarVisible = true 
+    o.ScrollbarColor = {R = 0, G = 0, B = 0, A = 0.5}
+    o.ScrollbarWidth = 16
+
+    function o:SetScrollbarColor(r, g, b, a)
+        o.ScrollbarColor = {
+            R = r, G = g, B = b, A = a
+        }
+    end
     
     function o:GetYOffsetForListItem(element)
         if #o.Children == 0 then return 0 end
@@ -50,12 +61,15 @@ function list:New(o, screen, padding, align, scrollable)
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.rectangle("line", pX, pY, sX, sY)
+        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
-        if o.Scrollable == true then
-            love.graphics.rectangle("fill", pX + sX - 16, 
+        if o.Scrollable == true and o.ScrollbarVisible == true then
+            love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
+
+            love.graphics.rectangle("fill", pX + sX - o.ScrollbarWidth, 
             pY - o.ScrollOffset / (o.ScrollSize.Size),
-            16, 
+            o.ScrollbarWidth, 
             sY / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
             8) 
         end
