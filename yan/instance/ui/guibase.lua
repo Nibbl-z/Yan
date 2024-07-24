@@ -49,8 +49,12 @@ function guiBase:New(o, screen)
         if o.Parent ~= nil then
             pXOffset, pYOffset, sizeWidth, sizeHeight = o.Parent:GetDrawingCoordinates()
             
-            
-            
+            if o.Parent.Type == "Scrollable" then
+                sizeHeight = sizeHeight * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
+
+                pYOffset = pYOffset + o.Parent.ScrollOffset
+            end
+
             if o.Parent.Type == "List" and ignoreYOffset ~= true then
                 pYOffset = pYOffset + o.Parent:GetYOffsetForListItem(o)
                 
@@ -61,6 +65,7 @@ function guiBase:New(o, screen)
                 end
             end
 
+            
             pXOffset = pXOffset + o.Parent.Padding.XOffset + (sizeWidth * o.Parent.Padding.XScale)
             pYOffset = pYOffset + o.Parent.Padding.YOffset + (sizeHeight * o.Parent.Padding.YScale)
             
@@ -79,16 +84,21 @@ function guiBase:New(o, screen)
         return pX, pY, sX, sY
     end
     
-    function o:Stencil()
-        if o.Parent ~= nil then
-            
-            if o.Parent.MaskChildren == true then
-                pX, pY, sX, sY = o.Parent:GetDrawingCoordinates()
+    function o:Stencil(parent)
+        if parent == nil then
+            parent = o.Parent
+        end
+
+        if parent then
+            if parent.MaskChildren == true then
+                pX, pY, sX, sY = parent:GetDrawingCoordinates()
                 
                 love.graphics.stencil(function ()
                     love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness or 0, o.CornerRoundness or 0)
                 end, "replace", 1)
                 love.graphics.setStencilTest("greater", 0)
+            else
+                o:Stencil(parent.Parent)
             end
         end
     end
@@ -219,7 +229,7 @@ function guiBase:New(o, screen)
             o.CornerRoundness = theme.CornerRoundness
         end
 
-        if o.Type == "List" then
+        if o.Type == "Scrollable" then
             o:SetScrollbarColor(theme:GetScrollbarColor())
             o.ScrollbarWidth = theme.ScrollbarWidth
         end

@@ -140,7 +140,7 @@ function screen:New(o)
 
     function o:WheelMoved(x, y)
         for _, element in ipairs(o.Elements) do
-            if element.Type == "List" then
+            if element.Type == "Scrollable" then
                 element:WheelMoved(x, y)
             end
         end

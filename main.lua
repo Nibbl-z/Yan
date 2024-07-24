@@ -11,6 +11,7 @@ local textinput = require("yan.instance.ui.textinput")
 local sceneManager = require("yan.scenemanager")
 local uiManager = require("yan.uimanager")
 local themeManager = require("yan.thememanager")
+local scrollable = require("yan.instance.ui.scrollable")
 
 function love.load()
 
@@ -72,18 +73,30 @@ function love.load()
     img:SetColor(1,1,1,1)
     img.ZIndex = -1
     
-    
+    scroll = scrollable:New(nil, myScreen)
+    scroll:SetPosition(0,10,0,10)
+    scroll:SetSize(0.3,0,0.6,0)
+    scroll:SetPadding(0,20,0,20)
+    scroll.MaskChildren = true
+    scroll.ZIndex = -1
+
+    scroll2 = scrollable:New(nil, myScreen)
+    scroll2:SetPosition(0.3,20,0,10)
+    scroll2:SetSize(0.3,0,0.6,0)
+    scroll2:SetPadding(0,20,0,20)
+    scroll2.MaskChildren = true
+    scroll2.ZIndex = -2
     
     myList = list:New(nil, myScreen, 10, "left")
-    myList:SetPosition(0,10,0,10)
-    myList:SetSize(0.3,0,0.6,0)
+    myList:SetPosition(0,0,0,0)
+    myList:SetSize(1,0,1,0)
     myList:SetPadding(0,20,0,20)
-    myList.MaskChildren = true
-    myList.Scrollable = true
+    myList.MaskChildren = false
     myList.ZIndex = -1
     myList:ApplyTheme(myTheme)
+    myList:SetParent(scroll2)
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
-    parentImage:SetSize(1,0,0.6,0)
+    parentImage:SetSize(1,0,1,0)
     parentImage.Name = "Balloon"
     parentImage:SetPadding(0,10,0,10)
     
@@ -104,17 +117,17 @@ function love.load()
     childImage:SetSize(1,0,0.5,0)
     childImage.Name = "PlayYan"
     
-    descendantImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    descendantImage:SetSize(1,0,0.8,0)
+    descendantImage = image:New(nil, myScreen, "examples/player.png")
+    descendantImage:SetSize(1,0,0.5,0)
     descendantImage.Name = "Goose"
     
-    parentImage:SetParent(myList)
+    parentImage:SetParent(scroll)
     childImage:SetParent(myList)
     descendantImage:SetParent(myList)
     
     parentImage.LayoutOrder = 1
-    childImage.LayoutOrder = 2
-    descendantImage.LayoutOrder = 3
+    childImage.LayoutOrder = 1
+    descendantImage.LayoutOrder = 2
 
     input = textinput:New(nil, myScreen, "Type something here...", 16, "right", "bottom", "/examples/Plumpfull.ttf")
     input:SetPosition(1,-10,1,-10)
