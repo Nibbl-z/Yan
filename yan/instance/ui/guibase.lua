@@ -91,11 +91,17 @@ function guiBase:New(o, screen)
                 if o.Parent.Direction == "horizontal" then
                     
                 elseif o.Parent.Direction == "vertical" then
-                    
+                    local excessOffset = sizeHeight - (o.Size.YScale * sizeHeight + o.Size.YOffset) * o.Parent.GridSize - (o.Parent.GridPadding) * (o.Parent.GridSize - 1)
+
+                    if o.Parent.Align == "center" then
+                        pYOffset = pYOffset + excessOffset / 2
+                    elseif o.Parent.Align == "bottom" then
+                        pYOffset = pYOffset + excessOffset
+                    end
                 end
 
             end
-
+            
             
             pXOffset = pXOffset + o.Parent.Padding.XOffset + (sizeWidth * o.Parent.Padding.XScale)
             pYOffset = pYOffset + o.Parent.Padding.YOffset + (sizeHeight * o.Parent.Padding.YScale)
@@ -119,7 +125,7 @@ function guiBase:New(o, screen)
         if parent == nil then
             parent = o.Parent
         end
-
+        
         if parent then
             if parent.MaskChildren == true then
                 pX, pY, sX, sY = parent:GetDrawingCoordinates()

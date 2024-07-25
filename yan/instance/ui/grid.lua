@@ -33,7 +33,7 @@ function grid:New(o, screen, padding, align, direction, gridSize)
                 if o.Direction == "vertical" then
                     yOffset = yOffset + itemY + o.GridPadding 
                     
-                    if gridIndex > o.GridSize then
+                    if gridIndex >= o.GridSize then
                         gridIndex = 1
                         xOffset = xOffset + itemX + o.GridPadding
                         yOffset = 0
@@ -41,7 +41,7 @@ function grid:New(o, screen, padding, align, direction, gridSize)
                 elseif o.Direction == "horizontal" then
                     xOffset = xOffset + itemX + o.GridPadding 
 
-                    if gridIndex > o.GridSize then
+                    if gridIndex >= o.GridSize then
                         gridIndex = 1
                         yOffset = yOffset + itemY + o.GridPadding
                         xOffset = 0

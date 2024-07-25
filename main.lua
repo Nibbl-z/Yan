@@ -83,12 +83,12 @@ function love.load()
     
     scroll2 = scrollable:New(nil, myScreen, "horizontal")
     scroll2:SetPosition(0.3,20,0,10)
-    scroll2:SetSize(0.7,0,0.3,0)
+    scroll2:SetSize(0.7,0,0.7,0)
     scroll2:SetPadding(0,20,0,20)
     scroll2.MaskChildren = true
     scroll2.ZIndex = -2
     
-    mygrid = grid:New(nil, myScreen, 10, "center", "horizontal", 2)
+    mygrid = grid:New(nil, myScreen, 10, "bottom", "vertical", 3)
     mygrid:SetPosition(0,0,0,0)
     mygrid:SetSize(1,0,1,0)
     --myList:SetPadding(0,20,0,20)
