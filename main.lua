@@ -12,6 +12,7 @@ local sceneManager = require("yan.scenemanager")
 local uiManager = require("yan.uimanager")
 local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
+local grid = require("yan.instance.ui.grid")
 
 function love.load()
 
@@ -82,19 +83,20 @@ function love.load()
     
     scroll2 = scrollable:New(nil, myScreen, "horizontal")
     scroll2:SetPosition(0.3,20,0,10)
-    scroll2:SetSize(0.7,0,0.5,0)
+    scroll2:SetSize(0.7,0,0.9,0)
     scroll2:SetPadding(0,20,0,20)
     scroll2.MaskChildren = true
     scroll2.ZIndex = -2
     
-    myList = list:New(nil, myScreen, 10, "left", "horizontal")
-    myList:SetPosition(0,0,0,0)
-    myList:SetSize(1,0,1,0)
+    mygrid = grid:New(nil, myScreen, 10, "left", "horizontal", 2)
+    mygrid:SetPosition(0,0,0,0)
+    mygrid:SetSize(1,0,1,0)
     --myList:SetPadding(0,20,0,20)
-    myList.MaskChildren = false
-    myList.ZIndex = -1
-    myList:ApplyTheme(myTheme)
-    myList:SetParent(scroll2)
+    mygrid.MaskChildren = false
+    mygrid.ZIndex = -1
+    mygrid:ApplyTheme(myTheme)
+    mygrid:SetParent(scroll2)
+
     parentImage = image:New(nil, myScreen, "/examples/baloon.jpg")
     parentImage:SetSize(1,0,1,0)
     parentImage.Name = "Balloon"
@@ -112,22 +114,40 @@ function love.load()
     
     img.MaskChildren = true
     button:SetParent(img)
-
+    
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetSize(0.5,0,1,0)
+    childImage:SetSize(0,100,0,100)
     childImage.Name = "PlayYan"
     
     descendantImage = image:New(nil, myScreen, "examples/player.png")
-    descendantImage:SetSize(0.5,0,1,0)
+    descendantImage:SetSize(0,100,0,100)
     descendantImage.Name = "Goose"
+
+    descendantImage2 = image:New(nil, myScreen, "examples/baloon.jpg")
+    descendantImage2:SetSize(0,100,0,100)
+    descendantImage2.Name = "Goose2"
+
+    descendantImage3 = image:New(nil, myScreen, "examples/player.png")
+    descendantImage3:SetSize(0,100,0,100)
+    descendantImage3.Name = "Goose3"
+
+    descendantImage4 = image:New(nil, myScreen, "examples/nibblabunga.png")
+    descendantImage4:SetSize(0,100,0,100)
+    descendantImage4.Name = "Goose4"
     
     parentImage:SetParent(scroll)
-    childImage:SetParent(myList)
-    descendantImage:SetParent(myList)
+    childImage:SetParent(mygrid)
+    descendantImage:SetParent(mygrid)
+    descendantImage2:SetParent(mygrid)
+    descendantImage3:SetParent(mygrid)
+    descendantImage4:SetParent(mygrid)
     
     parentImage.LayoutOrder = 1
     childImage.LayoutOrder = 1
     descendantImage.LayoutOrder = 2
+    descendantImage2.LayoutOrder = 3
+    descendantImage3.LayoutOrder = 4
+    descendantImage4.LayoutOrder = 5
 
     input = textinput:New(nil, myScreen, "Type something here...", 16, "right", "bottom", "/examples/Plumpfull.ttf")
     input:SetPosition(1,-10,1,-10)

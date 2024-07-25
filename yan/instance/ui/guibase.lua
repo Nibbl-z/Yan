@@ -80,7 +80,20 @@ function guiBase:New(o, screen)
                         pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset)) 
                     end
                 end
+            end
+            
+            if o.Parent.Type == "Grid" and ignoreYOffset ~= true then
+                local gridXOffset, gridYOffset = o.Parent:GetOffsetForGridItem(o)
                 
+                pXOffset = pXOffset + gridXOffset
+                pYOffset = pYOffset + gridYOffset
+                -- TODO: align stuff
+                if o.Parent.Direction == "horizontal" then
+
+                elseif o.Parent.Direction == "vertical" then
+
+                end
+
             end
 
             
