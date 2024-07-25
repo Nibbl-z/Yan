@@ -3,7 +3,7 @@ local guibase = require("yan.instance.ui.guibase")
 local utils = require("yan.utils")
 list.__index = guibase
 
-function list:New(o, screen, padding, align)
+function list:New(o, screen, padding, align, direction)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -11,8 +11,9 @@ function list:New(o, screen, padding, align)
     o.ListPadding = padding or 0
     o.Align = align or "left"
     o.CornerRoundness = 16
+    o.Direction = direction
     
-    function o:GetYOffsetForListItem(element)
+    function o:GetOffsetForListItem(element)
         if #o.Children == 0 then return 0 end
         
         if element.LayoutOrder == 1 then return 0 end
@@ -21,13 +22,20 @@ function list:New(o, screen, padding, align)
         
         for i = 1, element.LayoutOrder - 1 do
             local currentItem = o.Children[i]
-            if currentItem ~= nil then
-                local _, _, _, itemY = currentItem:GetDrawingCoordinates(true)
-
-                totalOffset = totalOffset + itemY + o.ListPadding 
-            end
             
+            if currentItem ~= nil then
+                local _, _, itemX, itemY = currentItem:GetDrawingCoordinates(true)
+
+                if o.Direction == "vertical" then
+                    totalOffset = totalOffset + itemY + o.ListPadding 
+                elseif o.Direction == "horizontal" then
+                    totalOffset = totalOffset + itemX + o.ListPadding 
+                end
+            end
         end
+
+        
+        
         
         --[[if o.Parent ~= nil then
             if o.Parent.Type == "Scrollable" then

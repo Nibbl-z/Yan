@@ -3,7 +3,7 @@ local guibase = require("yan.instance.ui.guibase")
 local utils = require("yan.utils")
 scrollable.__index = guibase
 
-function scrollable:New(o, screen)
+function scrollable:New(o, screen, direction)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
@@ -12,11 +12,12 @@ function scrollable:New(o, screen)
     
     o.ScrollOffset = 0
     o.ScrollSpeed = 20
-    o.ScrollSize = {Size = 4, Offset = 20}
+    o.ScrollSize = {Size = 2, Offset = 0}
     
     o.ScrollbarVisible = true 
     o.ScrollbarColor = {R = 0, G = 0, B = 0, A = 0.5}
     o.ScrollbarWidth = 16
+    o.ScrollDirection = direction
 
     o.MaskChildren = true
 
@@ -37,7 +38,11 @@ function scrollable:New(o, screen)
         local mX, mY = love.mouse.getPosition()
         
         if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
-            o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sY + o.ScrollSize.Offset) * o.ScrollSize.Size) + sY)
+            if o.ScrollDirection == "vertical" then
+                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sY + o.ScrollSize.Offset) * o.ScrollSize.Size) + sY)
+            else
+                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sX + o.ScrollSize.Offset) * o.ScrollSize.Size) + sX)
+            end   
         end
     end
 
@@ -50,11 +55,21 @@ function scrollable:New(o, screen)
         if o.ScrollbarVisible == true then
             love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
 
-            love.graphics.rectangle("fill", pX + sX - o.ScrollbarWidth, 
-            pY - o.ScrollOffset / (o.ScrollSize.Size),
-            o.ScrollbarWidth, 
-            sY / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
-            8) 
+            if o.ScrollDirection == "vertical" then
+                love.graphics.rectangle("fill", pX + sX - o.ScrollbarWidth, 
+                pY - o.ScrollOffset / (o.ScrollSize.Size),
+                o.ScrollbarWidth, 
+                sY / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
+                8) 
+            else
+                love.graphics.rectangle("fill", 
+                pX - o.ScrollOffset / (o.ScrollSize.Size), 
+                pY + sY - o.ScrollbarWidth,
+                sX / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
+                o.ScrollbarWidth, 
+                8) 
+            end
+            
         end
     end
     

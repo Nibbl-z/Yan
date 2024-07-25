@@ -73,24 +73,24 @@ function love.load()
     img:SetColor(1,1,1,1)
     img.ZIndex = -1
     
-    scroll = scrollable:New(nil, myScreen)
+    scroll = scrollable:New(nil, myScreen, "horizontal")
     scroll:SetPosition(0,10,0,10)
     scroll:SetSize(0.3,0,0.6,0)
     scroll:SetPadding(0,20,0,20)
     scroll.MaskChildren = true
     scroll.ZIndex = -1
-
-    scroll2 = scrollable:New(nil, myScreen)
+    
+    scroll2 = scrollable:New(nil, myScreen, "horizontal")
     scroll2:SetPosition(0.3,20,0,10)
-    scroll2:SetSize(0.3,0,0.6,0)
+    scroll2:SetSize(0.7,0,0.5,0)
     scroll2:SetPadding(0,20,0,20)
     scroll2.MaskChildren = true
     scroll2.ZIndex = -2
     
-    myList = list:New(nil, myScreen, 10, "left")
+    myList = list:New(nil, myScreen, 10, "left", "horizontal")
     myList:SetPosition(0,0,0,0)
     myList:SetSize(1,0,1,0)
-    myList:SetPadding(0,20,0,20)
+    --myList:SetPadding(0,20,0,20)
     myList.MaskChildren = false
     myList.ZIndex = -1
     myList:ApplyTheme(myTheme)
@@ -114,11 +114,11 @@ function love.load()
     button:SetParent(img)
 
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
-    childImage:SetSize(1,0,0.5,0)
+    childImage:SetSize(0.5,0,1,0)
     childImage.Name = "PlayYan"
     
     descendantImage = image:New(nil, myScreen, "examples/player.png")
-    descendantImage:SetSize(1,0,0.5,0)
+    descendantImage:SetSize(0.5,0,1,0)
     descendantImage.Name = "Goose"
     
     parentImage:SetParent(scroll)

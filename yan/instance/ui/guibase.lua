@@ -50,19 +50,37 @@ function guiBase:New(o, screen)
             pXOffset, pYOffset, sizeWidth, sizeHeight = o.Parent:GetDrawingCoordinates()
             
             if o.Parent.Type == "Scrollable" then
-                sizeHeight = sizeHeight * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
-
-                pYOffset = pYOffset + o.Parent.ScrollOffset
+                if o.Parent.ScrollDirection == "horizontal" then
+                    sizeWidth = sizeWidth * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
+                
+                    pXOffset = pXOffset + o.Parent.ScrollOffset
+                elseif o.Parent.ScrollDirection == "vertical" then
+                    sizeHeight = sizeHeight * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
+                
+                    pYOffset = pYOffset + o.Parent.ScrollOffset
+                end
+                
             end
 
             if o.Parent.Type == "List" and ignoreYOffset ~= true then
-                pYOffset = pYOffset + o.Parent:GetYOffsetForListItem(o)
+                if o.Parent.Direction == "horizontal" then
+                    pXOffset = pXOffset + o.Parent:GetOffsetForListItem(o)
                 
-                if o.Parent.Align == "center" then
-                    pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset) * 0.5) 
-                elseif o.Parent.Align == "right" then
-                    pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset)) 
+                    if o.Parent.Align == "center" then
+                        pYOffset = pYOffset + ((o.Size.YScale * sizeHeight + o.Size.YOffset) * 0.5) 
+                    elseif o.Parent.Align == "bottom" then
+                        pYOffset = pYOffset + ((o.Size.YScale * sizeHeight + o.Size.YOffset)) 
+                    end
+                elseif o.Parent.Direction == "vertical" then
+                    pYOffset = pYOffset + o.Parent:GetOffsetForListItem(o)
+                
+                    if o.Parent.Align == "center" then
+                        pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset) * 0.5) 
+                    elseif o.Parent.Align == "right" then
+                        pXOffset = pXOffset + ((o.Size.XScale * sizeWidth + o.Size.XOffset)) 
+                    end
                 end
+                
             end
 
             
