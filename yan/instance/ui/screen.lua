@@ -23,101 +23,120 @@ function screen:New(o)
     local hovered = {}
     local clicked = {}
     
+    local function ClickableCheck(clickable, element)
+        local isDown = love.mouse.isDown(1)
+        
+        if clickable then
+            if utils:TableFind(hovered, element) == false then
+                if element.MouseEnter ~= nil then
+                    element.MouseEnter()
+                end
+                
+                if element.MouseEnterDefault ~= nil then
+                    element.MouseEnterDefault()
+                end
+                
+                table.insert(hovered, element)
+            end
+            
+            if utils:TableFind(clicked, element) == false then
+                if isDown then
+                    if element.MouseDown ~= nil then
+                        element.MouseDown()
+                        if element.Type == "TextInput" then
+                            element.IsTyping = true
+                        end
+                        
+                        table.insert(clicked, element)
+                    end
+
+                    if element.MouseDownDefault ~= nil then
+                        element.MouseDownDefault()
+
+                        if element.Type == "TextInput" then
+                            element.IsTyping = true
+                        end
+                        
+                        if element.MouseDown == nil then table.insert(clicked, element) end
+                    end
+                end
+            elseif utils:TableFind(clicked, element) ~= false then
+                if not isDown then
+                    if element.MouseUpDefault ~= nil then
+                        element.MouseUpDefault()
+                    end
+
+                    if element.MouseUp ~= nil then
+                        element.MouseUp()
+                    end
+
+                    
+                    
+                    if element.MouseEnter ~= nil then
+                        element.MouseEnter()
+                    end
+
+                    if element.MouseEnterDefault ~= nil then
+                        element.MouseEnterDefault()
+                    end
+                    
+                    table.remove(clicked, utils:TableFind(clicked, element))
+                end
+            end
+        else
+            if utils:TableFind(hovered, element) ~= false then
+                if utils:TableFind(clicked, element) ~= false then
+                    if element.MouseUpDefault ~= nil then
+                        element.MouseUpDefault()
+                    end
+
+                    if element.MouseUp ~= nil then
+                        element:MouseUp()
+                        table.remove(clicked, utils:TableFind(clicked, element))
+                    end
+
+                    
+                end
+
+                if element.MouseLeave ~= nil then
+                    element.MouseLeave()
+                end
+
+                if element.MouseLeaveDefault ~= nil then
+                    element.MouseLeaveDefault()
+                end
+                
+                table.remove(hovered, utils:TableFind(hovered, element))
+            end
+            
+            if isDown and element.Type == "TextInput" then
+                element.IsTyping = false
+            end
+        end
+    end
+
     function o:Update()
         local mX, mY = love.mouse.getPosition()
-        local isDown = love.mouse.isDown(1)
+        
         
         for _, element in ipairs(o.Elements) do
             if element.Type == "TextButton" or element.Type == "ImageButton" or element.Type == "TextInput" then
                 local pX, pY, sX, sY = element:GetDrawingCoordinates()
                 
-                if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
-                    if utils:TableFind(hovered, element) == false then
-                        if element.MouseEnter ~= nil then
-                            element.MouseEnter()
-                        end
-                        
-                        if element.MouseEnterDefault ~= nil then
-                            element.MouseEnterDefault()
-                        end
-                        
-                        table.insert(hovered, element)
-                    end
-                    
-                    if utils:TableFind(clicked, element) == false then
-                        if isDown then
-                            if element.MouseDown ~= nil then
-                                element.MouseDown()
-                                if element.Type == "TextInput" then
-                                    element.IsTyping = true
-                                end
-                                
-                                table.insert(clicked, element)
-                            end
-
-                            if element.MouseDownDefault ~= nil then
-                                element.MouseDownDefault()
-
-                                if element.Type == "TextInput" then
-                                    element.IsTyping = true
-                                end
-                                
-                                if element.MouseDown == nil then table.insert(clicked, element) end
-                            end
-                        end
-                    elseif utils:TableFind(clicked, element) ~= false then
-                        if not isDown then
-                            if element.MouseUpDefault ~= nil then
-                                element.MouseUpDefault()
-                            end
-
-                            if element.MouseUp ~= nil then
-                                element.MouseUp()
-                            end
-
-                            
-                            
-                            if element.MouseEnter ~= nil then
-                                element.MouseEnter()
-                            end
-
-                            if element.MouseEnterDefault ~= nil then
-                                element.MouseEnterDefault()
-                            end
-                            
-                            table.remove(clicked, utils:TableFind(clicked, element))
+                if element.Parent ~= nil then
+                    if element.Parent.MaskChildren == true then
+                        local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
+                        if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
+                            ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
+                        else
+                            ClickableCheck(false, element)
                         end
                     end
                 else
-                    if utils:TableFind(hovered, element) ~= false then
-                        if utils:TableFind(clicked, element) ~= false then
-                            if element.MouseUpDefault ~= nil then
-                                element.MouseUpDefault()
-                            end
-
-                            if element.MouseUp ~= nil then
-                                element:MouseUp()
-                                table.remove(clicked, utils:TableFind(clicked, element))
-                            end
-
-                            
-                        end
-
-                        if element.MouseLeave ~= nil then
-                            element.MouseLeave()
-                        end
-
-                        if element.MouseLeaveDefault ~= nil then
-                            element.MouseLeaveDefault()
-                        end
-                        
-                        table.remove(hovered, utils:TableFind(hovered, element))
-                    end
-                    
-                    if isDown and element.Type == "TextInput" then
-                        element.IsTyping = false
-                    end
+                    ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
                 end
+
+                
             end
         end
     end

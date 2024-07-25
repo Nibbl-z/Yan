@@ -88,7 +88,7 @@ function love.load()
     scroll2.MaskChildren = true
     scroll2.ZIndex = -2
     
-    mygrid = grid:New(nil, myScreen, 10, "left", "horizontal", 2)
+    mygrid = grid:New(nil, myScreen, 10, "center", "horizontal", 2)
     mygrid:SetPosition(0,0,0,0)
     mygrid:SetSize(1,0,1,0)
     --myList:SetPadding(0,20,0,20)

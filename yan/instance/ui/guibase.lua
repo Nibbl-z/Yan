@@ -89,9 +89,9 @@ function guiBase:New(o, screen)
                 pYOffset = pYOffset + gridYOffset
                 -- TODO: align stuff
                 if o.Parent.Direction == "horizontal" then
-
+                    
                 elseif o.Parent.Direction == "vertical" then
-
+                    
                 end
 
             end
