@@ -118,27 +118,49 @@ function screen:New(o)
     function o:Update()
         local mX, mY = love.mouse.getPosition()
         
+        local interactableElements = {}
         
         for _, element in ipairs(o.Elements) do
             if element.Type == "TextButton" or element.Type == "ImageButton" or element.Type == "TextInput" then
                 local pX, pY, sX, sY = element:GetDrawingCoordinates()
-                
+        
                 if element.Parent ~= nil then
                     if element.Parent.MaskChildren == true then
                         local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
                         if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
-                            ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
+                            if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
+                                table.insert(interactableElements, element)
+                            end  
                         else
                             ClickableCheck(false, element)
                         end
                     end
                 else
-                    ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
+                    if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
+                        table.insert(interactableElements, element)
+                    else
+                        ClickableCheck(false, element)
+                    end  
                 end
-
                 
             end
         end
+        
+        table.sort(interactableElements, function(a,b) 
+            return (a.ZIndex or 0) > (b.ZIndex or 0) 
+        end)
+
+        if #interactableElements >= 1 then
+            local element = interactableElements[1]
+            local pX, pY, sX, sY = element:GetDrawingCoordinates()
+        
+            ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
+
+            for i = 2, #interactableElements do
+                ClickableCheck(false, interactableElements[i])
+            end
+        end
+
     end
     
     function o:TextInput(t)
@@ -156,7 +178,7 @@ function screen:New(o)
             end
         end
     end
-
+    
     function o:WheelMoved(x, y)
         for _, element in ipairs(o.Elements) do
             if element.Type == "Scrollable" then

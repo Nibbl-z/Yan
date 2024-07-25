@@ -83,7 +83,7 @@ function love.load()
     
     scroll2 = scrollable:New(nil, myScreen, "horizontal")
     scroll2:SetPosition(0.3,20,0,10)
-    scroll2:SetSize(0.7,0,0.9,0)
+    scroll2:SetSize(0.7,0,0.3,0)
     scroll2:SetPadding(0,20,0,20)
     scroll2.MaskChildren = true
     scroll2.ZIndex = -2
@@ -104,7 +104,7 @@ function love.load()
     
     button = textButton:New(nil, myScreen, "Click this themed button!!! yay!!!", 20, "center", "center", "/examples/nulshock bd.otf")
     button:SetPosition(0.75,0,0.75,0)
-    button:SetSize(0.5, 0, 0.5, 0)
+    button:SetSize(0.2, 0, 0.2, 0)
     
     
     button:ApplyTheme(myTheme)
@@ -113,7 +113,6 @@ function love.load()
     
     
     img.MaskChildren = true
-    button:SetParent(img)
     
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
     childImage:SetSize(0,100,0,100)
@@ -122,6 +121,7 @@ function love.load()
     descendantImage = image:New(nil, myScreen, "examples/player.png")
     descendantImage:SetSize(0,100,0,100)
     descendantImage.Name = "Goose"
+    descendantImage.ZIndex = 4
 
     descendantImage2 = image:New(nil, myScreen, "examples/baloon.jpg")
     descendantImage2:SetSize(0,100,0,100)
@@ -130,6 +130,7 @@ function love.load()
     descendantImage3 = image:New(nil, myScreen, "examples/player.png")
     descendantImage3:SetSize(0,100,0,100)
     descendantImage3.Name = "Goose3"
+    descendantImage3.ZIndex = 4
 
     descendantImage4 = image:New(nil, myScreen, "examples/nibblabunga.png")
     descendantImage4:SetSize(0,100,0,100)
@@ -153,7 +154,7 @@ function love.load()
     input:SetPosition(1,-10,1,-10)
     input:SetAnchorPoint(1,1)
     input:SetSize(0.2,0,0.2,0)
-    
+    input.ZIndex = 1
     input:ApplyTheme(myTheme)
     
     sceneManager:NewScene("awesome scene")
