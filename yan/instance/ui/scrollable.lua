@@ -17,6 +17,7 @@ function scrollable:New(o, screen, direction)
     o.ScrollbarVisible = true 
     o.ScrollbarColor = {R = 0, G = 0, B = 0, A = 0.5}
     o.ScrollbarWidth = 16
+    o.ScrollbarSize = {Size = 0.3, Offset = 0}
     o.ScrollDirection = direction
 
     o.MaskChildren = true
@@ -54,20 +55,42 @@ function scrollable:New(o, screen, direction)
         
         if o.ScrollbarVisible == true then
             love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
+            
+            
 
             if o.ScrollDirection == "vertical" then
-                love.graphics.rectangle("fill", pX + sX - o.ScrollbarWidth, 
-                pY - o.ScrollOffset / (o.ScrollSize.Size),
-                o.ScrollbarWidth, 
-                sY / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
-                8) 
+                local scrollbarSize = (sY * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
+                local maxY = sY + scrollbarSize 
+                
+                print(scrollbarSize, maxY, sY, o.ScrollOffset, ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset))
+
+                love.graphics.rectangle(
+                    "fill", 
+                    pX + sX - o.ScrollbarWidth, 
+                    pY + maxY * (math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset)),
+                    o.ScrollbarWidth, 
+                    scrollbarSize,
+                    8
+                ) 
             else
+                local scrollbarSize = (sX * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
+                local maxX = sX + scrollbarSize
+
                 love.graphics.rectangle("fill", 
                 pX - o.ScrollOffset / (o.ScrollSize.Size), 
                 pY + sY - o.ScrollbarWidth,
-                sX / (o.ScrollSize.Size) - (o.ScrollSize.Offset),
+                sX / (o.ScrollSize.Size) + (o.ScrollSize.Offset),
                 o.ScrollbarWidth, 
-                8) 
+                8)
+                
+                love.graphics.rectangle(
+                    "fill", 
+                    pX + maxX * (math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sX) + o.ScrollSize.Offset)),
+                    pY + sY - o.ScrollbarWidth,
+                    scrollbarSize,
+                    o.ScrollbarWidth,
+                    8
+                ) 
             end
             
         end

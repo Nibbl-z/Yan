@@ -74,10 +74,11 @@ function love.load()
     img:SetColor(1,1,1,1)
     img.ZIndex = -1
     
-    scroll = scrollable:New(nil, myScreen, "horizontal")
+    scroll = scrollable:New(nil, myScreen, "vertical")
     scroll:SetPosition(0,10,0,10)
     scroll:SetSize(0.3,0,0.6,0)
     scroll:SetPadding(0,20,0,20)
+    scroll:SetScrollSize(4, 0)
     scroll.MaskChildren = true
     scroll.ZIndex = -1
     
