@@ -89,14 +89,36 @@ function guiBase:New(o, screen)
                 pYOffset = pYOffset + gridYOffset
                 -- TODO: align stuff
                 if o.Parent.Direction == "horizontal" then
-                    
-                elseif o.Parent.Direction == "vertical" then
-                    local excessOffset = sizeHeight - (o.Size.YScale * sizeHeight + o.Size.YOffset) * o.Parent.GridSize - (o.Parent.GridPadding) * (o.Parent.GridSize - 1)
+                    local rows = math.ceil(#o.Parent.Children / o.Parent.GridSize)
+                    print("w" , sizeWidth)
+                    local excessOffsetY = sizeHeight - (o.Size.YScale * sizeHeight + o.Size.YOffset) * rows - (o.Parent.GridPadding) * (rows - 1)
+                    local excessOffsetX = sizeWidth - (o.Size.XScale * sizeWidth + o.Size.XOffset) * o.Parent.GridSize - (o.Parent.GridPadding) * (o.Parent.GridSize - 1)
 
-                    if o.Parent.Align == "center" then
-                        pYOffset = pYOffset + excessOffset / 2
-                    elseif o.Parent.Align == "bottom" then
-                        pYOffset = pYOffset + excessOffset
+                    if o.Parent.VerticalAlignment == "center" then
+                        pYOffset = pYOffset + excessOffsetY / 2
+                    elseif o.Parent.VerticalAlignment == "bottom" then
+                        pYOffset = pYOffset + excessOffsetY
+                    end
+
+                    if o.Parent.HorizontalAlignment == "center" then
+                        pXOffset = pXOffset + excessOffsetX / 2
+                    elseif o.Parent.HorizontalAlignment == "right" then
+                        pXOffset = pXOffset + excessOffsetX
+                    end
+                elseif o.Parent.Direction == "vertical" then
+                    local cols = math.ceil(#o.Parent.Children / o.Parent.GridSize)
+                    local excessOffsetY = sizeHeight - (o.Size.YScale * sizeHeight + o.Size.YOffset) * o.Parent.GridSize - (o.Parent.GridPadding) * (o.Parent.GridSize - 1)
+                    local excessOffsetX = sizeWidth - (o.Size.XScale * sizeWidth + o.Size.XOffset) * cols - (o.Parent.GridPadding) * (cols - 1)
+                    if o.Parent.VerticalAlignment == "center" then
+                        pYOffset = pYOffset + excessOffsetY / 2
+                    elseif o.Parent.VerticalAlignment == "bottom" then
+                        pYOffset = pYOffset + excessOffsetY
+                    end
+
+                    if o.Parent.HorizontalAlignment == "center" then
+                        pXOffset = pXOffset + excessOffsetX / 2
+                    elseif o.Parent.HorizontalAlignment == "right" then
+                        pXOffset = pXOffset + excessOffsetX
                     end
                 end
 

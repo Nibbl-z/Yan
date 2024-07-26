@@ -3,13 +3,14 @@ local guibase = require("yan.instance.ui.guibase")
 local utils = require("yan.utils")
 grid.__index = guibase
 
-function grid:New(o, screen, padding, align, direction, gridSize)
+function grid:New(o, screen, padding, verticalAlign, horizontalAlign, direction, gridSize)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
     
     o.Type = "Grid"
     o.GridPadding = padding or 0
-    o.Align = align or "left"
+    o.VerticalAlignmenet = verticalAlign or "top"
+    o.HorizontalAlignment = horizontalAlign or "left"
     o.CornerRoundness = 16
     o.Direction = direction or "vertical"
     o.GridSize = gridSize or 4
@@ -27,7 +28,6 @@ function grid:New(o, screen, padding, align, direction, gridSize)
             local currentItem = o.Children[i]
             
             if currentItem ~= nil then
-                print("what the fumk")
                 local _, _, itemX, itemY = currentItem:GetDrawingCoordinates(true)
                 
                 if o.Direction == "vertical" then
@@ -52,9 +52,6 @@ function grid:New(o, screen, padding, align, direction, gridSize)
             end
             gridIndex = gridIndex + 1
         end
-
-        
-        
         
         --[[if o.Parent ~= nil then
             if o.Parent.Type == "Scrollable" then
