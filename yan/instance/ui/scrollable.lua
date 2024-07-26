@@ -40,9 +40,9 @@ function scrollable:New(o, screen, direction)
         
         if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) then
             if o.ScrollDirection == "vertical" then
-                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sY + o.ScrollSize.Offset) * o.ScrollSize.Size) + sY)
+                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sY * o.ScrollSize.Size + o.ScrollSize.Offset)) + sY)
             else
-                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sX + o.ScrollSize.Offset) * o.ScrollSize.Size) + sX)
+                o.ScrollOffset = utils:Clamp(o.ScrollOffset + y * o.ScrollSpeed, 0, -((sX * o.ScrollSize.Size + o.ScrollSize.Offset)) + sX)
             end   
         end
     end
@@ -55,14 +55,12 @@ function scrollable:New(o, screen, direction)
         
         if o.ScrollbarVisible == true then
             love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
-            
-            
 
             if o.ScrollDirection == "vertical" then
                 local scrollbarSize = (sY * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
-                local maxY = sY + scrollbarSize 
+                local maxY = sY
                 
-                print(scrollbarSize, maxY, sY, o.ScrollOffset, ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset))
+                print("THIS IS", math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset))
 
                 love.graphics.rectangle(
                     "fill", 

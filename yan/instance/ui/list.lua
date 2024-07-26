@@ -17,7 +17,7 @@ function list:New(o, screen, padding, align, direction)
         if #o.Children == 0 then return 0 end
         
         if element.LayoutOrder == 1 then return 0 end
-
+        
         local totalOffset = 0
         
         for i = 1, element.LayoutOrder - 1 do
@@ -33,9 +33,6 @@ function list:New(o, screen, padding, align, direction)
                 end
             end
         end
-
-        
-        
         
         --[[if o.Parent ~= nil then
             if o.Parent.Type == "Scrollable" then
