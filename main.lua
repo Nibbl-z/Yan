@@ -67,18 +67,18 @@ function love.load()
     
     imgButton.ZIndex = -2
 
-    img = image:New(nil, myScreen, "/examples/baloon.jpg")
+    --[[img = image:New(nil, myScreen, "/examples/baloon.jpg")
     img:SetPosition(0.5,0,0.5,0)
     img:SetSize(0.3,0,0.3,0)
     img:SetAnchorPoint(0.5,0,0.5,0)
     img:SetColor(1,1,1,1)
-    img.ZIndex = -1
+    img.ZIndex = -1]]
     
     scroll = scrollable:New(nil, myScreen, "vertical")
     scroll:SetPosition(0,10,0,10)
     scroll:SetSize(0.3,0,0.6,0)
     scroll:SetPadding(0,20,0,20)
-    scroll:SetScrollSize(4, 0)
+    scroll:SetScrollSize(10, 100)
     scroll.MaskChildren = true
     scroll.ZIndex = -1
     
@@ -113,7 +113,7 @@ function love.load()
     button.ZIndex = 3
     
     
-    img.MaskChildren = true
+   -- img.MaskChildren = true
     
     childImage = image:New(nil, myScreen, "examples/nibblabunga.png")
     childImage:SetSize(0,100,0,100)

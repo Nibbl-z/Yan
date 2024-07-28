@@ -55,35 +55,26 @@ function scrollable:New(o, screen, direction)
         
         if o.ScrollbarVisible == true then
             love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
-
+            
             if o.ScrollDirection == "vertical" then
                 local scrollbarSize = (sY * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
-                local maxY = sY
-                
-                print("THIS IS", math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset))
+                local maxY = sY - scrollbarSize
 
                 love.graphics.rectangle(
                     "fill", 
                     pX + sX - o.ScrollbarWidth, 
-                    pY + maxY * (math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sY) + o.ScrollSize.Offset)),
+                    pY + maxY * (math.abs(o.ScrollOffset) / (((o.ScrollSize.Size * sY) + o.ScrollSize.Offset) - sY)),
                     o.ScrollbarWidth, 
                     scrollbarSize,
                     8
                 ) 
             else
                 local scrollbarSize = (sX * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
-                local maxX = sX + scrollbarSize
+                local maxX = sX - scrollbarSize
 
-                love.graphics.rectangle("fill", 
-                pX - o.ScrollOffset / (o.ScrollSize.Size), 
-                pY + sY - o.ScrollbarWidth,
-                sX / (o.ScrollSize.Size) + (o.ScrollSize.Offset),
-                o.ScrollbarWidth, 
-                8)
-                
                 love.graphics.rectangle(
                     "fill", 
-                    pX + maxX * (math.abs(o.ScrollOffset) / ((o.ScrollSize.Size * sX) + o.ScrollSize.Offset)),
+                    pX + maxX * (math.abs(o.ScrollOffset) / (((o.ScrollSize.Size * sX) + o.ScrollSize.Offset) - sX)),
                     pY + sY - o.ScrollbarWidth,
                     scrollbarSize,
                     o.ScrollbarWidth,
