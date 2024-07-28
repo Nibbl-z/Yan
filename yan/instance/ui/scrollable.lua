@@ -20,6 +20,9 @@ function scrollable:New(o, screen, direction)
     o.ScrollbarSize = {Size = 0.3, Offset = 0}
     o.ScrollDirection = direction
 
+    o.ScrollbarDrawPosition = {X = 0, Y = 0}
+    o.ScrollbarDrawSize = {}
+
     o.MaskChildren = true
 
     function o:SetScrollbarColor(r, g, b, a)
@@ -31,7 +34,7 @@ function scrollable:New(o, screen, direction)
     function o:SetScrollSize(size, offset)
         o.ScrollSize = {Size = size, Offset = offset}
     end
-
+    
     function o:WheelMoved(x, y)
         if o.Scrollable == false then return end
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
@@ -59,6 +62,16 @@ function scrollable:New(o, screen, direction)
             if o.ScrollDirection == "vertical" then
                 local scrollbarSize = (sY * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
                 local maxY = sY - scrollbarSize
+                
+                o.ScrollbarDrawPosition = {
+                    X = pX + sX - o.ScrollbarWidth,
+                    Y = pY + maxY * (math.abs(o.ScrollOffset) / (((o.ScrollSize.Size * sY) + o.ScrollSize.Offset) - sY))
+                }
+                
+                o.ScrollbarDrawSize = {
+                    X = o.ScrollbarWidth,
+                    Y = scrollbarSize
+                }
 
                 love.graphics.rectangle(
                     "fill", 
@@ -72,6 +85,16 @@ function scrollable:New(o, screen, direction)
                 local scrollbarSize = (sX * o.ScrollbarSize.Size) + o.ScrollbarSize.Offset
                 local maxX = sX - scrollbarSize
 
+                o.ScrollbarDrawPosition = {
+                    X = pX + maxX * (math.abs(o.ScrollOffset) / (((o.ScrollSize.Size * sX) + o.ScrollSize.Offset) - sX)),
+                    Y =  pY + sY - o.ScrollbarWidth
+                }
+                
+                o.ScrollbarDrawSize = {
+                    X = scrollbarSize,
+                    Y = o.ScrollbarWidth
+                }
+                
                 love.graphics.rectangle(
                     "fill", 
                     pX + maxX * (math.abs(o.ScrollOffset) / (((o.ScrollSize.Size * sX) + o.ScrollSize.Offset) - sX)),

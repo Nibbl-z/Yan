@@ -24,8 +24,9 @@ function screen:New(o)
     local clicked = {}
     
     local function ClickableCheck(clickable, element)
+        if element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" then return false end
         local isDown = love.mouse.isDown(1)
-        
+
         if clickable then
             if utils:TableFind(hovered, element) == false then
                 if element.MouseEnter ~= nil then
@@ -113,6 +114,8 @@ function screen:New(o)
                 element.IsTyping = false
             end
         end
+
+        return true
     end
 
     function o:Update()
@@ -121,28 +124,25 @@ function screen:New(o)
         local interactableElements = {}
         
         for _, element in ipairs(o.Elements) do
-            if element.Type == "TextButton" or element.Type == "ImageButton" or element.Type == "TextInput" then
-                local pX, pY, sX, sY = element:GetDrawingCoordinates()
-        
-                if element.Parent ~= nil then
-                    if element.Parent.MaskChildren == true then
-                        local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
-                        if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
-                            if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
-                                table.insert(interactableElements, element)
-                            end  
-                        else
-                            ClickableCheck(false, element)
-                        end
-                    end
-                else
-                    if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
-                        table.insert(interactableElements, element)
+            local pX, pY, sX, sY = element:GetDrawingCoordinates()
+    
+            if element.Parent ~= nil then
+                if element.Parent.MaskChildren == true then
+                    local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
+                    if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
+                        if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
+                            table.insert(interactableElements, element)
+                        end  
                     else
                         ClickableCheck(false, element)
-                    end  
+                    end
                 end
-                
+            else
+                if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
+                    table.insert(interactableElements, element)
+                else
+                    ClickableCheck(false, element)
+                end  
             end
         end
         
@@ -153,11 +153,18 @@ function screen:New(o)
         if #interactableElements >= 1 then
             local element = interactableElements[1]
             local pX, pY, sX, sY = element:GetDrawingCoordinates()
-        
-            ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), element)
+            local falsify = false
 
-            for i = 2, #interactableElements do
-                ClickableCheck(false, interactableElements[i])
+            for i, v in ipairs(interactableElements) do
+                if falsify then
+                    ClickableCheck(false, v)
+                else
+                    local result = ClickableCheck(utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY), v)
+                
+                    if result == true then
+                        falsify = true
+                    end
+                end
             end
         end
 
@@ -186,7 +193,7 @@ function screen:New(o)
             end
         end
     end
-    
+
     function o:Draw()
         if o.Enabled == false then return end
         if o.SceneEnabled == false then return end
@@ -195,7 +202,7 @@ function screen:New(o)
         table.sort(elements, function(a,b) 
             return (a.ZIndex or 0) < (b.ZIndex or 0) 
         end)
-
+        
         for _, element in ipairs(elements) do
             if element.Type ~= "Image" and element.Type ~= "ImageButton" then -- excluding these because they need the stencil in the stencil for rounded corners or whatever
                 element:Stencil()

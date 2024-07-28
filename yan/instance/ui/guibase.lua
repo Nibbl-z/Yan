@@ -90,7 +90,6 @@ function guiBase:New(o, screen)
                 -- TODO: align stuff
                 if o.Parent.Direction == "horizontal" then
                     local rows = math.ceil(#o.Parent.Children / o.Parent.GridSize)
-                    print("w" , sizeWidth)
                     local excessOffsetY = sizeHeight - (o.Size.YScale * sizeHeight + o.Size.YOffset) * rows - (o.Parent.GridPadding) * (rows - 1)
                     local excessOffsetX = sizeWidth - (o.Size.XScale * sizeWidth + o.Size.XOffset) * o.Parent.GridSize - (o.Parent.GridPadding) * (o.Parent.GridSize - 1)
 

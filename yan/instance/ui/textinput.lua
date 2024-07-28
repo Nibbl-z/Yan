@@ -47,7 +47,6 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
         if o.IsTyping == false then return end
 
         o.Text = o.Text..t
-        print(o.Text)
     end
 
     function o:KeyPressed(key, scancode, rep)

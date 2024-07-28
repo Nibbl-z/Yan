@@ -47,8 +47,6 @@ function grid:New(o, screen, padding, verticalAlign, horizontalAlign, direction,
                         xOffset = 0
                     end
                 end
-
-                print(xOffset, yOffset)
             end
             gridIndex = gridIndex + 1
         end

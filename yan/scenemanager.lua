@@ -18,7 +18,6 @@ function scenemgr:SetSceneEnabled(sceneName, enabled)
     self.Scenes[sceneName].Enabled = enabled
 
     for _, instance in ipairs(self.Scenes[sceneName].Instances) do
-        print(instance.Name, instance.Type)
         instance.SceneEnabled = enabled
     end
 end
