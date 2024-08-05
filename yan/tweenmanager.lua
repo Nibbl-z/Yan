@@ -46,14 +46,13 @@ local EasingFuncs = {
     [EasingStyle.SineIn] = function (x)
         return 1 - math.cos((x * math.pi) / 2)
     end,
-
     [EasingStyle.SineOut] = function (x)
         return math.sin((x * math.pi))
     end,
-
     [EasingStyle.SineInOut] = function (x)
         return -(math.cos(math.pi * x) - 1) / 2
     end,
+
     [EasingStyle.CubicIn] = function (x)
         return x ^ 3
     end,
@@ -62,7 +61,31 @@ local EasingFuncs = {
     end,
     [EasingStyle.CubicInOut] = function (x)
         return (x < 0.5) and 4 * (x ^ 3) or 1 - math.pow(-2 * x + 2, 3) / 2
+    end,
+    
+    [EasingStyle.QuintIn] = function (x)
+        return x ^ 5
+    end,
+    [EasingStyle.QuintOut] = function (x)
+        return 1 - math.pow(1 - x, 5)
+    end,
+    [EasingStyle.QuintInOut] = function (x)
+        return (x < 0.5) and 16 * (x ^ 5) or 1 - math.pow(-2 * x + 2, 5) / 2
+    end,
+
+    [EasingStyle.CircularIn] = function (x)
+        print(1 - math.sqrt(1 - math.pow(x, 2)))
+        return 1 - math.sqrt(1 - x ^ 2)
+    end,
+    [EasingStyle.CircularOut] = function (x)
+        return math.sqrt(1 - math.pow(x - 1, 2))
+    end,
+    [EasingStyle.CircularInOut] = function (x)
+        return x < 0.5
+        and (1 - math.sqrt(1 - math.pow(2 * x, 2))) / 2
+        or (math.sqrt(1 - math.pow(-2 * x + 2, 2)) + 1) / 2;
     end
+
 }
 
 local function UpdateTween(tween, dt)

@@ -33,7 +33,7 @@ function love.load()
     testButton.CornerRoundness = 0
     testButton.Color = Color.new(1,1,1,1)
     
-    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2, EasingStyle.CubicInOut), {
+    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2, EasingStyle.CircularIn), {
         Position = UIVector2.new(0.3,0,0.3,0), 
         Size = UIVector2.new(0.5,0,0.5,0), 
         CornerRoundness = 32,

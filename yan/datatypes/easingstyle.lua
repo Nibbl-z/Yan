@@ -7,7 +7,15 @@ local EasingStyle = {
 
     CubicIn = "CubicIn",
     CubicOut = "CubicOut",
-    CubicInOut = "CubicInOut"
-}
+    CubicInOut = "CubicInOut",
+
+    QuintIn = "QuintIn",
+    QuintOut = "QuintOut",
+    QuintInOut = "QuintInOut",
+    
+    CircularIn = "CircularIn",
+    CircularOut = "CircularOut",
+    CircularInOut = "CircularInOut"
+  }
 
 return EasingStyle
