@@ -42,6 +42,7 @@ function tweenmanager:Update(dt)
             tween.Progress = tween.TimePosition / tween.TweenInfo.Duration
             
             for key, value in pairs(tween.Goal) do
+                print(tostring(value))
                 tween.Instance[key] = tween.OriginalProperties[key] + (value - tween.OriginalProperties[key]) * tween.Progress
             end
 

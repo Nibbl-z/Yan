@@ -3,32 +3,19 @@ local instance = require("yan.instance.instance")
 guiBase.__index = instance
 
 local utils = require("yan.utils")
+local UIVector2 = require("yan.datatypes.uivector2")
 
 function guiBase:New(o, screen)
     o = o or instance:New(o)
     setmetatable(o, self)
     
     o.Type = "GuiBase"
-    o.Position = {
-        XOffset = o.Position.X,
-        XScale = 0,
-        YOffset = o.Position.Y,
-        YScale = 0
-    }
+
+    o.Position = UIVector2.new(o.Position.X, 0, o.Position.Y, 0)
     
-    o.Size = {
-        XOffset = o.Size.X,
-        XScale = 0,
-        YOffset = o.Size.Y,
-        YScale = 0
-    }
+    o.Size = UIVector2.new(o.Size.X, 0, o.Size.Y, 0)
     
-    o.Padding = {
-        XOffset = 0,
-        XScale = 0,
-        YOffset = 0,
-        YScale = 0
-    }
+    o.Padding = UIVector2.new(0,0,0,0)
 
     o.AnchorPoint = {X = 0, Y = 0}
     o.ZIndex = 1
@@ -131,14 +118,13 @@ function guiBase:New(o, screen)
             sizeHeight = sizeHeight - (o.Parent.Padding.YOffset + (sizeHeight * o.Parent.Padding.YScale)) * 2
         end
 
-        
+      
         
         local sX = o.Size.XScale * sizeWidth + o.Size.XOffset
         local sY = o.Size.YScale * sizeHeight + o.Size.YOffset
         
         local pX = (o.Position.XScale * sizeWidth - sX * o.AnchorPoint.X) + o.Position.XOffset + pXOffset
         local pY = (o.Position.YScale * sizeHeight - sY * o.AnchorPoint.Y) + o.Position.YOffset + pYOffset
-        
         return pX, pY, sX, sY
     end
     

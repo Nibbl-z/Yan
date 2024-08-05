@@ -14,7 +14,7 @@ local tweenManager = require("yan.tweenmanager")
 local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
 local grid = require("yan.instance.ui.grid")
-
+local UIVector2 = require("yan.datatypes.uivector2")
 function love.load()
     love.window.setMode(800, 600, {resizable = true})
     
@@ -22,12 +22,12 @@ function love.load()
     myScreen.Enabled = true
     
     testButton = textButton:New(nil, myScreen, "HAI!", 32, "center", "center")
-    testButton:SetPosition(0.5,0,0.5,0)
+    testButton.Position = UIVector2.new(0.2,0,0.2,0)
     testButton:SetAnchorPoint(0.5,0.5)
-    testButton:SetSize(0.3,0,0.3,0)
+    testButton.Size = UIVector2.new(0.3,0,0.3,0)
     testButton.CornerRoundness = 0
-
-    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(3), {CornerRoundness = 64})
+    
+    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2), {Position = UIVector2.new(0.7,0,0.7,0), Size = UIVector2.new(0.5,0,0.5,0), CornerRoundness = 32})
 
     testButton.MouseDown = function ()
         myTween:Play()
