@@ -4,6 +4,7 @@ guiBase.__index = instance
 
 local utils = require("yan.utils")
 local UIVector2 = require("yan.datatypes.uivector2")
+local Vector2 = require("yan.datatypes.vector2")
 
 function guiBase:New(o, screen)
     o = o or instance:New(o)
@@ -17,7 +18,7 @@ function guiBase:New(o, screen)
     
     o.Padding = UIVector2.new(0,0,0,0)
 
-    o.AnchorPoint = {X = 0, Y = 0}
+    o.AnchorPoint = Vector2.new(0, 0)
     o.ZIndex = 1
     o.LayoutOrder = 1
     
@@ -151,39 +152,6 @@ function guiBase:New(o, screen)
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
         love.graphics.rectangle("line", pX, pY, sX, sY)
-    end
-
-    function o:SetPosition(xS, xO, yS, yO)
-        o.Position = {
-            XOffset = xO,
-            XScale = xS,
-            YOffset = yO,
-            YScale = yS
-        }
-    end
-    
-    function o:SetSize(xS, xO, yS, yO)
-        o.Size = {
-            XOffset = xO,
-            XScale = xS,
-            YOffset = yO,
-            YScale = yS
-        }
-    end
-
-    function o:SetAnchorPoint(x, y)
-        o.AnchorPoint = {
-                X = x, Y = y
-        } 
-    end
-
-    function o:SetPadding(xS, xO, yS, yO)
-        o.Padding = {
-            XOffset = xO,
-            XScale = xS,
-            YOffset = yO,
-            YScale = yS
-        }
     end
     
     function o:SetParent(element)

@@ -3,7 +3,7 @@ local guibase = require("yan.instance.ui.guibase")
 textinput.__index = guibase
 
 local utf8 = require("utf8")
-
+local Color = require("yan.datatypes.color")
 function textinput:New(o, screen, placeholderText, textSize, align, verticalAlign, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
@@ -23,25 +23,9 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
         o.Font = love.graphics.newFont(o.TextSize)
     end
     
-    o.TextColor = {
-        R = 1, G = 1, B = 1, A = 1
-    }
+    o.TextColor = Color.new(1,1,1,1)
 
-    o.PlaceholderTextColor = {
-        R = 0.5, G = 0.5, B = 0.5, A = 1
-    }
-
-    function o:SetTextColor(r, g, b, a)
-        o.TextColor = {
-            R = r, G = g, B = b, A = a
-        }
-    end
-    
-    function o:SetPlaceholderTextColor(r, g, b, a)
-        o.PlaceholderTextColor = {
-            R = r, G = g, B = b, A = a
-        }
-    end
+    o.PlaceholderTextColor = Color.new(0.5,0.5,0.5,1)
     
     function o:TextInput(t)
         if o.IsTyping == false then return end

@@ -14,7 +14,11 @@ local tweenManager = require("yan.tweenmanager")
 local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
 local grid = require("yan.instance.ui.grid")
+
 local UIVector2 = require("yan.datatypes.uivector2")
+local Vector2 = require("yan.datatypes.vector2")
+
+
 function love.load()
     love.window.setMode(800, 600, {resizable = true})
     
@@ -23,7 +27,7 @@ function love.load()
     
     testButton = textButton:New(nil, myScreen, "HAI!", 32, "center", "center")
     testButton.Position = UIVector2.new(0.2,0,0.2,0)
-    testButton:SetAnchorPoint(0.5,0.5)
+    testButton.AnchorPoint = Vector2.new(0.5, 0.5)
     testButton.Size = UIVector2.new(0.3,0,0.3,0)
     testButton.CornerRoundness = 0
     

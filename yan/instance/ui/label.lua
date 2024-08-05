@@ -2,6 +2,8 @@ local label = {}
 local guibase = require("yan.instance.ui.guibase")
 label.__index = guibase
 
+local Color = require("yan.datatypes.color")
+
 function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
@@ -18,15 +20,7 @@ function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
         o.Font = love.graphics.newFont(o.TextSize)
     end
     
-    o.TextColor = {
-        R = 0, G = 0, B = 0, A = 1
-    }
-
-    function o:SetTextColor(r, g, b, a)
-        o.TextColor = {
-            R = r, G = g, B = b, A = a
-        }
-    end
+    o.TextColor = Color.new(0,0,0,1)
     
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()

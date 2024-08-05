@@ -5,31 +5,28 @@ instance.Rotation = 0
 instance.Size = {X = 1, Y = 1}
 instance.Sprite = nil]]
 
+local Vector2 = require("yan.datatypes.vector2")
+local Color = require("yan.datatypes.color")
+
 function instance:New(o, name)
     o = o or {
         Name = name,
-        Position = {X = 0, Y = 0},
+        Position = Vector2.new(0,0),
         Rotation = 0,
-        Size = {X = 1, Y = 1},
-        Offset = {X = 0, Y = 0},
+        Size = Vector2.new(1,1),
+        Offset = Vector2.new(0,0),
         Sprite = nil,
         Shape = nil,
-        Color = {R = 1, G = 1, B = 1, A = 1},
+        Color = Color.new(1,1,1,1),
         Type = "Instance",
         Scene = nil,
         SceneEnabled = true
     }
     setmetatable(o, self)
-
+    
     if name == nil then
         math.randomseed(love.timer.getTime())
         o.Name = tostring(love.timer.getTime() * 1000 * math.random(1,1000))
-    end
-    
-    function o:SetColor(r, g, b, a)
-        o.Color = {
-            R = r, G = g, B = b, A = a
-        }
     end
 
     return o

@@ -4,7 +4,8 @@ local utils = require("yan.utils")
 scrollable.__index = guibase
 
 local UIVector = require("yan.datatypes.uivector")
-
+local Color = require("yan.datatypes.color")
+local Vector2 = require("yan.datatypes.vector2")
 function scrollable:New(o, screen, direction)
     o = o or guibase:New(o, screen)
     setmetatable(o, self)
@@ -17,21 +18,15 @@ function scrollable:New(o, screen, direction)
     o.ScrollSize = UIVector.new(2,0)
     
     o.ScrollbarVisible = true 
-    o.ScrollbarColor = {R = 0, G = 0, B = 0, A = 0.5}
+    o.ScrollbarColor = Color.new(0, 0, 0, 0.5)
     o.ScrollbarWidth = 16
     o.ScrollbarSize = UIVector.new(0.3,0)
     o.ScrollDirection = direction
     
-    o.ScrollbarDrawPosition = {X = 0, Y = 0}
+    o.ScrollbarDrawPosition = Vector2.new(0,0)
     o.ScrollbarDrawSize = {}
 
     o.MaskChildren = true
-    
-    function o:SetScrollbarColor(r, g, b, a)
-        o.ScrollbarColor = {
-            R = r, G = g, B = b, A = a
-        }
-    end
 
     function o:WheelMoved(x, y)
         if o.Scrollable == false then return end
