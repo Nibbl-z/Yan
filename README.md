@@ -5,7 +5,8 @@ Yan is a simple instance/UI library for Love2D
 - Position and scale UI elements relative to the window size
 - UI elements can be parented to other UI elements to make their positioning relative to the parent
 - Add instances to scenes, which can be enabled and disabled
-- Several UI elements, including text labels, buttons, images, lists, and text input fields
+- Theming system to easily add colors and hovering/click effects to several different UI elements.
+- Several UI elements, including text labels, buttons, images, lists, grids, scrollables, and text input fields
 
 ### How to use
 Download the `yan` folder and put it into your Love2D project. 
@@ -33,7 +34,24 @@ text:SetColor(0,1,0,1)
 text.ZIndex = 1
 ```
 
-To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the screen, which will draw all the UI elements based on their ZIndex for you.
+To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the `UIManager` module, which will draw all UI elements across all screens at once.
+With the `UIManager` module, you'll also need to call some other functions for certain UI elements to function. 
+
+```lua
+local uiManager = require("yan.uimanager")
+
+function love.keypressed(key, scancode, rep)
+    uiManager:KeyPressed(key, scancode, rep)
+end
+
+function love.textinput(t)
+    uiManager:TextInput(t)
+end
+
+function love.wheelmoved(x, y)
+    uiManager:WheelMoved(x, y)
+end
+```
 
 To add instances to a scene, create a new scene with `SceneManager:NewScene()`, then add the instances to the scene with `SceneManager:AddToScene()`, for example:
 ```lua
