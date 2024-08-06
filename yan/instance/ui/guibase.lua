@@ -131,8 +131,10 @@ function guiBase:New(o, screen)
     
     function o:Stencil(parent)
         if parent == nil then
-            parent = o.Parent
+            return
         end
+
+        
         
         if parent then
             if parent.MaskChildren == true then

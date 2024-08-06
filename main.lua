@@ -14,6 +14,7 @@ local tweenManager = require("yan.tweenmanager")
 local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
 local grid = require("yan.instance.ui.grid")
+local frame = require("yan.instance.ui.frame")
 local dropdown = require("yan.instance.ui.dropdown")
 local slider = require("yan.instance.ui.slider")
 local UIVector2 = require("yan.datatypes.uivector2")
@@ -64,6 +65,11 @@ function love.load()
     mySlider2.Position = UIVector2.new(0.8, 10, 0.4, 0)
     mySlider2.Size = UIVector2.new(0.05,0,0.4,0)
     mySlider2.Direction = "vertical"
+    
+    mySlider2.MouseDown = function ()
+        print("hai")
+    end
+    
     myDropdown.ItemMouseEnter = function (element)
         mySlider.Style = "fill"
         mySlider2.Style = "fill"
@@ -84,6 +90,14 @@ function love.load()
     myDropdown.ItemMouseUp = function (element)
         myTween2:Play()
     end
+
+    awesomeFrame = frame:New(myScreen)
+    awesomeFrame.Position = UIVector2.new(0.2, 0, 0.2, 0)
+    awesomeFrame.Size = UIVector2.new(0.5, 0, 0.5, 0)
+    awesomeFrame.ZIndex = -1
+    awesomeFrame.Color = Color.new(1,0,0,0.5)
+
+    testButton:SetParent(awesomeFrame)
 end
 
 function love.update(dt)
