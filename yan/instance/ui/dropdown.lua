@@ -55,7 +55,7 @@ function dropdown:New(screen, defaultElement, elementList)
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.Color:GetColors())
         
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         

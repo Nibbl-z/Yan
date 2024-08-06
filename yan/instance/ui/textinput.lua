@@ -60,7 +60,7 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.Color:GetColors())
         
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
@@ -77,7 +77,7 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
         end
         
         if o.Text == "" and o.IsTyping == false then
-            love.graphics.setColor(o.PlaceholderTextColor.R, o.PlaceholderTextColor.G, o.PlaceholderTextColor.B, o.PlaceholderTextColor.A)
+            love.graphics.setColor(o.PlaceholderTextColor:GetColors())
             love.graphics.printf(
                 o.PlaceholderText, 
                 pX,
@@ -86,7 +86,7 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
                 o.Align
             )
         else
-            love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
+            love.graphics.setColor(o.TextColor:GetColors())
             if o.IsTyping then
                 love.graphics.printf(
                 o.Text .. "|", 
@@ -105,8 +105,6 @@ function textinput:New(o, screen, placeholderText, textSize, align, verticalAlig
             )
             end
         end
-        
-        
         
         love.graphics.setColor(1,1,1,1)
     end

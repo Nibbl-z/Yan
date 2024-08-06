@@ -46,11 +46,11 @@ function scrollable:New(o, screen, direction)
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.Color:GetColors())
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         if o.ScrollbarVisible == true then
-            love.graphics.setColor(o.ScrollbarColor.R, o.ScrollbarColor.G, o.ScrollbarColor.B, o.ScrollbarColor.A)
+            love.graphics.setColor(o.ScrollbarColor:GetColors())
             
             if o.ScrollDirection == "vertical" then
                 local scrollbarSize = (sY * o.ScrollbarSize.Scale) + o.ScrollbarSize.Offset

@@ -26,12 +26,12 @@ function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPat
     function o:Draw()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.Color:GetColors())
         
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         love.graphics.setFont(o.Font)
-        love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
+        love.graphics.setColor(o.TextColor:GetColors())
         
         local yOffset = 0
         

@@ -48,10 +48,10 @@ function slider:New(screen, minValue, maxValue)
             o.WasSliding = false
         end
         
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)        
+        love.graphics.setColor(o.Color:GetColors())        
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
-        love.graphics.setColor(o.SliderColor.R, o.SliderColor.G, o.SliderColor.B, o.SliderColor.A)
+        love.graphics.setColor(o.SliderColor:GetColors())
         if o.Direction == "horizontal" then
             if o.Style == "bar" then
                 love.graphics.rectangle("fill", pX + ((sX - o.SliderSize.Offset) * o.Progress), pY, o.SliderSize.Offset, sY, o.CornerRoundness, o.CornerRoundness)

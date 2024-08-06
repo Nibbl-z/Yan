@@ -26,7 +26,7 @@ function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
         love.graphics.setFont(o.Font)
-        love.graphics.setColor(o.TextColor.R, o.TextColor.G, o.TextColor.B, o.TextColor.A)
+        love.graphics.setColor(o.TextColor:GetColors())
         
         local yOffset = 0
         

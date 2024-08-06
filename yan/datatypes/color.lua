@@ -40,5 +40,8 @@ function Color.__tostring(v)
     return tostring(v.R).." "..tostring(v.G).." "..tostring(v.B).." "..tostring(v.A)
 end
 
+function Color:GetColors()
+    return self.R, self.G, self.B, self.A
+end
 
 return Color

@@ -22,7 +22,7 @@ function imagebutton:New(screen, image)
         love.graphics.stencil(stencilFunc, "replace", 1)
         
         love.graphics.setStencilTest("greater", 0)
-        love.graphics.setColor(o.Color.R, o.Color.G, o.Color.B, o.Color.A)
+        love.graphics.setColor(o.Color:GetColors())
         love.graphics.draw(o.Image, pX, pY, 0, sX / o.Image:getPixelWidth(), sY / o.Image:getPixelHeight())
         
         love.graphics.setColor(1,1,1,1)

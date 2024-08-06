@@ -44,12 +44,7 @@ end
 function instance:Draw()
     if not self.Visible then return end
     if self.SceneEnabled == false then return end
-    love.graphics.setColor(
-        self.Color.R,
-        self.Color.G,
-        self.Color.B,
-        self.Color.A
-    )
+    love.graphics.setColor(self.Color:GetColors())
 
     if self.Sprite ~= nil then
         love.graphics.draw(
