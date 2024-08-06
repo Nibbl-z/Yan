@@ -25,7 +25,7 @@ function screen:New(o)
     
     local function ClickableCheck(clickable, element)
         if element.IsDropdownElement ~= true then
-            if (element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown") then return false end
+            if (element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown" and element.Type ~= "Slider") then return false end
         end
         
         
@@ -149,10 +149,8 @@ function screen:New(o)
         for _, element in ipairs(o.Elements) do
             local pX, pY, sX, sY = element:GetDrawingCoordinates()
             
-            if element.Parent ~= nil then
-                
-                if element.Parent.MaskChildren == true then
-                    
+            if element.Parent ~= nil and element.Parent.MaskChildren == true then
+
                     local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
                     if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
                        
@@ -162,7 +160,7 @@ function screen:New(o)
                     else
                         ClickableCheck(false, element)
                     end
-                end
+            
             else
                 if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
                     table.insert(interactableElements, element)

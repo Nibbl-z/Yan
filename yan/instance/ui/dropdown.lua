@@ -24,13 +24,14 @@ function dropdown:New(screen, defaultElement, elementList)
     o.ItemsScrollable.MaskChildren = true
     o.ItemsScrollable.Visible = false
     o.ItemsList.Visible = false
-    o.ItemsScrollable.ScrollSize = UIVector.new(3,0)
+    o.DropdownContentSize = UIVector.new(3, 0)
+    o.ItemsScrollable.ScrollSize = o.DropdownContentSize
     o.DropdownSize = UIVector.new(0.4, 0)
+    
 
     o.ItemsScrollable.ZIndex = o.ZIndex + 1
     o.ItemsList.ZIndex = o.ZIndex + 2
     o.ItemsList.Color = Color.new(0,0,0,0)
-    o.ItemsList.MaskChildren = true
     
     o.ElementSize = UIVector.new(0,50)
     
@@ -74,6 +75,7 @@ function dropdown:New(screen, defaultElement, elementList)
             o.ItemsScrollable.Position = UIVector2.new(0, pX, 0, pY + sY)
             
             o.ItemsScrollable.Size = UIVector2.new(0, sX, o.DropdownSize.Scale, o.DropdownSize.Offset)
+            o.ItemsScrollable.ScrollSize = o.DropdownContentSize
         else
             for _, element in ipairs(elementList) do
                 element.Visible = false

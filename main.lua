@@ -15,7 +15,7 @@ local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
 local grid = require("yan.instance.ui.grid")
 local dropdown = require("yan.instance.ui.dropdown")
-
+local slider = require("yan.instance.ui.slider")
 local UIVector2 = require("yan.datatypes.uivector2")
 local Vector2 = require("yan.datatypes.vector2")
 local Color = require("yan.datatypes.color")
@@ -29,7 +29,7 @@ function love.load()
     myScreen = screen:New(nil)
     myScreen.Enabled = true
     
-    testButton = textButton:New(nil, myScreen, "HAI!", 32, "center", "center")
+    testButton = textButton:New(nil, myScreen, "HAI!", 32, "left", "top")
     testButton.Position = UIVector2.new(0.5,0,0.5,0)
     testButton.AnchorPoint = Vector2.new(0.5, 0.5)
     testButton.Size = UIVector2.new(0.3,0,0.3,0)
@@ -65,6 +65,10 @@ function love.load()
         end
         print(element.LayoutOrder)
     end
+
+    mySlider = slider:New(myScreen, 0, 100)
+    mySlider.Position = UIVector2.new(0, 10, 0.8, 0)
+    mySlider.Size = UIVector2.new(0.4,0,0.1,0)
 end
 
 function love.update(dt)
