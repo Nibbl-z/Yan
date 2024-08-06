@@ -24,6 +24,7 @@ function screen:New(o)
     local clicked = {}
     
     local function ClickableCheck(clickable, element)
+        if element.Visible == false then return end
         if element.IsDropdownElement ~= true then
             if (element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown" and element.Type ~= "Slider") then return false end
         end
@@ -34,6 +35,12 @@ function screen:New(o)
 
         if clickable then
             if utils:TableFind(hovered, element) == false then
+                if element.IsDropdownElement == true then
+                    if element.Parent.Parent.Dropdown.ItemMouseEnter ~= nil  then
+                        element.Parent.Parent.Dropdown.ItemMouseEnter(element)
+                    end
+                end
+
                 if element.MouseEnter ~= nil then
                     element.MouseEnter()
                 end
@@ -49,12 +56,12 @@ function screen:New(o)
                 if isDown then
                     
                     if element.IsDropdownElement == true then
-                        if element.Parent.Parent.Dropdown.ItemClicked ~= nil  then
-                            element.Parent.Parent.Dropdown.ItemClicked(element)
+                        if element.Parent.Parent.Dropdown.ItemMouseDown ~= nil  then
+                            element.Parent.Parent.Dropdown.ItemMouseDown(element)
                         end
                         
                         element.Parent.Parent.Dropdown.IsOpened = false
-
+                        
                         table.insert(clicked, element)
                     end
 
@@ -86,6 +93,12 @@ function screen:New(o)
                 end
             elseif utils:TableFind(clicked, element) ~= false then
                 if not isDown then
+                    if element.IsDropdownElement == true then
+                        if element.Parent.Parent.Dropdown.ItemMouseUp ~= nil  then
+                            element.Parent.Parent.Dropdown.ItemMouseUp(element)
+                        end
+                    end
+
                     if element.MouseUpDefault ~= nil then
                         element.MouseUpDefault()
                     end
@@ -110,6 +123,12 @@ function screen:New(o)
         else
             if utils:TableFind(hovered, element) ~= false then
                 if utils:TableFind(clicked, element) ~= false then
+                    if element.IsDropdownElement == true then
+                        if element.Parent.Parent.Dropdown.ItemMouseUp ~= nil  then
+                            element.Parent.Parent.Dropdown.ItemMouseUp(element)
+                        end
+                    end
+
                     if element.MouseUpDefault ~= nil then
                         element.MouseUpDefault()
                     end
@@ -120,6 +139,12 @@ function screen:New(o)
                     end
 
                     
+                end
+                
+                if element.IsDropdownElement == true then
+                    if element.Parent.Parent.Dropdown.ItemMouseLeave ~= nil  then
+                        element.Parent.Parent.Dropdown.ItemMouseLeave(element)
+                    end
                 end
 
                 if element.MouseLeave ~= nil then

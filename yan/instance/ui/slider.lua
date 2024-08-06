@@ -38,12 +38,12 @@ function slider:New(screen, minValue, maxValue)
     function o:Draw()
         local mX, mY = love.mouse.getPosition()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
-
+        
         if love.mouse.isDown(1) and (utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) or o.WasSliding) then
             o.WasSliding = true
             o.Slide(mX, mY)
         end
-
+        
         if not love.mouse.isDown(1) then
             o.WasSliding = false
         end

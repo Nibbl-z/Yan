@@ -64,15 +64,25 @@ function love.load()
     mySlider2.Position = UIVector2.new(0.8, 10, 0.4, 0)
     mySlider2.Size = UIVector2.new(0.05,0,0.4,0)
     mySlider2.Direction = "vertical"
-    myDropdown.ItemClicked = function (element)
-        if element.LayoutOrder == 1 then
-            mySlider.Style = "fill"
-            mySlider2.Style = "fill"
-        else
-             mySlider.Style = "bar"
-            mySlider2.Style = "bar"
-        end
+    myDropdown.ItemMouseEnter = function (element)
+        mySlider.Style = "fill"
+        mySlider2.Style = "fill"
+
         print(element.LayoutOrder)
+    end
+
+    myDropdown.ItemMouseLeave = function (element)
+        mySlider.Style = "bar"
+        mySlider2.Style = "bar"
+        print(element.LayoutOrder)
+    end
+
+    myDropdown.ItemMouseDown = function (element)
+        myTween:Play()
+    end
+
+    myDropdown.ItemMouseUp = function (element)
+        myTween2:Play()
     end
 end
 
