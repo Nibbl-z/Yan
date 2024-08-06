@@ -35,12 +35,14 @@ function dropdown:New(screen, defaultElement, elementList)
     
     for i, element in ipairs(elementList) do
         element.Size = UIVector2.new(1, 0, o.ElementSize.Scale, o.ElementSize.Offset)
-        table.insert(o.ElementList, element)
+        
         element.ZIndex = element.ZIndex + 3
         element.LayoutOrder = i
+        element.IsDropdownElement = true
         print(i)
-        element:SetParent(o.ItemsList)
         
+        element:SetParent(o.ItemsList)
+        table.insert(o.ElementList, element)
     end
     
     function o:AddToElementList(element)
@@ -72,7 +74,6 @@ function dropdown:New(screen, defaultElement, elementList)
             o.ItemsScrollable.Position = UIVector2.new(0, pX, 0, pY + sY)
             
             o.ItemsScrollable.Size = UIVector2.new(0, sX, o.DropdownSize.Scale, o.DropdownSize.Offset)
-
         else
             for _, element in ipairs(elementList) do
                 element.Visible = false

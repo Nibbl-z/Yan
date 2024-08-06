@@ -55,6 +55,10 @@ function love.load()
     myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
     myDropdown:ApplyTheme(myTheme)
     myDropdown.ZIndex = 10
+
+    myDropdown.ItemClicked = function (element)
+        print(element.LayoutOrder)
+    end
 end
 
 function love.update(dt)

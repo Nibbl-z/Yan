@@ -24,7 +24,12 @@ function screen:New(o)
     local clicked = {}
     
     local function ClickableCheck(clickable, element)
-        if element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown" then return false end
+        if element.IsDropdownElement ~= true then
+            if (element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown") then return false end
+        end
+
+        
+        
         local isDown = love.mouse.isDown(1)
 
         if clickable then
@@ -42,6 +47,11 @@ function screen:New(o)
             
             if utils:TableFind(clicked, element) == false then
                 if isDown then
+                    if element.IsDropdownElement == true and element.Parent.Parent.ItemClicked ~= nil then
+                        element.Parent.Parent.ItemClicked(element)
+                        element.Parent.Parent.IsOpened = false
+                    end
+
                     if element.MouseDown ~= nil then
                         element.MouseDown()
                         if element.Type == "TextInput" then
@@ -120,10 +130,6 @@ function screen:New(o)
             if isDown and element.Type == "TextInput" then
                 element.IsTyping = false
             end
-
-            if isDown and element.Type == "Dropdown" then
-                element.IsOpened = false
-            end
         end
 
         return true
@@ -136,9 +142,10 @@ function screen:New(o)
         
         for _, element in ipairs(o.Elements) do
             local pX, pY, sX, sY = element:GetDrawingCoordinates()
-    
+            print(element.IsDropdownElement)
             if element.Parent ~= nil then
                 if element.Parent.MaskChildren == true then
+                    
                     local ppX, ppY, psX, psY = element.Parent:GetDrawingCoordinates()
                     if utils:CheckCollision(mX, mY, 1, 1, ppX, ppY, psX, psY) == true then
                         if utils:CheckCollision(mX, mY, 1, 1, pX, pY, sX, sY) == true then
@@ -162,11 +169,13 @@ function screen:New(o)
         end)
 
         if #interactableElements >= 1 then
-            local element = interactableElements[1]
-            local pX, pY, sX, sY = element:GetDrawingCoordinates()
+            
             local falsify = false
-
+            
             for i, v in ipairs(interactableElements) do
+                print(v.IsDropdownElement)
+                --local element = interactableElements[1]
+                local pX, pY, sX, sY = v:GetDrawingCoordinates()
                 if falsify then
                     ClickableCheck(false, v)
                 else
