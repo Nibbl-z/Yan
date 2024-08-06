@@ -33,13 +33,13 @@ function love.load()
     testButton.CornerRoundness = 0
     testButton.Color = Color.new(1,1,1,1)
     
-    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2, EasingStyle.CircularIn), {
+    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2, EasingStyle.ElasticInOut), {
         Position = UIVector2.new(0.3,0,0.3,0), 
         Size = UIVector2.new(0.5,0,0.5,0), 
         CornerRoundness = 32,
         Color = Color.new(0,1,0,1)
     })
-
+    
     testButton.MouseDown = function ()
         myTween:Play()
     end

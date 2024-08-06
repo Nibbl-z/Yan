@@ -15,7 +15,31 @@ local EasingStyle = {
     
     CircularIn = "CircularIn",
     CircularOut = "CircularOut",
-    CircularInOut = "CircularInOut"
-  }
+    CircularInOut = "CircularInOut",
+    
+    QuadIn = "QuadIn",
+    QuadOut = "QuadOut",
+    QuadInOut = "QuadInOut",
+
+    QuartIn = "QuartIn",
+    QuartOut = "QuartOut",
+    QuartInOut = "QuartInOut",
+
+    ExponentialIn = "ExponentialIn",
+    ExponentialOut = "ExponentialOut",
+    ExponentialInOut = "ExponentialInOut",
+    
+    BackIn = "BackIn",
+    BackOut = "BackOut",
+    BackInOut = "BackInOut",
+    
+    ElasticIn = "ElasticIn",
+    ElasticOut = "ElasticOut",
+    ElasticInOut = "ElasticInOut",
+
+    BounceIn = "BounceIn",
+    BounceOut = "BounceOut",
+    BounceInOut = "BounceInOut"
+}
 
 return EasingStyle
