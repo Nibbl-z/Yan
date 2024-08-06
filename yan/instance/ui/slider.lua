@@ -1,7 +1,7 @@
 local slider = {}
 local guibase = require("yan.instance.ui.guibase")
 local Color = require("yan.datatypes.color")
-local UIVector2 = require("yan.datatypes.uivector2")
+local UIVector = require("yan.datatypes.uivector")
 local utils = require("yan.utils")
 
 slider.__index = guibase
@@ -12,22 +12,29 @@ function slider:New(screen, minValue, maxValue)
     o.Progress = 0.5
     o.Value = minValue
     o.CornerRoundness = 8
+    o.Direction = "horizontal"
+    o.Style = "bar"
     
     o.SliderColor = Color.new(0.7,0.7,0.7,0.5)
-    o.SliderSize = UIVector2.new(0,100,1,0)
-    
-    
+    o.SliderSize = UIVector.new(0,50)
 
     o.WasSliding = false
 
     function o.Slide(mX, mY)
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
         
-        o.Progress = utils:Clamp((mX - pX) / sX, 0.0, 1.0)
-        o.Value = minValue + (maxValue - minValue) * o.Progress
+        if o.Direction == "horizontal" then
+            o.Progress = utils:Clamp((mX - pX) / sX, 0.0, 1.0)
+            o.Value = minValue + (maxValue - minValue) * o.Progress
+        else
+            o.Progress = -((utils:Clamp((mY - pY) / sY, 0.0, 1.0)) - 1)
+            print(o.Progress)
+            o.Value = minValue + (maxValue - minValue) * o.Progress
+        end
+        
         print(o.Value)
     end
-
+    
     function o:Draw()
         local mX, mY = love.mouse.getPosition()
         local pX, pY, sX, sY = o:GetDrawingCoordinates()
@@ -45,7 +52,25 @@ function slider:New(screen, minValue, maxValue)
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         love.graphics.setColor(o.SliderColor.R, o.SliderColor.G, o.SliderColor.B, o.SliderColor.A)
-        love.graphics.rectangle("fill", pX + ((sX - o.SliderSize.XOffset) * o.Progress), pY, o.SliderSize.XOffset, sY, o.CornerRoundness, o.CornerRoundness)
+        if o.Direction == "horizontal" then
+            if o.Style == "bar" then
+                love.graphics.rectangle("fill", pX + ((sX - o.SliderSize.Offset) * o.Progress), pY, o.SliderSize.Offset, sY, o.CornerRoundness, o.CornerRoundness)
+            elseif o.Style == "fill" then
+                if o.Progress > 0 then
+                    love.graphics.rectangle("fill", pX, pY, sX * o.Progress, sY, o.CornerRoundness, o.CornerRoundness)
+                end
+            end
+            
+        elseif o.Direction == "vertical" then
+            if o.Style == "bar" then
+                love.graphics.rectangle("fill", pX, pY + ((sY - o.SliderSize.Offset) * -o.Progress) + sY - o.SliderSize.Offset, sX, o.SliderSize.Offset, o.CornerRoundness, o.CornerRoundness)
+            elseif o.Style == "fill" then
+                if o.Progress > 0 then
+                    love.graphics.rectangle("fill", pX, pY + sY * -o.Progress + sY, sX, -(sY * -o.Progress), o.CornerRoundness, o.CornerRoundness)
+                end
+            end
+        end
+        
     end
     
     return o

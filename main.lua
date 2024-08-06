@@ -56,19 +56,24 @@ function love.load()
     myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
     myDropdown:ApplyTheme(myTheme)
     myDropdown.ZIndex = 10
-
+    mySlider = slider:New(myScreen, 0, 100)
+    mySlider.Position = UIVector2.new(0, 10, 0.8, 0)
+    mySlider.Size = UIVector2.new(0.3,0,0.05,0)
+    
+    mySlider2 = slider:New(myScreen, 4, 9)
+    mySlider2.Position = UIVector2.new(0.8, 10, 0.4, 0)
+    mySlider2.Size = UIVector2.new(0.05,0,0.4,0)
+    mySlider2.Direction = "vertical"
     myDropdown.ItemClicked = function (element)
         if element.LayoutOrder == 1 then
-            myTween:Play()
+            mySlider.Style = "fill"
+            mySlider2.Style = "fill"
         else
-            myTween2:Play()
+             mySlider.Style = "bar"
+            mySlider2.Style = "bar"
         end
         print(element.LayoutOrder)
     end
-
-    mySlider = slider:New(myScreen, 0, 100)
-    mySlider.Position = UIVector2.new(0, 10, 0.8, 0)
-    mySlider.Size = UIVector2.new(0.4,0,0.1,0)
 end
 
 function love.update(dt)
