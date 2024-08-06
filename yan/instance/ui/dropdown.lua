@@ -24,7 +24,7 @@ function dropdown:New(screen, defaultElement, elementList)
     o.ItemsScrollable.MaskChildren = true
     o.ItemsScrollable.Visible = false
     o.ItemsList.Visible = false
-    
+    o.ItemsScrollable.ScrollSize = UIVector.new(3,0)
     o.DropdownSize = UIVector.new(0.4, 0)
 
     o.ItemsScrollable.ZIndex = o.ZIndex + 1
@@ -36,7 +36,7 @@ function dropdown:New(screen, defaultElement, elementList)
         
         element.Parent = o.ItemsList
     end
-
+    
     function o:AddToElementList(element)
         table.insert(o.ElementList, element)
 
@@ -51,9 +51,11 @@ function dropdown:New(screen, defaultElement, elementList)
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         if o.IsOpened then
-            defaultElement.Size = UIVector2.new(0, sX, 0, sY)
-            defaultElement.Position = UIVector2.new(0, pX, 0, pY)
-            defaultElement.ZIndex = o.ZIndex + 1
+            if defaultElement ~= nil then
+                defaultElement.Size = UIVector2.new(0, sX, 0, sY)
+                defaultElement.Position = UIVector2.new(0, pX, 0, pY)
+                defaultElement.ZIndex = o.ZIndex + 1
+            end
 
             o.ItemsScrollable.Visible = true
             o.ItemsList.Visible = true
@@ -61,14 +63,15 @@ function dropdown:New(screen, defaultElement, elementList)
             o.ItemsScrollable.Position = UIVector2.new(0, pX, 0, pY + sY)
             
             o.ItemsScrollable.Size = UIVector2.new(0, sX, o.DropdownSize.Scale, o.DropdownSize.Offset)
-            o.ItemsScrollable.ScrollSize = UIVector.new(3,0)
+
         else
             o.ItemsScrollable.Visible = false
             o.ItemsList.Visible = false
-
-            defaultElement.Size = UIVector2.new(0, sX, 0, sY)
-            defaultElement.Position = UIVector2.new(0, pX, 0, pY)
-            defaultElement.ZIndex = o.ZIndex + 1
+            if defaultElement ~= nil then
+                defaultElement.Size = UIVector2.new(0, sX, 0, sY)
+                defaultElement.Position = UIVector2.new(0, pX, 0, pY)
+                defaultElement.ZIndex = o.ZIndex + 1
+            end
         end
         
         love.graphics.setColor(1,1,1,1)

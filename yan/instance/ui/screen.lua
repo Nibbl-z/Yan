@@ -24,7 +24,7 @@ function screen:New(o)
     local clicked = {}
     
     local function ClickableCheck(clickable, element)
-        if element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" then return false end
+        if element.Type ~= "TextButton" and element.Type ~= "ImageButton" and element.Type ~= "TextInput" and element.Type ~= "Dropdown" then return false end
         local isDown = love.mouse.isDown(1)
 
         if clickable then
@@ -47,6 +47,10 @@ function screen:New(o)
                         if element.Type == "TextInput" then
                             element.IsTyping = true
                         end
+                        if element.Type == "Dropdown" then
+                           
+                            element.IsOpened = not element.IsOpened
+                        end
                         
                         table.insert(clicked, element)
                     end
@@ -56,6 +60,9 @@ function screen:New(o)
 
                         if element.Type == "TextInput" then
                             element.IsTyping = true
+                        end
+                        if element.Type == "Dropdown" then
+                            element.IsOpened = not element.IsOpened
                         end
                         
                         if element.MouseDown == nil then table.insert(clicked, element) end
@@ -112,6 +119,10 @@ function screen:New(o)
             
             if isDown and element.Type == "TextInput" then
                 element.IsTyping = false
+            end
+
+            if isDown and element.Type == "Dropdown" then
+                element.IsOpened = false
             end
         end
 

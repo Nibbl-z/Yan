@@ -16,30 +16,6 @@ function thememanager:NewTheme()
 
         CornerRoundness = 16
     }
-    
-    function theme:GetColor()
-        return theme.Color.R, theme.Color.G, theme.Color.B, theme.Color.A
-    end
-
-    function theme:GetHoverColor()
-        return theme.HoverColor.R, theme.HoverColor.G, theme.HoverColor.B, theme.HoverColor.A
-    end
-
-    function theme:GetSelectedColor()
-        return theme.SelectedColor.R, theme.SelectedColor.G, theme.SelectedColor.B, theme.SelectedColor.A
-    end
-
-    function theme:GetTextColor()
-        return theme.TextColor.R, theme.TextColor.G, theme.TextColor.B, theme.TextColor.A
-    end
-
-    function theme:GetPlaceholderTextColor()
-        return theme.PlaceholderTextColor.R, theme.PlaceholderTextColor.G, theme.PlaceholderTextColor.B, theme.PlaceholderTextColor.A
-    end
-
-    function theme:GetScrollbarColor()
-        return theme.ScrollbarColor.R, theme.ScrollbarColor.G, theme.ScrollbarColor.B, theme.ScrollbarColor.A
-    end
 
     return theme
 end

@@ -11,7 +11,7 @@ function scrollable:New(o, screen, direction)
     setmetatable(o, self)
     
     o.Type = "Scrollable"
-    o.CornerRoundness = 16
+    o.CornerRoundness = 0
     
     o.ScrollOffset = 0
     o.ScrollSpeed = 20

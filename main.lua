@@ -24,6 +24,8 @@ local EasingStyle = require("yan.datatypes.easingstyle")
 function love.load()
     love.window.setMode(800, 600, {resizable = true})
     
+    myTheme = themeManager:NewTheme()
+
     myScreen = screen:New(nil)
     myScreen.Enabled = true
     
@@ -33,22 +35,26 @@ function love.load()
     testButton.Size = UIVector2.new(0.3,0,0.3,0)
     testButton.CornerRoundness = 0
     testButton.Color = Color.new(1,1,1,1)
-    
+    testButton:ApplyTheme(myTheme)
     myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(1, EasingStyle.ElasticOut), {
         Size = UIVector2.new(0.5,0,0.3,0), 
-        CornerRoundness = 30,
-        Color = Color.new(1,1,1,1)
+        CornerRoundness = 30
     })
     
     testButton.MouseDown = function ()
         myTween:Play()
     end
     
-    testImg = image:New(nil, myScreen, "/examples/baloon.jpg")
+    testImg = image:New(nil, myScreen, "/examples/player.png")
 
-    myDropdown = dropdown:New(myScreen, testImg, {})
+    --testImg2 = image:New(nil, myScreen, "/examples/nibblabunga.png")
+    --testImg3 = image:New(nil, myScreen, "/examples/baloon.jpg")
+
+    myDropdown = dropdown:New(myScreen, testImg, {} --[[{testImg2, testImg3}]])
     myDropdown.Position = UIVector2.new(0, 10, 0, 10)
     myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
+    myDropdown:ApplyTheme(myTheme)
+    myDropdown.ZIndex = 10
 end
 
 function love.update(dt)
@@ -57,19 +63,19 @@ function love.update(dt)
 end
 
 function love.keypressed(key, scancode, rep)
-
+    uiManager:KeyPressed(key, scancode, rep)
 end
 
 function love.textinput(t)
-
+    uiManager:TextInput(t)
 end
 
 function love.wheelmoved(x, y)
-
+    uiManager:WheelMoved(x,y)
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0.5,0.5,0.5,1)
+    love.graphics.setBackgroundColor(0.3,0.3,0.3,1)
     uiManager:Draw()
 end
 

@@ -206,29 +206,29 @@ function guiBase:New(o, screen)
 
     function o:ApplyTheme(theme)
         if o.Type ~= "Image" and o.Type ~= "ImageButton" then
-            o:SetColor(theme:GetColor())
+            o.Color = theme.Color
         end
        
-        if o.Type == "TextButton" or o.Type == "TextInput" then
+        if o.Type == "TextButton" or o.Type == "TextInput" or o.Type == "Dropdown" then
             function o:MouseEnterDefault()
-                o:SetColor(theme:GetHoverColor())
+                o.Color = theme.HoverColor
             end
             
             function o:MouseLeaveDefault()
-                o:SetColor(theme:GetColor())
+                o.Color = theme.Color
             end
     
             function o:MouseDownDefault()
-                o:SetColor(theme:GetSelectedColor())
+                o.Color = theme.SelectedColor
             end
     
             function o:MouseUpDefault()
-                o:SetColor(theme:GetColor())
+                o.Color = theme.Color
             end
         end
 
         if o.Type == "Label" or o.Type == "TextButton" or o.Type == "TextInput" then
-            o:SetTextColor(theme:GetTextColor())
+            o.TextColor = theme.TextColor
 
             if theme.Font ~= nil then
                 o.Font = love.graphics.newFont(theme.Font, o.TextSize)
@@ -236,7 +236,7 @@ function guiBase:New(o, screen)
         end
 
         if o.Type == "TextInput" then
-            o:SetPlaceholderTextColor(theme:GetPlaceholderTextColor())
+            o.PlaceholderTextColor = theme.PlaceholderTextColor
         end
 
         if o.CornerRoundness ~= nil then
@@ -244,7 +244,7 @@ function guiBase:New(o, screen)
         end
 
         if o.Type == "Scrollable" then
-            o:SetScrollbarColor(theme:GetScrollbarColor())
+            o.ScrollbarColor = theme.ScrollbarColor
             o.ScrollbarWidth = theme.ScrollbarWidth
         end
     end
