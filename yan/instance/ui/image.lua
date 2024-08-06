@@ -2,8 +2,8 @@ local imagebutton = {}
 local guibase = require("yan.instance.ui.guibase")
 imagebutton.__index = guibase
 
-function imagebutton:New(o, screen, image)
-    o = o or guibase:New(o, screen)
+function imagebutton:New(screen, image)
+    local o = guibase:New(screen)
     setmetatable(o, self)
     
     o.Type = "Image"

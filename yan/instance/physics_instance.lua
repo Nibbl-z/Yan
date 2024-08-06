@@ -5,8 +5,8 @@ local physicsInstance = {}
 local instance = require("yan.instance.instance")
 physicsInstance.__index = instance
 
-function physicsInstance:New(o, world, bodyType, shape, size, restitution, damping)
-    o = o or instance:New(o)
+function physicsInstance:New(world, bodyType, shape, size, restitution, damping)
+    local o = instance:New()
     setmetatable(o, self)
     o.Type = "PhysicsInstance"
     o.body = love.physics.newBody(world, o.Position.X, o.Position.Y, bodyType)

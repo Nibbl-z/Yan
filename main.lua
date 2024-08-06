@@ -47,10 +47,10 @@ function love.load()
         CornerRoundness = 30
     })
     
-    testImg = image:New(nil, myScreen, "/examples/player.png")
+    testImg = image:New(myScreen, "/examples/player.png")
     
-    testImg2 = image:New(nil, myScreen, "/examples/nibblabunga.png")
-    testImg3 = image:New(nil, myScreen, "/examples/baloon.jpg")
+    testImg2 = image:New(myScreen, "/examples/nibblabunga.png")
+    testImg3 = image:New(myScreen, "/examples/baloon.jpg")
 
     myDropdown = dropdown:New(myScreen, testImg, {testImg2, testImg3})
     myDropdown.Position = UIVector2.new(0, 10, 0, 10)

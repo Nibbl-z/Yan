@@ -6,7 +6,7 @@ local utils = require("yan.utils")
 local uimanager = require("yan.uimanager")
 
 function screen:New(o)
-    o = o or instance:New(o)
+    local o = instance:New(o)
     setmetatable(o, self)
     
     o.Type = "Screen"

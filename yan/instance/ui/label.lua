@@ -5,7 +5,7 @@ label.__index = guibase
 local Color = require("yan.datatypes.color")
 
 function label:New(o, screen, text, textSize, align, verticalAlign, fontPath)
-    o = o or guibase:New(o, screen)
+    local o = guibase:New(screen)
     setmetatable(o, self)
     
     o.Type = "Label"

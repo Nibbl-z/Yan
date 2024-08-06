@@ -4,7 +4,7 @@ local utils = require("yan.utils")
 list.__index = guibase
 
 function list:New(o, screen, padding, align, direction)
-    o = o or guibase:New(o, screen)
+    local o = guibase:New(screen)
     setmetatable(o, self)
     
     o.Type = "List"

@@ -6,8 +6,8 @@ local utils = require("yan.utils")
 local UIVector2 = require("yan.datatypes.uivector2")
 local Vector2 = require("yan.datatypes.vector2")
 
-function guiBase:New(o, screen)
-    o = o or instance:New(o)
+function guiBase:New(screen)
+    local o = instance:New()
     setmetatable(o, self)
     
     o.Type = "GuiBase"

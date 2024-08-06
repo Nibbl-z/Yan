@@ -7,7 +7,7 @@ local utils = require("yan.utils")
 slider.__index = guibase
 
 function slider:New(screen, minValue, maxValue)
-    local o = guibase:New(nil, screen)
+    local o = guibase:New(screen)
     o.Type = "Slider"
     o.Progress = 0.5
     o.Value = minValue

@@ -3,7 +3,7 @@ local guibase = require("yan.instance.ui.guibase")
 frame.__index = guibase
 
 function frame:New(screen)
-    local o = guibase:New(nil, screen)
+    local o = guibase:New(screen)
     setmetatable(o, self)
 
     o.Type = "Frame"

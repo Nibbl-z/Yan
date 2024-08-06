@@ -8,7 +8,7 @@ local Vector2 = require("yan.datatypes.vector2")
 local Color = require("yan.datatypes.color")
 dropdown.__index = guibase
 function dropdown:New(screen, defaultElement, elementList)
-    local o = guibase:New(nil, screen)
+    local o = guibase:New(screen)
 
     o.Type = "Dropdown"
     o.DefaultElement = defaultElement

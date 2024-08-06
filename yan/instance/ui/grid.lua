@@ -3,8 +3,8 @@ local guibase = require("yan.instance.ui.guibase")
 local utils = require("yan.utils")
 grid.__index = guibase
 
-function grid:New(o, screen, padding, verticalAlign, horizontalAlign, direction, gridSize)
-    o = o or guibase:New(o, screen)
+function grid:New(screen, padding, verticalAlign, horizontalAlign, direction, gridSize)
+    local o = guibase:New(screen)
     setmetatable(o, self)
     
     o.Type = "Grid"

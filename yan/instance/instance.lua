@@ -8,8 +8,8 @@ instance.Sprite = nil]]
 local Vector2 = require("yan.datatypes.vector2")
 local Color = require("yan.datatypes.color")
 
-function instance:New(o, name)
-    o = o or {
+function instance:New(name)
+    local o = {
         Name = name,
         Position = Vector2.new(0,0),
         Rotation = 0,
