@@ -40,10 +40,11 @@ function love.load()
         Size = UIVector2.new(0.5,0,0.3,0), 
         CornerRoundness = 30
     })
-    
-    testButton.MouseDown = function ()
-        myTween:Play()
-    end
+
+    myTween2 = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(1, EasingStyle.BounceOut), {
+        Size = UIVector2.new(0.2,0,0.8,0), 
+        CornerRoundness = 30
+    })
     
     testImg = image:New(nil, myScreen, "/examples/player.png")
     
@@ -57,6 +58,11 @@ function love.load()
     myDropdown.ZIndex = 10
 
     myDropdown.ItemClicked = function (element)
+        if element.LayoutOrder == 1 then
+            myTween:Play()
+        else
+            myTween2:Play()
+        end
         print(element.LayoutOrder)
     end
 end

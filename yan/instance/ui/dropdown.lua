@@ -19,7 +19,7 @@ function dropdown:New(screen, defaultElement, elementList)
     o.ItemsScrollable = Scrollable:New(nil, screen, "vertical")
     o.ItemsList = List:New(nil, screen, 5, "left", "vertical")
     
-    --o.ItemsScrollable.Parent = o
+    o.ItemsScrollable.Dropdown = o
     o.ItemsList.Parent = o.ItemsScrollable
     o.ItemsScrollable.MaskChildren = true
     o.ItemsScrollable.Visible = false
@@ -30,6 +30,7 @@ function dropdown:New(screen, defaultElement, elementList)
     o.ItemsScrollable.ZIndex = o.ZIndex + 1
     o.ItemsList.ZIndex = o.ZIndex + 2
     o.ItemsList.Color = Color.new(0,0,0,0)
+    o.ItemsList.MaskChildren = true
     
     o.ElementSize = UIVector.new(0,50)
     
@@ -39,7 +40,6 @@ function dropdown:New(screen, defaultElement, elementList)
         element.ZIndex = element.ZIndex + 3
         element.LayoutOrder = i
         element.IsDropdownElement = true
-        print(i)
         
         element:SetParent(o.ItemsList)
         table.insert(o.ElementList, element)

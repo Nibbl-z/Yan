@@ -32,6 +32,10 @@ function tweenmanager:NewTween(instance, tweeninfo, goal)
     table.insert(self.ActiveTweens, tween)
     
     function tween:Play()
+        for key, value in pairs(tween.Goal) do
+            tween.OriginalProperties[key] = instance[key]
+        end
+        
         tween.Progress = 0.0
         tween.TimePosition = 0.0
         tween.IsPlaying = true
