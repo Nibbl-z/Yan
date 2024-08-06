@@ -46,11 +46,11 @@ function love.load()
     end
     
     testImg = image:New(nil, myScreen, "/examples/player.png")
+    
+    testImg2 = image:New(nil, myScreen, "/examples/nibblabunga.png")
+    testImg3 = image:New(nil, myScreen, "/examples/baloon.jpg")
 
-    --testImg2 = image:New(nil, myScreen, "/examples/nibblabunga.png")
-    --testImg3 = image:New(nil, myScreen, "/examples/baloon.jpg")
-
-    myDropdown = dropdown:New(myScreen, testImg, {} --[[{testImg2, testImg3}]])
+    myDropdown = dropdown:New(myScreen, testImg, {testImg2, testImg3})
     myDropdown.Position = UIVector2.new(0, 10, 0, 10)
     myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
     myDropdown:ApplyTheme(myTheme)

@@ -17,7 +17,7 @@ function dropdown:New(screen, defaultElement, elementList)
     
     o.IsOpened = true
     o.ItemsScrollable = Scrollable:New(nil, screen, "vertical")
-    o.ItemsList = List:New(nil, screen, 5, "center", "vertical")
+    o.ItemsList = List:New(nil, screen, 5, "left", "vertical")
     
     --o.ItemsScrollable.Parent = o
     o.ItemsList.Parent = o.ItemsScrollable
@@ -31,10 +31,16 @@ function dropdown:New(screen, defaultElement, elementList)
     o.ItemsList.ZIndex = o.ZIndex + 2
     o.ItemsList.Color = Color.new(0,0,0,0)
     
-    for _, element in ipairs(elementList) do
+    o.ElementSize = UIVector.new(0,50)
+    
+    for i, element in ipairs(elementList) do
+        element.Size = UIVector2.new(1, 0, o.ElementSize.Scale, o.ElementSize.Offset)
         table.insert(o.ElementList, element)
+        element.ZIndex = element.ZIndex + 3
+        element.LayoutOrder = i
+        print(i)
+        element:SetParent(o.ItemsList)
         
-        element.Parent = o.ItemsList
     end
     
     function o:AddToElementList(element)
@@ -51,6 +57,9 @@ function dropdown:New(screen, defaultElement, elementList)
         love.graphics.rectangle("fill", pX, pY, sX, sY, o.CornerRoundness, o.CornerRoundness)
         
         if o.IsOpened then
+            for _, element in ipairs(elementList) do
+                element.Visible = true
+            end
             if defaultElement ~= nil then
                 defaultElement.Size = UIVector2.new(0, sX, 0, sY)
                 defaultElement.Position = UIVector2.new(0, pX, 0, pY)
@@ -65,6 +74,9 @@ function dropdown:New(screen, defaultElement, elementList)
             o.ItemsScrollable.Size = UIVector2.new(0, sX, o.DropdownSize.Scale, o.DropdownSize.Offset)
 
         else
+            for _, element in ipairs(elementList) do
+                element.Visible = false
+            end
             o.ItemsScrollable.Visible = false
             o.ItemsList.Visible = false
             if defaultElement ~= nil then

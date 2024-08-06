@@ -14,7 +14,7 @@ function list:New(o, screen, padding, align, direction)
     o.Direction = direction
     
     function o:GetOffsetForListItem(element)
-        if #o.Children == 0 then return 0 end
+        --if #o.Children == 0 then return 0 end
         
         if element.LayoutOrder == 1 then return 0 end
         
@@ -25,7 +25,7 @@ function list:New(o, screen, padding, align, direction)
             
             if currentItem ~= nil then
                 local _, _, itemX, itemY = currentItem:GetDrawingCoordinates(true)
-
+                
                 if o.Direction == "vertical" then
                     totalOffset = totalOffset + itemY + o.ListPadding 
                 elseif o.Direction == "horizontal" then
