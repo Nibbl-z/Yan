@@ -39,11 +39,11 @@ function guiBase:New(o, screen)
             
             if o.Parent.Type == "Scrollable" then
                 if o.Parent.ScrollDirection == "horizontal" then
-                    sizeWidth = sizeWidth * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
+                    sizeWidth = sizeWidth * o.Parent.ScrollSize.Scale + o.Parent.ScrollSize.Offset
                 
                     pXOffset = pXOffset + o.Parent.ScrollOffset
                 elseif o.Parent.ScrollDirection == "vertical" then
-                    sizeHeight = sizeHeight * o.Parent.ScrollSize.Size + o.Parent.ScrollSize.Offset
+                    sizeHeight = sizeHeight * o.Parent.ScrollSize.Scale + o.Parent.ScrollSize.Offset
                 
                     pYOffset = pYOffset + o.Parent.ScrollOffset
                 end
@@ -145,6 +145,8 @@ function guiBase:New(o, screen)
             else
                 o:Stencil(parent.Parent)
             end
+        else
+            return
         end
     end
     

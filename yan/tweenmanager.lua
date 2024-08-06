@@ -32,7 +32,19 @@ function tweenmanager:NewTween(instance, tweeninfo, goal)
     table.insert(self.ActiveTweens, tween)
     
     function tween:Play()
+        tween.Progress = 0.0
+        tween.TimePosition = 0.0
         tween.IsPlaying = true
+        tween.Finished = false
+    end
+
+    function tween:Pause()
+        tween.IsPlaying = false
+    end
+
+    function tween:Stop()
+        tween.IsPlaying = false
+        tween.Finished = true
     end
 
     return tween

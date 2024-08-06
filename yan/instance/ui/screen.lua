@@ -204,11 +204,13 @@ function screen:New(o)
         end)
         
         for _, element in ipairs(elements) do
-            if element.Type ~= "Image" and element.Type ~= "ImageButton" then -- excluding these because they need the stencil in the stencil for rounded corners or whatever
-                element:Stencil()
+            if element.Visible == true then
+                if element.Type ~= "Image" and element.Type ~= "ImageButton" then -- excluding these because they need the stencil in the stencil for rounded corners or whatever
+                    element:Stencil()
+                end
+                element:Draw()
+                love.graphics.setStencilTest()
             end
-            element:Draw()
-            love.graphics.setStencilTest()
         end
     end
 

@@ -14,6 +14,7 @@ local tweenManager = require("yan.tweenmanager")
 local themeManager = require("yan.thememanager")
 local scrollable = require("yan.instance.ui.scrollable")
 local grid = require("yan.instance.ui.grid")
+local dropdown = require("yan.instance.ui.dropdown")
 
 local UIVector2 = require("yan.datatypes.uivector2")
 local Vector2 = require("yan.datatypes.vector2")
@@ -27,21 +28,27 @@ function love.load()
     myScreen.Enabled = true
     
     testButton = textButton:New(nil, myScreen, "HAI!", 32, "center", "center")
-    testButton.Position = UIVector2.new(0.5,0,0.2,0)
+    testButton.Position = UIVector2.new(0.5,0,0.5,0)
     testButton.AnchorPoint = Vector2.new(0.5, 0.5)
     testButton.Size = UIVector2.new(0.3,0,0.3,0)
     testButton.CornerRoundness = 0
     testButton.Color = Color.new(1,1,1,1)
     
-    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(2, EasingStyle.BounceOut), {
-        Position = UIVector2.new(0.5,0,0.8,0), 
-        CornerRoundness = 32,
-        Color = Color.new(0,1,0,1)
+    myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(1, EasingStyle.ElasticOut), {
+        Size = UIVector2.new(0.5,0,0.3,0), 
+        CornerRoundness = 30,
+        Color = Color.new(1,1,1,1)
     })
     
     testButton.MouseDown = function ()
         myTween:Play()
     end
+    
+    testImg = image:New(nil, myScreen, "/examples/baloon.jpg")
+
+    myDropdown = dropdown:New(myScreen, testImg, {})
+    myDropdown.Position = UIVector2.new(0, 10, 0, 10)
+    myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
 end
 
 function love.update(dt)

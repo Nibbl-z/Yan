@@ -20,7 +20,8 @@ function instance:New(o, name)
         Color = Color.new(1,1,1,1),
         Type = "Instance",
         Scene = nil,
-        SceneEnabled = true
+        SceneEnabled = true,
+        Visible = true
     }
     setmetatable(o, self)
     
@@ -41,6 +42,7 @@ function instance:SetSprite(spritePath)
 end
 
 function instance:Draw()
+    if not self.Visible then return end
     if self.SceneEnabled == false then return end
     love.graphics.setColor(
         self.Color.R,
