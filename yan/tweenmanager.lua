@@ -2,7 +2,7 @@ local tweenmanager = {}
 tweenmanager.ActiveTweens = {}
 
 local EasingStyle = require("yan.datatypes.easingstyle")
-
+local utils = require("yan.utils")
 function tweenmanager:NewTweenInfo(duration, easingStyle)
     local tweenInfo = {
         Duration = duration or 1,
@@ -52,7 +52,7 @@ local EasingFuncs = {
     [EasingStyle.SineInOut] = function (x)
         return -(math.cos(math.pi * x) - 1) / 2
     end,
-
+    
     [EasingStyle.CubicIn] = function (x)
         return x ^ 3
     end,
@@ -81,8 +81,8 @@ local EasingFuncs = {
         return math.sqrt(1 - math.pow(x - 1, 2))
     end,
     [EasingStyle.CircularInOut] = function (x)
-        return x < 0.5
-        and (1 - math.sqrt(1 - math.pow(2 * x, 2))) / 2 -- TODO: FIX THIS TOO
+        return (x < 0.5)
+        and (1 - math.sqrt(1 - math.pow(2 * x, 2))) / 2
         or (math.sqrt(1 - math.pow(-2 * x + 2, 2)) + 1) / 2;
     end,
 
@@ -160,7 +160,7 @@ local EasingFuncs = {
         if x == 1 then return 1 end
         return (x < 0.5) and -(math.pow(2, 20 * x - 10) * math.sin((20 * x - 11.125) * c5)) / 2 or (math.pow(2, -20 * x + 10) * math.sin((20 * x - 11.125) * c5)) / 2 + 1
     end,
-
+    
     [EasingStyle.BounceOut] = function (x)
         local n1 = 7.5625
         local d1 = 2.75
@@ -168,15 +168,62 @@ local EasingFuncs = {
         if x < 1 / d1 then
             return n1 * x ^ 2
         elseif x < 2 / d1 then
-            return n1 * (x - 1.5 / d1) * x + 0.75
-        elseif x < 2.5
+            x = x - 1.5 / d1
+            return n1 * x * x + 0.75
+        elseif x < 2.5 / d1 then
+            x = x - 2.25 / d1
+            return n1 * x * x + 0.9375
+        else
+            x = x - 2.625 / d1
+            return n1 * x * x + 0.984375
         end
+    end,
+    [EasingStyle.BounceIn] = function (x)
+        local function bounceout(x)
+            local n1 = 7.5625
+            local d1 = 2.75
+            
+            if x < 1 / d1 then
+                return n1 * x ^ 2
+            elseif x < 2 / d1 then
+                x = x - 1.5 / d1
+                return n1 * x * x + 0.75
+            elseif x < 2.5 / d1 then
+                x = x - 2.25 / d1
+                return n1 * x * x + 0.9375
+            else
+                x = x - 2.625 / d1
+                return n1 * x * x + 0.984375
+            end
+        end
+        return 1 - bounceout(1 - x)
+    end,
+    [EasingStyle.BounceInOut] = function (x)
+        local function bounceout(x)
+            local n1 = 7.5625
+            local d1 = 2.75
+            
+            if x < 1 / d1 then
+                return n1 * x ^ 2
+            elseif x < 2 / d1 then
+                x = x - 1.5 / d1
+                return n1 * x * x + 0.75
+            elseif x < 2.5 / d1 then
+                x = x - 2.25 / d1
+                return n1 * x * x + 0.9375
+            else
+                x = x - 2.625 / d1
+                return n1 * x * x + 0.984375
+            end
+        end
+        
+        return (x < 0.5) and (1 - bounceout(1 - 2 * x)) / 2 or (1 + bounceout(2 * x - 1)) / 2
     end
 }
 
 local function UpdateTween(tween, dt)
     tween.TimePosition = tween.TimePosition + dt
-    tween.Progress = tween.TimePosition / tween.TweenInfo.Duration
+    tween.Progress = utils:Clamp(tween.TimePosition / tween.TweenInfo.Duration, 0.0, 1.0)
     
     for key, value in pairs(tween.Goal) do
         print(tostring(value))
