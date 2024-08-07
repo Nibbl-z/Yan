@@ -9,15 +9,15 @@ local Color = require("yan.datatypes.color")
 dropdown.__index = guibase
 function dropdown:New(screen, defaultElement, elementList)
     local o = guibase:New(screen)
-
+    setmetatable(o, self)
     o.Type = "Dropdown"
     o.DefaultElement = defaultElement
     o.ElementList = {}
     o.CornerRoundness = 0
     
     o.IsOpened = true
-    o.ItemsScrollable = Scrollable:New(nil, screen, "vertical")
-    o.ItemsList = List:New(nil, screen, 5, "left", "vertical")
+    o.ItemsScrollable = Scrollable:New(screen, "vertical")
+    o.ItemsList = List:New(screen, 5, "left", "vertical")
     
     o.ItemsScrollable.Dropdown = o
     o.ItemsList.Parent = o.ItemsScrollable
@@ -48,7 +48,7 @@ function dropdown:New(screen, defaultElement, elementList)
     
     function o:AddToElementList(element)
         table.insert(o.ElementList, element)
-
+        
         element.Parent = o.ItemsList
     end
     

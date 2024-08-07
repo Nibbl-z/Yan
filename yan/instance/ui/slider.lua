@@ -9,9 +9,9 @@ slider.__index = guibase
 function slider:New(screen, minValue, maxValue)
     local o = guibase:New(screen)
     o.Type = "Slider"
-    o.Progress = 0.5
+    o.Progress = 0
     o.Value = minValue
-    o.CornerRoundness = 8
+    o.CornerRoundness = 8 
     o.Direction = "horizontal"
     o.Style = "bar"
     

@@ -6,7 +6,7 @@ scrollable.__index = guibase
 local UIVector = require("yan.datatypes.uivector")
 local Color = require("yan.datatypes.color")
 local Vector2 = require("yan.datatypes.vector2")
-function scrollable:New(o, screen, direction)
+function scrollable:New(screen, direction)
     local o = guibase:New(screen)
     setmetatable(o, self)
     

@@ -27,32 +27,40 @@ function love.load()
     
     myTheme = themeManager:NewTheme()
 
-    myScreen = screen:New(nil)
+    myScreen = screen:New()
     myScreen.Enabled = true
     
-    testButton = textButton:New(nil, myScreen, "HAI!", 32, "left", "top")
+    testButton = textButton:New(myScreen, "CLICK FOR SPROINGYNESS!", 16, "center", "center")
     testButton.Position = UIVector2.new(0.5,0,0.5,0)
     testButton.AnchorPoint = Vector2.new(0.5, 0.5)
-    testButton.Size = UIVector2.new(0.3,0,0.3,0)
+    testButton.Size = UIVector2.new(0.5,0,0.5,0)
     testButton.CornerRoundness = 0
     testButton.Color = Color.new(1,1,1,1)
     testButton:ApplyTheme(myTheme)
+
     myTween = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(1, EasingStyle.ElasticOut), {
-        Size = UIVector2.new(0.5,0,0.3,0), 
+        Size = UIVector2.new(0.8,0,0.8,0), 
+        Color = Color.new(0.2,1,0.2,1),
         CornerRoundness = 30
     })
 
     myTween2 = tweenManager:NewTween(testButton, tweenManager:NewTweenInfo(1, EasingStyle.BounceOut), {
-        Size = UIVector2.new(0.2,0,0.8,0), 
+        Size = UIVector2.new(0.5,0,0.5,0), 
+        Color = Color.new(1,1,1,1),
         CornerRoundness = 30
     })
+
+    testButton.MouseDown = function ()
+        myTween:Play()
+    end
     
     testImg = image:New(myScreen, "/examples/player.png")
     
-    testImg2 = image:New(myScreen, "/examples/nibblabunga.png")
-    testImg3 = image:New(myScreen, "/examples/baloon.jpg")
+    testlbl1 = label:New(myScreen, "slider bar style", 16, "center", "center")
+    testlbl2 = label:New(myScreen, "slider fill style", 16, "center", "center")
+    testlbl3 = label:New(myScreen, "unsproing the button", 16, "center", "center")
 
-    myDropdown = dropdown:New(myScreen, testImg, {testImg2, testImg3})
+    myDropdown = dropdown:New(myScreen, testImg, {testlbl1, testlbl2, testlbl3})
     myDropdown.Position = UIVector2.new(0, 10, 0, 10)
     myDropdown.Size = UIVector2.new(0.2,0,0.1,0)
     myDropdown:ApplyTheme(myTheme)
@@ -69,26 +77,22 @@ function love.load()
     mySlider2.MouseDown = function ()
         print("hai")
     end
-    
-    myDropdown.ItemMouseEnter = function (element)
-        mySlider.Style = "fill"
-        mySlider2.Style = "fill"
-
-        print(element.LayoutOrder)
-    end
-
-    myDropdown.ItemMouseLeave = function (element)
-        mySlider.Style = "bar"
-        mySlider2.Style = "bar"
-        print(element.LayoutOrder)
-    end
 
     myDropdown.ItemMouseDown = function (element)
-        myTween:Play()
+        if element.LayoutOrder == 1 then
+            mySlider.Style = "bar"
+            mySlider2.Style = "bar"
+        elseif element.LayoutOrder == 2 then
+            mySlider.Style = "fill"
+            mySlider2.Style = "fill"
+        elseif element.LayoutOrder == 3 then
+            myTween2:Play()
+        end
+        
     end
 
     myDropdown.ItemMouseUp = function (element)
-        myTween2:Play()
+        
     end
 
     awesomeFrame = frame:New(myScreen)

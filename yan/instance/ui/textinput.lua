@@ -4,7 +4,7 @@ textinput.__index = guibase
 
 local utf8 = require("utf8")
 local Color = require("yan.datatypes.color")
-function textinput:New(o, screen, placeholderText, textSize, align, verticalAlign, fontPath)
+function textinput:New(screen, placeholderText, textSize, align, verticalAlign, fontPath)
     local o = guibase:New(screen)
     setmetatable(o, self)
     

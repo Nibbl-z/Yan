@@ -5,8 +5,8 @@ screen.__index = instance
 local utils = require("yan.utils")
 local uimanager = require("yan.uimanager")
 
-function screen:New(o)
-    local o = instance:New(o)
+function screen:New()
+    local o = instance:New()
     setmetatable(o, self)
     
     o.Type = "Screen"

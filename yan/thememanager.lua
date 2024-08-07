@@ -3,7 +3,7 @@ local thememanager = {}
 local Color = require("yan.datatypes.color")
 
 function thememanager:NewTheme()
-    theme = {
+    local theme = {
         Color = Color.new(1,1,1,1),
         HoverColor = Color.new(0.7,0.7,0.7,1),
         SelectedColor = Color.new(0.5,0.5,0.5,1),

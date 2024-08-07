@@ -4,7 +4,7 @@ textbutton.__index = guibase
 
 local Color = require("yan.datatypes.color")
 
-function textbutton:New(o, screen, text, textSize, align, verticalAlign, fontPath)
+function textbutton:New(screen, text, textSize, align, verticalAlign, fontPath)
     local o = guibase:New(screen)
     setmetatable(o, self)
     

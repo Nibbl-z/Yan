@@ -3,7 +3,7 @@ local guibase = require("yan.instance.ui.guibase")
 local utils = require("yan.utils")
 list.__index = guibase
 
-function list:New(o, screen, padding, align, direction)
+function list:New(screen, padding, align, direction)
     local o = guibase:New(screen)
     setmetatable(o, self)
     
