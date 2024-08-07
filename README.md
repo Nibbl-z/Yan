@@ -6,6 +6,7 @@ Yan is a simple instance/UI library for Love2D
 - UI elements can be parented to other UI elements to make their positioning relative to the parent
 - Add instances to scenes, which can be enabled and disabled
 - Theming system to easily add colors and hovering/click effects to several different UI elements.
+- Tweening system to add smooth animations to UI elements and instances.
 - Several UI elements, including text labels, buttons, images, lists, grids, scrollables, and text input fields
 
 ### How to use
@@ -17,20 +18,23 @@ local label = require("yan.instance.ui.label")
 ```
 Create a new instance by calling the `New` function on any instance, for example:
 ```lua
-local player = physicsInstance:New(nil, world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
+local player = physicsInstance:New(world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
 ```
 
 For UI elements, you must first create a screen, which is an instance that holds UI elements.
 
 ```lua
-myScreen = screen:New(myScreen)
+local UIVector2 = require("yan.datatypes.uivector2")
+local Vector2 = require("yan.datatype.vector2")
+local Color = require("yan.datatype.color")
+myScreen = screen:New()
 myScreen.Enabled = true
     
-text = label:New(nil, myScreen, "Hello world!", 32, "center")
-text:SetPosition(0.5, 0, 0.5, 0)
-text:SetSize(1, 0, 0, 0)
-text:SetAnchorPoint(0.5, 0.5)
-text:SetColor(0,1,0,1)
+text = label:New(myScreen, "Hello world!", 32, "center")
+text.Position = UIVector2.new(0.5, 0, 0.5, 0)
+text.Size = UIVector2.new(1, 0, 0.5, 0)
+text.AnchorPoint = Vector2.new(0.5, 0.5)
+text.Color = Color.new(0,1,0,1)
 text.ZIndex = 1
 ```
 
