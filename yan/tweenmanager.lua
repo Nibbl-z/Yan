@@ -8,7 +8,7 @@ function tweenmanager:NewTweenInfo(duration, easingStyle)
         Duration = duration or 1,
         EasingStyle = easingStyle or EasingStyle.Linear
     }
-
+    
     return tweenInfo
 end
 
@@ -29,7 +29,7 @@ function tweenmanager:NewTween(instance, tweeninfo, goal)
         tween.OriginalProperties[key] = instance[key]
     end
     
-    table.insert(self.ActiveTweens, tween)
+    table.insert(tweenmanager.ActiveTweens, tween)
     
     function tween:Play()
         for key, value in pairs(tween.Goal) do

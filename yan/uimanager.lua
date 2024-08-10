@@ -42,10 +42,4 @@ function uimanager:WheelMoved(x, y)
     end
 end
 
-function uimanager:MouseMoved(x, y)
-    for _, screen in ipairs(self.Screens) do
-        screen:MouseMoved(x, y)
-    end
-end
-
 return uimanager
