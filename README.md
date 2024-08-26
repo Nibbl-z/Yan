@@ -1,5 +1,4 @@
-# Yan
-Yan is a simple instance/UI library for Love2D
+![Yan is a simple instance/UI library for Love2D](https://cloud-ilxgsek0j-hack-club-bot.vercel.app/0yan_thumb.png)
 
 ### Features
 - Position and scale UI elements relative to the window size
@@ -10,27 +9,20 @@ Yan is a simple instance/UI library for Love2D
 - Several UI elements, including text labels, buttons, images, lists, grids, scrollables, and text input fields
 
 ### How to use
-Download the `yan` folder and put it into your Love2D project. 
-Instances can be created by requiring their script, for example:
+Download the `yan` folder and the `yan.lua` file and put it into the root of your Love2D project. 
+Require `yan` at the top of your script. Then you can use any of Yan's features by calling the functions included in `yan.lua`!
+
 ```lua
-local instance = require("yan.instance.instance")
-local label = require("yan.instance.ui.label")
-```
-Create a new instance by calling the `New` function on any instance, for example:
-```lua
-local player = physicsInstance:New(world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
+require("yan")
+local player = yan:PhysicsInstance(world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
 ```
 
 For UI elements, you must first create a screen, which is an instance that holds UI elements.
 
 ```lua
-local UIVector2 = require("yan.datatypes.uivector2")
-local Vector2 = require("yan.datatype.vector2")
-local Color = require("yan.datatype.color")
-myScreen = screen:New()
-myScreen.Enabled = true
+myScreen = yan:Screen()
     
-text = label:New(myScreen, "Hello world!", 32, "center")
+text = yan:Label(myScreen, "Hello world!", 32, "center")
 text.Position = UIVector2.new(0.5, 0, 0.5, 0)
 text.Size = UIVector2.new(1, 0, 0.5, 0)
 text.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -38,29 +30,35 @@ text.Color = Color.new(0,1,0,1)
 text.ZIndex = 1
 ```
 
-To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the `UIManager` module, which will draw all UI elements across all screens at once.
-With the `UIManager` module, you'll also need to call some other functions for certain UI elements to function. 
+To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `yan:Draw()`, which will draw all UI elements across all screens at once.
+You'll also need to call some other functions for certain UI elements to function. 
 
 ```lua
-local uiManager = require("yan.uimanager")
+require("yan")
+
+function love.draw()
+    player:Draw()
+    yan:Draw()
+end
 
 function love.keypressed(key, scancode, rep)
-    uiManager:KeyPressed(key, scancode, rep)
+    yan:KeyPressed(key, scancode, rep)
 end
 
 function love.textinput(t)
-    uiManager:TextInput(t)
+    yan:TextInput(t)
 end
 
 function love.wheelmoved(x, y)
-    uiManager:WheelMoved(x, y)
+    yan:WheelMoved(x, y)
 end
 ```
 
-To add instances to a scene, create a new scene with `SceneManager:NewScene()`, then add the instances to the scene with `SceneManager:AddToScene()`, for example:
+To add instances to a scene, create a new scene with `yan:NewScene()`, then add the instances to the scene with `yan:AddToScene()`, for example:
 ```lua
-local SceneManager = require("yan.scenemanager")
-SceneManager:NewScene("User interface")
-SceneManager:AddToScene("User interface", {myScreen})
+require("yan")
+
+yan:NewScene("User interface")
+yan:AddToScene("User interface", {myScreen})
 ```
-Scenes can be enabled or disabled with ```SceneManager:SetSceneEnabled("User interface", true)``` and ```SceneManager:SetSceneEnabled("User interface", false)```
+Scenes can be enabled or disabled with ```yan:SetSceneEnabled("User interface", true)``` and ```yan:SetSceneEnabled("User interface", false)```
