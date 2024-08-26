@@ -62,3 +62,12 @@ yan:NewScene("User interface")
 yan:AddToScene("User interface", {myScreen})
 ```
 Scenes can be enabled or disabled with ```yan:SetSceneEnabled("User interface", true)``` and ```yan:SetSceneEnabled("User interface", false)```
+
+### In Practice
+
+I have used this library myself several times for other Love2D projects to make user interfaces. Here's a list of them:
+- Goose Rhythm: [GitHub Page,](https://github.com/Nibbl-z/goose-rhythm) [Itch.io Page](https://nibbl-z.itch.io/goose-rhythm)
+- Image Playground: [GitHub Page](https://github.com/Nibbl-z/image-manipulator), [Itch.io Page](https://nibbl-z.itch.io/image-playground)
+- Biribiriuo Fishing: [GitHub Page](https://github.com/Nibbl-z/biribiriuo-fishing), [Itch.io Page](https://nibbl-z.itch.io/biribiriuo-fishing)
+- Goose Platformer Together: [GitHub Page](https://github.com/Nibbl-z/goose-platformer-multiplayer)
+- Space Defenders: [GitHub Page](https://github.com/Nibbl-z/love2d-sock.lua-testing)
