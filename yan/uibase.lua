@@ -1,25 +1,29 @@
 require "yan.datatypes.udim2"
 
---- The base of all interface elements.
+--- The base of all interface elements that other elements inherit from. 
 ---@class UIBase
 ---@field position UDim2
 ---@field size UDim2
 ---@field children table
 ---@field parent UIBase
-local uibase = {}
+uibase = {}
 uibase.__index = uibase
 
-function uibase.new()
-    local self = setmetatable({}, uibase)
+--- Creates a new UIBase
+function uibase:new()
+    local object = {
+        position = UDim2.new(0, 0, 0, 0),
+        size = UDim2.new(0, 100, 0, 100),
+        children = {},
+        parent = nil
+    }
     
-    self.position = UDim2.new(0, 0, 0, 0)
-    self.size = UDim2.new(0, 100, 0, 100)
-    self.children = {}
-    self.parent = nil
+    setmetatable(object, self)
     
-    return self
+    return object
 end
 
+--- Gets the screenspace coordinates for position and size
 function uibase:GetDrawingCoordinates()
     local width = love.graphics.getWidth()
     local height = love.graphics.getHeight()

@@ -7,12 +7,17 @@
 UDim2 = {}
 UDim2.__index = UDim2
 
-function UDim2.new(xScale, xOffset, yScale, yOffset)
+--- Creates a new UDim2
+---@param xscale number
+---@param xoffset number
+---@param yscale number
+---@param yoffset number
+function UDim2.new(xscale, xoffset, yscale, yoffset)
     local self = setmetatable({
-        xscale = xScale,
-        xoffset = xOffset,
-        yscale = yScale,
-        yoffset = yOffset
+        xscale = xscale,
+        xoffset = xoffset,
+        yscale = yscale,
+        yoffset = yoffset
     }, UDim2)
 
     return self

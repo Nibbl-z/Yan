@@ -1,6 +1,7 @@
 yan = {}
 
 uibase = require "yan.uibase"
-udim2 = require "yan.datatypes.udim2"
+textlabel = require "yan.textlabel"
+UDim2 = require "yan.datatypes.udim2"
 
 return yan
