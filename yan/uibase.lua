@@ -1,13 +1,20 @@
 require "yan.datatypes.udim2"
 require "yan.datatypes.color"
+local common = require("yan.common")
 
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
----@field position UDim2
----@field size UDim2
----@field backgroundcolor Color
----@field children table
----@field parent UIBase
+---@field position UDim2 Position of the element
+---@field size UDim2 Size of the element
+---@field backgroundcolor Color Background color of the element
+---@field children table A table of children that this element contains
+---@field parent UIBase The element that this element is parented to, `nil` if element has no parent
+---@field mouseenter fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
+---@field mouseexit fun(self: UIBase, x: number, y: number) Function that runs when the mouse exits the element
+---@field mousebutton1down fun(self: UIBase) Function that runs when the primary mouse button is clicked within the element
+---@field mousebutton1up fun(self: UIBase) Function that runs when the primary mouse button is released within the element
+---@field _hovered boolean
+---@field _clicked boolean
 uibase = {}
 uibase.__index = uibase
 
@@ -18,7 +25,15 @@ function uibase:new()
         size = UDim2.new(0, 100, 0, 100),
         backgroundcolor = Color.new(1,1,1,1),
         children = {},
-        parent = nil
+        parent = nil,
+
+        mouseenter = function () end,
+        mouseexit = function () end,
+        mousebutton1down = function () end,
+        mousebutton1up = function () end,
+
+        _hovered = false,
+        _clicked = false
     }
     
     setmetatable(object, self)
@@ -27,14 +42,14 @@ function uibase:new()
 end
 
 --- Gets the screenspace coordinates for position and size
-function uibase:GetDrawingCoordinates()
+function uibase:getdrawingcoordinates()
     local width = love.graphics.getWidth()
     local height = love.graphics.getHeight()
     
     local pxextra, pyextra = 0, 0
     
     if self.parent ~= nil then
-        local parentpx, parentpy, parentsx, parentsy = self.parent:GetDrawingCoordinates()
+        local parentpx, parentpy, parentsx, parentsy = self.parent:getdrawingcoordinates()
         
         pxextra, pyextra = parentpx, parentpy
         width = parentsx
@@ -53,13 +68,43 @@ end
 --- Draws the UIBase to the screen
 function uibase:draw()
     love.graphics.setColor(self.backgroundcolor:get())
-    love.graphics.rectangle("fill", self:GetDrawingCoordinates())
+    love.graphics.rectangle("fill", self:getdrawingcoordinates())
     love.graphics.setColor(1,1,1,1)
+end
+
+-- Handles functions like mouseenter and mouseleave
+function uibase:update()
+    local mx, my = love.mouse.getPosition()
+    local px, py, sx, sy = self:getdrawingcoordinates()
+
+    local isColliding = common:checkcollision(px, py, sx, sy, mx, my, 1, 1)
+    
+    if not self._hovered and isColliding then
+        self:mouseenter(mx, my)
+        self._hovered = true
+    elseif self._hovered and not isColliding then
+        self:mouseexit(mx, my)
+        self._hovered = false
+        self._clicked = false
+    end
+    
+    if not self._clicked and isColliding and love.mouse.isDown(1) then
+        self:mousebutton1down()
+        self._clicked = true
+    elseif self._clicked and isColliding and not love.mouse.isDown(1) then
+        self:mousebutton1up()
+        self._clicked = false
+    end
 end
 
 --- Sets the element's parent to another element
 ---@param element UIBase
 function uibase:setparent(element)
+    if self == element then
+        print("🎈⚠️ Attempted to set an element's parent to itself")
+        return
+    end
+
     table.insert(element.children, self)
     self.parent = element
 end

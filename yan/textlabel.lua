@@ -35,7 +35,7 @@ end
 function textlabel:draw()
     uibase.draw(self)
 
-    local pX, pY, sX, sY = self:GetDrawingCoordinates()
+    local pX, pY, sX, sY = self:getdrawingcoordinates()
 
     local yoffset = 0
         
@@ -51,8 +51,6 @@ function textlabel:draw()
     love.graphics.setFont(self._font)
     love.graphics.printf(self.text, pX, pY + yoffset, sX, self.halign)
     love.graphics.setColor(1,1,1,1)
-
-    
 end
 
 return textlabel

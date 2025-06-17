@@ -18,10 +18,26 @@ function love.load()
     testui2.size = UDim2.new(1, 0, 1, 0)
     testui2.backgroundcolor = Color.new(0,1,0,0.5)
     testui2:setparent(testlabel)
+    
+    testui.mouseenter = function()
+        testui.backgroundcolor = Color.new(1, 0, 1, 1)
+    end
+
+    testui.mouseexit = function()
+        testui.backgroundcolor = Color.new(1,1,1,1)
+    end
+
+    testui.mousebutton1down = function ()
+        testui.backgroundcolor = Color.new(0, 1, 1, 1)
+    end
+
+    testui.mousebutton1up = function()
+        testui.backgroundcolor = Color.new(1, 0, 1, 1)
+    end
 end
 
 function love.update()
-    
+    testui:update()
 end
 
 function love.draw()
