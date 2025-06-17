@@ -1,5 +1,6 @@
 require "yan.datatypes.udim2"
 require "yan.datatypes.color"
+
 local common = require("yan.common")
 
 --- The base of all interface elements that other elements inherit from
@@ -7,6 +8,7 @@ local common = require("yan.common")
 ---@field position UDim2 Position of the element
 ---@field size UDim2 Size of the element
 ---@field backgroundcolor Color Background color of the element
+---@field zindex number The order that the element is drawn in based on every other element in the Screen
 ---@field children table A table of children that this element contains
 ---@field parent UIBase The element that this element is parented to, `nil` if element has no parent
 ---@field mouseenter fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
@@ -19,14 +21,17 @@ uibase = {}
 uibase.__index = uibase
 
 --- Creates a new UIBase
+
 function uibase:new()
     local object = {
         position = UDim2.new(0, 0, 0, 0),
         size = UDim2.new(0, 100, 0, 100),
         backgroundcolor = Color.new(1,1,1,1),
+
+        zindex = 0,
         children = {},
         parent = nil,
-
+        
         mouseenter = function () end,
         mouseexit = function () end,
         mousebutton1down = function () end,
@@ -37,7 +42,7 @@ function uibase:new()
     }
     
     setmetatable(object, self)
-    
+
     return object
 end
 
