@@ -1,11 +1,13 @@
 require "yan.uibase"
+require "yan.datatypes.color"
 
---- Displays text.
+--- Displays text
 ---@class TextLabel : UIBase
 ---@field text string
 ---@field textsize number
 ---@field halign "left" | "center" | "right" | "justify"
 ---@field valign "top" | "center" | "bottom"
+---@field textcolor Color
 textlabel = uibase:new()
 textlabel.__index = textlabel
 
@@ -23,12 +25,16 @@ function textlabel:new(text, textsize, halign, valign)
     self.halign = halign
     self.valign = valign
     self._font = love.graphics.newFont(self.textsize)
+
+    self.textcolor = Color.new(0,0,0,1)
     
     return self
 end
 
---- Draws the TextLabel
+--- Draws the TextLabel to the screen
 function textlabel:draw()
+    uibase.draw(self)
+
     local pX, pY, sX, sY = self:GetDrawingCoordinates()
 
     local yoffset = 0
@@ -41,8 +47,12 @@ function textlabel:draw()
         yoffset = sY * 1 - self._font:getHeight() * #lines
     end
     
+    love.graphics.setColor(self.textcolor:get())
     love.graphics.setFont(self._font)
     love.graphics.printf(self.text, pX, pY + yoffset, sX, self.halign)
+    love.graphics.setColor(1,1,1,1)
+
+    
 end
 
 return textlabel
