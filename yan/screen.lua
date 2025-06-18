@@ -37,9 +37,9 @@ function screen:draw()
     if not self.enabled then return end
 
     table.sort(self.elements, function (a, b)
-        return a.zindex < b.zindex
+        return a.zindex + a._creationorder < b.zindex + b._creationorder
     end)
-
+    
     for _, element in ipairs(self.elements) do
         element:draw()
     end

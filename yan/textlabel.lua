@@ -8,6 +8,7 @@ require "yan.datatypes.color"
 ---@field halign "left" | "center" | "right" | "justify"
 ---@field valign "top" | "center" | "bottom"
 ---@field textcolor Color
+---@field _font love.Font
 textlabel = uibase:new()
 textlabel.__index = textlabel
 
@@ -20,15 +21,15 @@ function textlabel:new(text, textsize, halign, valign)
     local object = uibase:new()
     setmetatable(object, self)
     
-    self.text = text
-    self.textsize = textsize
-    self.halign = halign
-    self.valign = valign
-    self._font = love.graphics.newFont(self.textsize)
-
-    self.textcolor = Color.new(0,0,0,1)
+    object.text = text
+    object.textsize = textsize
+    object.halign = halign
+    object.valign = valign
+    object._font = love.graphics.newFont(object.textsize)
     
-    return self
+    object.textcolor = Color.new(0,0,0,1)
+    
+    return object
 end
 
 --- Draws the TextLabel to the screen
@@ -36,7 +37,7 @@ function textlabel:draw()
     uibase.draw(self)
 
     local pX, pY, sX, sY = self:getdrawingcoordinates()
-
+    
     local yoffset = 0
         
     if self.valign == "center" then

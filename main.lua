@@ -16,6 +16,13 @@ function love.load()
     testlabel:setparent(testui)
     testlabel.zindex = 5
     
+    testlabel2 = textlabel:new("hai world!!! 2", 25, "center", "center")
+    testlabel2.position = UDim2.new(0, 10, 0.5, 10)
+    testlabel2.size = UDim2.new(1,-20,0.5,0)
+    testlabel2.backgroundcolor = Color.new(1,0,0,0.5)
+    testlabel2:setparent(testui)
+    testlabel2.zindex = 5
+    
     testui2 = uibase:new()
     testui2.position = UDim2.new(0.2, 0, 0.2, 0)
     testui2.size = UDim2.new(1, 0, 1, 0)
@@ -24,14 +31,19 @@ function love.load()
     testui2.zindex = -5
 
     testimage = imagelabel:new("examples/example_image.png")
+    testimage.size = UDim2.new(0, 150, 0, 150)
+    testimage.position = UDim2.new(1, -10, 1, -10)
+    testimage.anchorpoint = Vector2.new(1, 1)
     
-    testimage.size = UDim2.new(0.2,0,0.2,0)
-    testimage.position = UDim2.new(0, 10, 0, 10)
+    testimage2 = imagelabel:new("examples/example_image_2.png")
+    testimage2.size = UDim2.new(0, 150, 0, 150)
+    testimage2.position = UDim2.new(0.5, 0, 1, -10)
+    testimage2.anchorpoint = Vector2.new(0.5, 1)
     
     testui.mouseenter = function()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
     end
-
+    
     testui.mouseexit = function()
         testui.backgroundcolor = Color.new(1,1,1,1)
     end
@@ -44,7 +56,7 @@ function love.load()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
     end
     
-    testscreen:addelements({testui, testlabel, testui2, testimage})
+    testscreen:addelements({testui, testlabel, testui2, testimage, testimage2, testlabel2})
 end
 
 function love.update()

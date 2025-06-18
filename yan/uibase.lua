@@ -1,4 +1,5 @@
 require "yan.datatypes.udim2"
+require "yan.datatypes.vector2"
 require "yan.datatypes.color"
 
 local common = require("yan.common")
@@ -7,6 +8,7 @@ local common = require("yan.common")
 ---@class UIBase
 ---@field position UDim2 Position of the element
 ---@field size UDim2 Size of the element
+---@field anchorpoint Vector2 The origin point where the element will be positioned and scaled from
 ---@field backgroundcolor Color Background color of the element
 ---@field zindex number The order that the element is drawn in based on every other element in the Screen
 ---@field children table A table of children that this element contains
@@ -17,15 +19,19 @@ local common = require("yan.common")
 ---@field mousebutton1up fun(self: UIBase) Function that runs when the primary mouse button is released within the element
 ---@field _hovered boolean
 ---@field _clicked boolean
+---@field _creationorder number
 uibase = {}
 uibase.__index = uibase
 
 --- Creates a new UIBase
 
+local creationIndex = 0
+
 function uibase:new()
     local object = {
         position = UDim2.new(0, 0, 0, 0),
         size = UDim2.new(0, 100, 0, 100),
+        anchorpoint = Vector2.new(0, 0),
         backgroundcolor = Color.new(1,1,1,1),
 
         zindex = 0,
@@ -38,8 +44,11 @@ function uibase:new()
         mousebutton1up = function () end,
 
         _hovered = false,
-        _clicked = false
+        _clicked = false,
+        _creationorder = creationIndex
     }
+    
+    creationIndex = creationIndex + 0.0001
     
     setmetatable(object, self)
 
@@ -61,11 +70,11 @@ function uibase:getdrawingcoordinates()
         height = parentsy
     end
     
-    local pX = self.position.xscale * width + self.position.xoffset + pxextra
-    local pY = self.position.yscale * height + self.position.yoffset + pyextra
-    
     local sX = self.size.xscale * width + self.size.xoffset
     local sY = self.size.yscale * height + self.size.yoffset
+    
+    local pX = self.position.xscale * width + self.position.xoffset + pxextra - sX * self.anchorpoint.x
+    local pY = self.position.yscale * height + self.position.yoffset + pyextra - sY * self.anchorpoint.y
 
     return pX, pY, sX, sY
 end

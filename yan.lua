@@ -5,5 +5,7 @@ textlabel = require "yan.textlabel"
 imagelabel = require "yan.imagelabel"
 screen = require "yan.screen"
 UDim2 = require "yan.datatypes.udim2"
+Color = require "yan.datatypes.color"
+Vector2 = require "yan.datatypes.vector2"
 
 return yan

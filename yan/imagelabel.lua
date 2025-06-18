@@ -12,9 +12,8 @@ function imagelabel:new(image)
     local object = uibase:new()
     setmetatable(object, self)
 
-    self.image = love.graphics.newImage(image)
-    
-    return self
+    object.image = love.graphics.newImage(image)
+    return object
 end
 
 --- Draws the ImageLabel to the screen
