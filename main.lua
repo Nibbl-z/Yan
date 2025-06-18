@@ -22,6 +22,11 @@ function love.load()
     testui2.backgroundcolor = Color.new(0,1,0,0.5)
     testui2:setparent(testlabel)
     testui2.zindex = -5
+
+    testimage = imagelabel:new("examples/example_image.png")
+    
+    testimage.size = UDim2.new(0.2,0,0.2,0)
+    testimage.position = UDim2.new(0, 10, 0, 10)
     
     testui.mouseenter = function()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
@@ -39,7 +44,7 @@ function love.load()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
     end
     
-    testscreen:addelements({testui, testlabel, testui2})
+    testscreen:addelements({testui, testlabel, testui2, testimage})
 end
 
 function love.update()
