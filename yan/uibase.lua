@@ -1,4 +1,5 @@
 require "yan.datatypes.udim2"
+require "yan.datatypes.udim"
 require "yan.datatypes.vector2"
 require "yan.datatypes.color"
 
@@ -11,6 +12,10 @@ local common = require("yan.common")
 ---@field anchorpoint Vector2 The origin point where the element will be positioned and scaled from
 ---@field backgroundcolor Color Background color of the element
 ---@field clipdescendants boolean Should the children of this element be masked?
+---@field leftpadding UDim The amount of padding on children elements on the left side
+---@field toppadding UDim The amount of padding on children elements on the top side
+---@field rightpadding UDim The amount of padding on children elements on the right side
+---@field bottompadding UDim The amount of padding on children elements on the bottom side
 ---@field zindex number The order that the element is drawn in based on every other element in the Screen
 ---@field children table A table of children that this element contains
 ---@field parent UIBase The element that this element is parented to, `nil` if element has no parent
@@ -39,6 +44,11 @@ function uibase:new()
         zindex = 0,
         children = {},
         parent = nil,
+
+        leftpadding = UDim.new(0, 0),
+        toppadding = UDim.new(0, 0),
+        rightpadding = UDim.new(0, 0),
+        bottompadding = UDim.new(0, 0),
         
         mouseenter = function () end,
         mouseexit = function () end,
@@ -67,6 +77,16 @@ function uibase:getdrawingcoordinates()
     if self.parent ~= nil then
         local parentpx, parentpy, parentsx, parentsy = self.parent:getdrawingcoordinates()
         
+        local leftPadding = self.parent.leftpadding.offset + self.parent.leftpadding.scale * parentsx
+        
+        parentpx = parentpx + leftPadding
+        parentsx = parentsx - leftPadding - self.parent.rightpadding.offset - self.parent.rightpadding.scale * parentsx
+        
+        local rightPadding = self.parent.toppadding.offset + self.parent.toppadding.scale * parentsy
+        
+        parentpy = parentpy + rightPadding
+        parentsy = parentsy - rightPadding - self.parent.bottompadding.offset - self.parent.bottompadding.scale * parentsy
+
         pxextra, pyextra = parentpx, parentpy
         width = parentsx
         height = parentsy
@@ -139,6 +159,15 @@ function uibase:stencil(parent)
     else
         self:stencil(parent.parent)
     end
+end
+
+--- Sets all 4 padding values to one UDim 
+---@param udim UDim
+function uibase:applyallpadding(udim)
+    self.leftpadding = udim
+    self.rightpadding = udim
+    self.toppadding = udim
+    self.bottompadding = udim
 end
 
 return uibase

@@ -9,17 +9,19 @@ function love.load()
     testui.position = UDim2.new(0.25, 0, 0.25, 0)
     testui.size = UDim2.new(0.5, 0, 0.5, 0)
     testui.clipdescendants = true
+
+    testui:applyallpadding(UDim.new(0.1, 0))
     
     testlabel = textlabel:new("hai world!!!", 25, "center", "center")
-    testlabel.position = UDim2.new(0, 10, 0, 10)
-    testlabel.size = UDim2.new(2,-20,0.5,0)
+    testlabel.position = UDim2.new(0, 0, 0, 0)
+    testlabel.size = UDim2.new(1,0,0.5,0)
     testlabel.backgroundcolor = Color.new(1,0,0,0.5)
     testlabel:setparent(testui)
     testlabel.zindex = 5
     
     testlabel2 = textlabel:new("hai world!!! 2", 25, "center", "center")
-    testlabel2.position = UDim2.new(0, 10, 0.5, 10)
-    testlabel2.size = UDim2.new(1,-20,0.5,0)
+    testlabel2.position = UDim2.new(0, 0, 0.5, 0)
+    testlabel2.size = UDim2.new(1,0,0.5,0)
     testlabel2.backgroundcolor = Color.new(1,0,0,0.5)
     testlabel2:setparent(testui)
     testlabel2.zindex = 5
