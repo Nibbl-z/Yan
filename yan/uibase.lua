@@ -10,6 +10,7 @@ local common = require("yan.common")
 ---@field size UDim2 Size of the element
 ---@field anchorpoint Vector2 The origin point where the element will be positioned and scaled from
 ---@field backgroundcolor Color Background color of the element
+---@field clipdescendants boolean Should the children of this element be masked?
 ---@field zindex number The order that the element is drawn in based on every other element in the Screen
 ---@field children table A table of children that this element contains
 ---@field parent UIBase The element that this element is parented to, `nil` if element has no parent
@@ -33,7 +34,8 @@ function uibase:new()
         size = UDim2.new(0, 100, 0, 100),
         anchorpoint = Vector2.new(0, 0),
         backgroundcolor = Color.new(1,1,1,1),
-
+        
+        clipdescendants = false,
         zindex = 0,
         children = {},
         parent = nil,
@@ -121,6 +123,22 @@ function uibase:setparent(element)
 
     table.insert(element.children, self)
     self.parent = element
+end
+
+--- Calls `setStencil` with the parent's element bounding box in order to clip descendants
+---@param parent UIBase
+function uibase:stencil(parent)
+    if parent == nil then return end
+
+    if parent.clipdescendants then
+        love.graphics.stencil(function ()
+            love.graphics.rectangle("fill", parent:getdrawingcoordinates())
+        end, "replace", 1)
+
+        love.graphics.setStencilTest("greater", 0)
+    else
+        self:stencil(parent.parent)
+    end
 end
 
 return uibase

@@ -8,10 +8,11 @@ function love.load()
     testui = uibase:new()
     testui.position = UDim2.new(0.25, 0, 0.25, 0)
     testui.size = UDim2.new(0.5, 0, 0.5, 0)
+    testui.clipdescendants = true
     
     testlabel = textlabel:new("hai world!!!", 25, "center", "center")
     testlabel.position = UDim2.new(0, 10, 0, 10)
-    testlabel.size = UDim2.new(1,-20,0.5,0)
+    testlabel.size = UDim2.new(2,-20,0.5,0)
     testlabel.backgroundcolor = Color.new(1,0,0,0.5)
     testlabel:setparent(testui)
     testlabel.zindex = 5

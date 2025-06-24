@@ -41,7 +41,9 @@ function screen:draw()
     end)
     
     for _, element in ipairs(self.elements) do
+        element:stencil(element.parent)
         element:draw()
+        love.graphics.setStencilTest()
     end
 end
 
