@@ -9,12 +9,13 @@ function love.load()
     testui.position = UDim2.new(0.25, 0, 0.25, 0)
     testui.size = UDim2.new(0.5, 0, 0.5, 0)
     testui.clipdescendants = true
-
-    testui:applyallpadding(UDim.new(0.1, 0))
+    
+    testui:applyallpadding(UDim.new(0.3, 0))
+    testui.bottompadding = UDim.new(0, 5)
     
     testlabel = textlabel:new("hai world!!!", 25, "center", "center")
     testlabel.position = UDim2.new(0, 0, 0, 0)
-    testlabel.size = UDim2.new(1,0,0.5,0)
+    testlabel.size = UDim2.new(4,0,0.5,0)
     testlabel.backgroundcolor = Color.new(1,0,0,0.5)
     testlabel:setparent(testui)
     testlabel.zindex = 5
@@ -43,6 +44,10 @@ function love.load()
     testimage2.position = UDim2.new(0.5, 0, 1, -10)
     testimage2.anchorpoint = Vector2.new(0.5, 1)
     
+    testinput = textinput:new("type in here pls", 20, "center", "center")
+    testinput.size = UDim2.new(0.4, 0, 0.2, 0)
+    testinput.position = UDim2.new(0.2, 0, 0, 10)
+    
     testui.mouseenter = function()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
     end
@@ -59,7 +64,7 @@ function love.load()
         testui.backgroundcolor = Color.new(1, 0, 1, 1)
     end
     
-    testscreen:addelements({testui, testlabel, testui2, testimage, testimage2, testlabel2})
+    testscreen:addelements({testui, testlabel, testui2, testimage, testimage2, testlabel2, testinput})
 end
 
 function love.update()
@@ -68,4 +73,12 @@ end
 
 function love.draw()
     testscreen:draw()
+end
+
+function love.textinput(text)
+    testscreen:textinput(text)
+end
+
+function love.keypressed(key)
+    testscreen:keypressed(key)
 end

@@ -21,6 +21,8 @@ function textlabel:new(text, textsize, halign, valign)
     local object = uibase:new()
     setmetatable(object, self)
     
+    object.type = "TextLabel"
+
     object.text = text
     object.textsize = textsize
     object.halign = halign

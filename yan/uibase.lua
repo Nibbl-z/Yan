@@ -7,6 +7,7 @@ local common = require("yan.common")
 
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
+---@field type string The type of interface element
 ---@field position UDim2 Position of the element
 ---@field size UDim2 Size of the element
 ---@field anchorpoint Vector2 The origin point where the element will be positioned and scaled from
@@ -35,6 +36,7 @@ local creationIndex = 0
 
 function uibase:new()
     local object = {
+        type = "UIBase",
         position = UDim2.new(0, 0, 0, 0),
         size = UDim2.new(0, 100, 0, 100),
         anchorpoint = Vector2.new(0, 0),
@@ -112,7 +114,7 @@ end
 function uibase:update()
     local mx, my = love.mouse.getPosition()
     local px, py, sx, sy = self:getdrawingcoordinates()
-
+    
     local isColliding = common:checkcollision(px, py, sx, sy, mx, my, 1, 1)
     
     if not self._hovered and isColliding then

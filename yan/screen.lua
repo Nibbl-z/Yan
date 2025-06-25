@@ -32,7 +32,7 @@ function screen:addelements(elements)
     end
 end
 
--- Draws all elements in the screen
+--- Draws all elements in the screen
 function screen:draw()
     if not self.enabled then return end
 
@@ -47,10 +47,28 @@ function screen:draw()
     end
 end
 
--- Updates all elements in the screen
+--- Updates all elements in the screen
 function screen:update()
     for _, element in ipairs(self.elements) do
         element:update()
+    end
+end
+
+--- Calls `love.textinput` on all elements that need it
+function screen:textinput(text)
+    for _, element in ipairs(self.elements) do
+        if element.type == "TextInput" then
+            element:textinput(text)
+        end
+    end
+end
+
+--- Calls `love.keypressed` on all elements that need it
+function screen:keypressed(key)
+    for _, element in ipairs(self.elements) do
+        if element.type == "TextInput" then
+            element:keypressed(key)
+        end
     end
 end
 

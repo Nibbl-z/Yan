@@ -11,6 +11,8 @@ imagelabel.__index = imagelabel
 function imagelabel:new(image)
     local object = uibase:new()
     setmetatable(object, self)
+    
+    object.type = "ImageLabel"
 
     object.image = love.graphics.newImage(image)
     return object
