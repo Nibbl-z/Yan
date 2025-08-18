@@ -27,4 +27,10 @@ function imagelabel:draw()
     love.graphics.draw(self.image, pX, pY, 0, sX / self.image:getPixelWidth(), sY / self.image:getPixelHeight())
 end
 
+--- Changes the ImageLabel's image
+---@param image string The path to the image to use
+function imagelabel:setimage(image)
+    self.image = love.graphics.newImage(image)
+end
+
 return imagelabel
