@@ -3,7 +3,7 @@ Yan is a simple UI library for Love2D, based on Roblox's UI system
 
 ### Demo
 
-<video src="https://summer.hackclub.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTQzODcsInB1ciI6ImJsb2JfaWQifX0=--e72437be3fabd10af77a7fb7cf9b860ca0fc7b98/2025-08-18%2016-09-32.mp4" width="320" height="240" controls></video>
+https://github.com/user-attachments/assets/cdea40a8-58b6-4143-8ffa-e5ae07ee7d55
 
 ### Features
 - Position and scale UI elements relative to the window size
