@@ -1,66 +1,59 @@
 # Yan
-Yan is a simple instance/UI library for Love2D
+Yan is a simple UI library for Love2D, based on Roblox's UI system
+
+### Demo
+
+<video src="https://summer.hackclub.com/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NTQzODcsInB1ciI6ImJsb2JfaWQifX0=--e72437be3fabd10af77a7fb7cf9b860ca0fc7b98/2025-08-18%2016-09-32.mp4" width="320" height="240" controls></video>
 
 ### Features
 - Position and scale UI elements relative to the window size
 - UI elements can be parented to other UI elements to make their positioning relative to the parent
-- Add instances to scenes, which can be enabled and disabled
-- Theming system to easily add colors and hovering/click effects to several different UI elements.
-- Tweening system to add smooth animations to UI elements and instances.
-- Several UI elements, including text labels, buttons, images, lists, grids, scrollables, and text input fields
+- Several UI elements, including text labels, buttons, images, and text input fields
+- Fully documented with LDoc
 
 ### How to use
-Download the `yan` folder and put it into your Love2D project. 
-Instances can be created by requiring their script, for example:
-```lua
-local instance = require("yan.instance.instance")
-local label = require("yan.instance.ui.label")
-```
-Create a new instance by calling the `New` function on any instance, for example:
-```lua
-local player = physicsInstance:New(world, "dynamic", "rectangle", {X = 50, Y = 50}, 0, 1)
-```
+Download the `yan` folder and `yan.lua` file and put it into your Love2D project.
 
-For UI elements, you must first create a screen, which is an instance that holds UI elements.
 
 ```lua
-local UIVector2 = require("yan.datatypes.uivector2")
-local Vector2 = require("yan.datatype.vector2")
-local Color = require("yan.datatype.color")
-myScreen = screen:New()
-myScreen.Enabled = true
-    
-text = label:New(myScreen, "Hello world!", 32, "center")
-text.Position = UIVector2.new(0.5, 0, 0.5, 0)
-text.Size = UIVector2.new(1, 0, 0.5, 0)
-text.AnchorPoint = Vector2.new(0.5, 0.5)
-text.Color = Color.new(0,1,0,1)
-text.ZIndex = 1
-```
+-- Add this to the top of your lua file.
 
-To draw instances, call the `Draw` function on them in `love.draw`. For UI elements, call `Draw` on the `UIManager` module, which will draw all UI elements across all screens at once.
-With the `UIManager` module, you'll also need to call some other functions for certain UI elements to function. 
+require "yan"
 
-```lua
-local uiManager = require("yan.uimanager")
+function love.load()
+    -- All UI elements need to be added to a screen
+    myScreen = screen:new()
 
-function love.keypressed(key, scancode, rep)
-    uiManager:KeyPressed(key, scancode, rep)
+    element = uibase:new()
+    -- Position/scale elements with UDim2s
+    element.position = UDim.new(0.5, 0, 0.5, 0)
+    -- Color elements with Colors (wow!)
+    element.backgroundcolor = Color.new(0.5,1,0.7,0.5)
+
+    -- Add elements to screens with screen:addelement
+    myScreen:addelement(element)
+
+    -- You can add multiple elements to a screen at once with screen:addelements
+    myScreen:addelements({element1, element2, element3})
 end
 
-function love.textinput(t)
-    uiManager:TextInput(t)
+-- Call :draw on all screens in love.draw
+function love.draw()
+    mainScreen:draw()
 end
 
-function love.wheelmoved(x, y)
-    uiManager:WheelMoved(x, y)
+-- Call :update on all screens in love.update
+function love.update()
+    mainScreen:update()
+end
+
+-- Call :textinput on all screens in love.textinput
+function love.textinput(text)
+    mainScreen:textinput(text)
+end
+
+-- Call :keypressed on all screens in love.keypressed
+function love.keypressed(key)
+    mainScreen:keypressed(key)
 end
 ```
-
-To add instances to a scene, create a new scene with `SceneManager:NewScene()`, then add the instances to the scene with `SceneManager:AddToScene()`, for example:
-```lua
-local SceneManager = require("yan.scenemanager")
-SceneManager:NewScene("User interface")
-SceneManager:AddToScene("User interface", {myScreen})
-```
-Scenes can be enabled or disabled with ```SceneManager:SetSceneEnabled("User interface", true)``` and ```SceneManager:SetSceneEnabled("User interface", false)```
