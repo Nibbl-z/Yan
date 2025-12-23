@@ -7,17 +7,35 @@
 Color = {}
 Color.__index = Color
 
---- Creates a new Color
----@param r number
----@param g number
----@param b number
----@param a number
+--- Creates a new Color, with values ranging from 0-1
+---@param r number Red value from 0-1
+---@param g number Green value from 0-1
+---@param b number Blue value from 0-1
+---@param a? number Alpha value from 0-1
 function Color.new(r, g, b, a)
     local self = setmetatable({
         r = r,
         g = g,
         b = b,
-        a = a
+        a = a or 1
+    }, Color)
+    
+    return self
+end
+
+--- Creates a new Color, with values ranging from 0-255
+---@param r number Red value from 0-255
+---@param g number Green value from 0-255
+---@param b number Blue value from 0-255
+---@param a? number Alpha value from 0-255
+function Color.fromRgb(r, g, b, a)
+    a = a or 255
+
+    local self = setmetatable({
+        r = r / 255,
+        g = g / 255,
+        b = b / 255,
+        a = a / 255
     }, Color)
     
     return self

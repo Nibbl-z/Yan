@@ -8,6 +8,7 @@ local common = require("yan.common")
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
 ---@field _type? string The type of interface element
+---@field name? string The name of the element, to be used in `screen:get()`.
 ---@field visible? boolean Should the element be rendered?
 ---@field position? UDim2 Position of the element
 ---@field size? UDim2 Size of the element
@@ -28,6 +29,7 @@ local common = require("yan.common")
 ---@field _hovered? boolean
 ---@field _clicked? boolean
 ---@field _creationorder? number
+---@field _ancestorCount? number
 uibase = {}
 uibase.__index = uibase
 
@@ -40,6 +42,7 @@ local creationIndex = 0
 function uibase:new(props)
     local object = {
         _type = "UIBase",
+        name = "Unnamed",
         visible = true,
         position = UDim2.new(0, 0, 0, 0),
         size = UDim2.new(0, 100, 0, 100),
@@ -63,11 +66,19 @@ function uibase:new(props)
 
         _hovered = false,
         _clicked = false,
-        _creationorder = creationIndex
+        _creationorder = creationIndex,
+        _ancestorCount = 0
     }
 
     for k, v in pairs(props) do
-        object[k] = v
+        if k == "children" then
+            for name, element in pairs(v) do
+                element.name = name
+                element:setparent(object)
+            end
+        else
+            object[k] = v
+        end
     end
     
     creationIndex = creationIndex + 0.0001
@@ -91,7 +102,24 @@ function uibase:_inherit(props, defaults, type)
     return object
 end
 
+--- Finds the first child element with the name provided
+---@param name string Name of element to find
+---@return any|nil element Element if found, nil if not
+function uibase:get(name)
+    for _, element in pairs(self.children) do
+        if element.name == name then
+            return element
+        end
+    end
+
+    return nil
+end
+
 --- Gets the screenspace coordinates for position and size
+---@return number pX X position
+---@return number pY Y position
+---@return number sX X size
+---@return number sY Y size
 function uibase:getdrawingcoordinates()
     local width = love.graphics.getWidth()
     local height = love.graphics.getHeight()

@@ -10,18 +10,50 @@ local manager = require "yan.manager"
 
 --- Creates a new Screen with elements
 ---@param elements UIBase[]
+---@return Screen screen
 function screen:new(elements)
     local object = {
-        elements = elements,
+        elements = {},
         enabled = true,
         layoutorder = 0
     }
-
+    
+    
     setmetatable(object, self)
+
+    function addChildrenElements(elements, previousIndex)
+        for name, element in pairs(elements) do
+            object:addelement(element)
+            element._ancestorCount = previousIndex + 1
+            addChildrenElements(element.children, previousIndex + 1)
+        end
+    end
+
+    for k, v in pairs(elements) do
+        v.name = k
+        table.insert(object.elements, v)
+    end
+
+    for k, v in pairs(object.elements) do
+        addChildrenElements(v.children, 0)
+    end
 
     manager:addscreen(object)
 
     return object
+end
+
+--- Finds the first child element with the name provided
+---@param name string Name of element to find
+---@return UIBase|TextLabel|TextInput|ImageLabel|nil element Element if found, nil if not
+function screen:get(name)
+    for _, element in pairs(self.elements) do
+        if element.name == name then
+            return element
+        end
+    end
+
+    return nil
 end
 
 --- Adds an element to a screen
@@ -33,7 +65,7 @@ end
 --- Adds multiple elements at once to a screen
 ---@param elements UIBase[]
 function screen:addelements(elements)
-    for _, element in ipairs(elements) do
+    for _, element in pairs(elements) do
         table.insert(self.elements, element)
     end
 end
@@ -44,6 +76,10 @@ function screen:draw()
 
     table.sort(self.elements, function (a, b)
         return a.zindex + a._creationorder < b.zindex + b._creationorder
+    end)
+
+    table.sort(self.elements, function (a, b)
+        return a._ancestorCount < b._ancestorCount
     end)
     
     for _, element in ipairs(self.elements) do

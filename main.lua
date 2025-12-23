@@ -9,24 +9,21 @@ function love.load()
     }
 
     mainScreen = screen:new {
-        uibase:new {
+        container = uibase:new {
             position = UDim2.new(0.5, 0, 0.5, 0),
+            size = UDim2.new(0.5,0,0.5,0),
             anchorpoint = Vector2.new(0.5, 0.5),
-            backgroundcolor = Color.new(1,0,1,1)
+            backgroundcolor = Color.new(1,0,1,1),
+            children = {
+                helloworld = textlabel:new {
+                    size = UDim2.new(0.5,0,0.5,0),
+                    text = "hello world :3",
+                },
+            }
         },
-
-        textlabel:new {
-            position = UDim2.new(0,10,0,10),
-            text = "hello world :3",
-        },
-
-        textinput:new {
-            position = UDim2.new(0, 10, 0.9, 0),
-            size = UDim2.new(0.5,0,0.1,0)
-        },
-
-        img
     }
+
+    print(mainScreen:get("container"):get("helloworld").text)
 end
 
 
