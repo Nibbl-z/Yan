@@ -3,7 +3,8 @@ require "yan.datatypes.udim"
 require "yan.datatypes.vector2"
 require "yan.datatypes.color"
 
-local common = require("yan.common")
+local common = require "yan.common"
+local manager = require "yan.manager"
 
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
@@ -36,6 +37,8 @@ uibase.__index = uibase
 --- Creates a new UIBase
 
 local creationIndex = 0
+
+
 
 --- Creates a new UIBase
 ---@param props UIBase
@@ -70,6 +73,12 @@ function uibase:new(props)
         _ancestorCount = 0
     }
 
+    -- for k, v in pairs(defaults) do
+    --     object[k] = v
+    -- end
+
+    -- object._creationorder = creationIndex
+
     for k, v in pairs(props) do
         if k == "children" then
             for name, element in pairs(v) do
@@ -77,7 +86,12 @@ function uibase:new(props)
                 element:setparent(object)
             end
         else
-            object[k] = v
+            if type(v) == "function" and type(object[k]) ~= "function" then
+                manager:addupdatefunc(object, k, v)
+                object[k] = v()
+            else
+                object[k] = v
+            end
         end
     end
     

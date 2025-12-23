@@ -8,18 +8,28 @@ function love.load()
         zindex = 10
     }
 
+    value = 0
+
     mainScreen = screen:new {
         container = uibase:new {
-            position = UDim2.new(0.5, 0, 0.5, 0),
+            position = function ()
+                return UDim2.new(math.sin(value) / 4 + 0.25, 0, 0.5, 0)
+            end,
             size = UDim2.new(0.5,0,0.5,0),
-            anchorpoint = Vector2.new(0.5, 0.5),
+            anchorpoint = Vector2.new(0, 0.5),
             backgroundcolor = Color.new(1,0,1,1),
             children = {
                 helloworld = textlabel:new {
                     size = UDim2.new(0.5,0,0.5,0),
                     text = "hello world :3",
                 },
-            }
+            },
+            mouseenter = function (self)
+                self.backgroundcolor = Color.new(0.5,0,0.5)
+            end,
+            mouseexit = function (self)
+                self.backgroundcolor = Color.new(1,0,1)
+            end
         },
     }
 
@@ -32,7 +42,8 @@ function love.draw()
 end
 
 
-function love.update()
+function love.update(dt)
+    value = value + dt * 1
     yan:update()
 end
 
