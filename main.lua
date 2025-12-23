@@ -2,10 +2,6 @@ require "yan"
 
 function love.load()
     love.window.setMode(800, 600, {resizable = true})
-    
-    thing = uibase:new {
-        position = UDim2.new(0, 10, 0.5, 0)
-    }
 
     img = imagelabel:new {
         image = "examples/example_btn.png",
@@ -33,19 +29,21 @@ function love.load()
     }
 end
 
+
 function love.draw()
-    mainScreen:draw()
+    yan:draw()
 end
 
+
 function love.update()
-    mainScreen:update()
+    yan:update()
 end
 
 function love.textinput(text)
-    mainScreen:textinput(text)
+    yan:textinput(text)
 end
 
 function love.keypressed(key)
-    mainScreen:keypressed(key)
+    yan:keypressed(key)
     img.image = "examples/example_image.png"
 end

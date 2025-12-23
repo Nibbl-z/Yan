@@ -6,6 +6,8 @@
 screen = {}
 screen.__index = screen
 
+local manager = require "yan.manager"
+
 --- Creates a new Screen with elements
 ---@param elements UIBase[]
 function screen:new(elements)
@@ -16,6 +18,9 @@ function screen:new(elements)
     }
 
     setmetatable(object, self)
+
+    manager:addscreen(object)
+
     return object
 end
 
@@ -52,6 +57,8 @@ end
 
 --- Updates all elements in the screen
 function screen:update()
+    if not self.enabled then return end
+
     for _, element in ipairs(self.elements) do
         element:update()
     end
@@ -59,8 +66,11 @@ end
 
 --- Calls `love.textinput` on all elements that need it
 function screen:textinput(text)
+    if not self.enabled then return end
+
     for _, element in ipairs(self.elements) do
         if element._type == "TextInput" then
+            ---@diagnostic disable-next-line: undefined-field
             element:textinput(text)
         end
     end
@@ -68,8 +78,11 @@ end
 
 --- Calls `love.keypressed` on all elements that need it
 function screen:keypressed(key)
+    if not self.enabled then return end
+
     for _, element in ipairs(self.elements) do
         if element._type == "TextInput" then
+            ---@diagnostic disable-next-line: undefined-field
             element:keypressed(key)
         end
     end
