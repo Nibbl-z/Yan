@@ -6,10 +6,11 @@
 screen = {}
 screen.__index = screen
 
---- Creates a new Screen
-function screen:new()
+--- Creates a new Screen with elements
+---@param elements UIBase[]
+function screen:new(elements)
     local object = {
-        elements = {},
+        elements = elements,
         enabled = true,
         layoutorder = 0
     }
@@ -59,7 +60,7 @@ end
 --- Calls `love.textinput` on all elements that need it
 function screen:textinput(text)
     for _, element in ipairs(self.elements) do
-        if element.type == "TextInput" then
+        if element._type == "TextInput" then
             element:textinput(text)
         end
     end
@@ -68,7 +69,7 @@ end
 --- Calls `love.keypressed` on all elements that need it
 function screen:keypressed(key)
     for _, element in ipairs(self.elements) do
-        if element.type == "TextInput" then
+        if element._type == "TextInput" then
             element:keypressed(key)
         end
     end

@@ -3,33 +3,29 @@ require "yan.datatypes.color"
 
 --- Displays text
 ---@class TextLabel : UIBase
----@field text string
----@field textsize number
----@field halign "left" | "center" | "right" | "justify"
----@field valign "top" | "center" | "bottom"
----@field textcolor Color
----@field _font love.Font
-textlabel = uibase:new()
+---@field text? string
+---@field textsize? number
+---@field halign? "left" | "center" | "right" | "justify"
+---@field valign? "top" | "center" | "bottom"
+---@field textcolor? Color
+---@field _font? love.Font
+textlabel = uibase:new({})
 textlabel.__index = textlabel
 
 --- Creates a new TextLabel
----@param text string
----@param textsize number
----@param halign "left" | "center" | "right" | "justify"
----@param valign "top" | "center" | "bottom"
-function textlabel:new(text, textsize, halign, valign)
-    local object = uibase:new()
+---@param props TextLabel
+function textlabel:new(props)
+    local object = uibase:_inherit(props, {
+        text = "",
+        textsize = 20,
+        halign = "center",
+        valign = "center",
+        textcolor = Color.new(0,0,0,1)
+    }, "TextLabel")
+    
     setmetatable(object, self)
-    
-    object.type = "TextLabel"
 
-    object.text = text
-    object.textsize = textsize
-    object.halign = halign
-    object.valign = valign
     object._font = love.graphics.newFont(object.textsize)
-    
-    object.textcolor = Color.new(0,0,0,1)
     
     return object
 end

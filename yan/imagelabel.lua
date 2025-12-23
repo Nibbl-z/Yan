@@ -2,19 +2,22 @@ require "yan.uibase"
 
 --- Displays an image
 ---@class ImageLabel : UIBase
----@field image love.Image
-imagelabel = uibase:new()
+---@field image? string The path to the current image.
+---@field _lastImage? string
+---@field _loadedImage? love.Image
+imagelabel = uibase:new({})
 imagelabel.__index = imagelabel
 
 --- Creates a new ImageLabel
----@param image string The path to the image to use
-function imagelabel:new(image)
-    local object = uibase:new()
+---@param props ImageLabel
+function imagelabel:new(props)
+    local object = uibase:_inherit(props, {
+        image = ""
+    }, "ImageLabel")
     setmetatable(object, self)
     
-    object.type = "ImageLabel"
+    object._lastImage = object.image
 
-    object.image = love.graphics.newImage(image)
     return object
 end
 
@@ -24,13 +27,16 @@ function imagelabel:draw()
     
     local pX, pY, sX, sY = self:getdrawingcoordinates()
     
-    love.graphics.draw(self.image, pX, pY, 0, sX / self.image:getPixelWidth(), sY / self.image:getPixelHeight())
-end
+    if self._loadedImage == nil or self.image ~= self._lastImage then
+        if self._loadedImage ~= nil then
+            self._loadedImage:release()
+        end
+        self._loadedImage = love.graphics.newImage(self.image)
+    end
 
---- Changes the ImageLabel's image
----@param image string The path to the image to use
-function imagelabel:setimage(image)
-    self.image = love.graphics.newImage(image)
+    self._lastImage = self.image
+
+    love.graphics.draw(self._loadedImage, pX, pY, 0, sX / self._loadedImage:getPixelWidth(), sY / self._loadedImage:getPixelHeight())
 end
 
 return imagelabel

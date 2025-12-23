@@ -3,38 +3,33 @@ local utf8 = require("utf8")
 
 --- A field for users to input text
 ---@class TextInput : UIBase
----@field text string
----@field placeholdertext string
----@field textsize number
----@field halign "left" | "center" | "right" | "justify"
----@field valign "top" | "center" | "bottom"
----@field textcolor Color
----@field placeholdertextcolor Color
----@field typingindicatorenabled boolean
----@field _font love.Font
----@field _typing boolean
-textinput = uibase:new()
+---@field text? string
+---@field placeholdertext? string
+---@field textsize? number
+---@field halign? "left" | "center" | "right" | "justify"
+---@field valign? "top" | "center" | "bottom"
+---@field textcolor? Color
+---@field placeholdertextcolor? Color
+---@field typingindicatorenabled? boolean
+---@field _font? love.Font
+---@field _typing? boolean
+textinput = uibase:new({})
 textinput.__index = textinput
 
 --- Creates a new TextInput
----@param placeholdertext string
----@param textsize number
----@param halign "left" | "center" | "right" | "justify"
----@param valign "top" | "center" | "bottom"
-function textinput:new(placeholdertext, textsize, halign, valign)
-    local object = uibase:new()
+---@param props TextInput
+function textinput:new(props)
+    local object = uibase:_inherit(props, {
+        placeholdertext = "",
+        text = "",
+        textsize = 20,
+        halign = "center",
+        valign = "center",
+        textcolor = Color.new(0,0,0,1),
+        placeholdertextcolor = Color.new(0.5, 0.5, 0.5, 1),
+        typingindicatorenabled = true
+    }, "TextInput")
     setmetatable(object, self)
-    
-    object.type = "TextInput"
-
-    object.text = ""
-    object.placeholdertext = placeholdertext
-    object.textsize = textsize
-    object.halign = halign
-    object.valign = valign
-    object.textcolor = Color.new(0,0,0,1)
-    object.placeholdertextcolor = Color.new(0.5, 0.5, 0.5, 1)
-    object.typingindicatorenabled = true
     
     object._font = love.graphics.newFont(object.textsize)
     object._typing = false
@@ -47,12 +42,10 @@ function textinput:update()
 
     if self._clicked then
         self._typing = true
-        print("clicked")
     end
 
     if not self._hovered and love.mouse.isDown(1) then
         self._typing = false
-        print("no more typing")
     end
 end
 

@@ -7,27 +7,27 @@ local common = require("yan.common")
 
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
----@field type string The type of interface element
----@field visible boolean Should the element be rendered?
----@field position UDim2 Position of the element
----@field size UDim2 Size of the element
----@field anchorpoint Vector2 The origin point where the element will be positioned and scaled from
----@field backgroundcolor Color Background color of the element
----@field clipdescendants boolean Should the children of this element be masked?
----@field leftpadding UDim The amount of padding on children elements on the left side
----@field toppadding UDim The amount of padding on children elements on the top side
----@field rightpadding UDim The amount of padding on children elements on the right side
----@field bottompadding UDim The amount of padding on children elements on the bottom side
----@field zindex number The order that the element is drawn in based on every other element in the Screen
----@field children table A table of children that this element contains
----@field parent UIBase The element that this element is parented to, `nil` if element has no parent
----@field mouseenter fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
----@field mouseexit fun(self: UIBase, x: number, y: number) Function that runs when the mouse exits the element
----@field mousebutton1down fun(self: UIBase) Function that runs when the primary mouse button is clicked within the element
----@field mousebutton1up fun(self: UIBase) Function that runs when the primary mouse button is released within the element
----@field _hovered boolean
----@field _clicked boolean
----@field _creationorder number
+---@field _type? string The type of interface element
+---@field visible? boolean Should the element be rendered?
+---@field position? UDim2 Position of the element
+---@field size? UDim2 Size of the element
+---@field anchorpoint? Vector2 The origin point where the element will be positioned and scaled from
+---@field backgroundcolor? Color Background color of the element
+---@field clipdescendants? boolean Should the children of this element be masked?
+---@field leftpadding? UDim The amount of padding on children elements on the left side
+---@field toppadding? UDim The amount of padding on children elements on the top side
+---@field rightpadding? UDim The amount of padding on children elements on the right side
+---@field bottompadding? UDim The amount of padding on children elements on the bottom side
+---@field zindex? number The order that the element is drawn in based on every other element in the Screen
+---@field children? table A table of children that this element contains
+---@field parent? UIBase The element that this element is parented to, `nil` if element has no parent
+---@field mouseenter? fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
+---@field mouseexit? fun(self: UIBase, x: number, y: number) Function that runs when the mouse exits the element
+---@field mousebutton1down? fun(self: UIBase) Function that runs when the primary mouse button is clicked within the element
+---@field mousebutton1up? fun(self: UIBase) Function that runs when the primary mouse button is released within the element
+---@field _hovered? boolean
+---@field _clicked? boolean
+---@field _creationorder? number
 uibase = {}
 uibase.__index = uibase
 
@@ -35,9 +35,11 @@ uibase.__index = uibase
 
 local creationIndex = 0
 
-function uibase:new()
+--- Creates a new UIBase
+---@param props UIBase
+function uibase:new(props)
     local object = {
-        type = "UIBase",
+        _type = "UIBase",
         visible = true,
         position = UDim2.new(0, 0, 0, 0),
         size = UDim2.new(0, 100, 0, 100),
@@ -63,10 +65,28 @@ function uibase:new()
         _clicked = false,
         _creationorder = creationIndex
     }
+
+    for k, v in pairs(props) do
+        object[k] = v
+    end
     
     creationIndex = creationIndex + 0.0001
     
     setmetatable(object, self)
+
+    return object
+end
+
+function uibase:_inherit(props, defaults, type)
+    local object = uibase:new(props)
+
+    for k, v in pairs(defaults) do
+        if object[k] == nil then
+            object[k] = v
+        end
+    end
+
+    object._type = type
 
     return object
 end
