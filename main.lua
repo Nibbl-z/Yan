@@ -31,6 +31,11 @@ function love.load()
                 self.backgroundcolor = Color.new(1,0,1)
             end
         },
+
+        input = textinput:new {
+            position = UDim2.new(0, 10, 0, 10),
+            size = UDim2.new(1, -20, 0.1, 0)
+        }
     }
 
     print(mainScreen:get("container"):get("helloworld").text)
