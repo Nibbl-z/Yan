@@ -25,6 +25,9 @@ function love.load()
                 helloworld = textlabel:new {
                     size = UDim2.new(0.5,0,0.5,0),
                     text = "hello world :3",
+                    textcolor = Color.new(1,1,1,1),
+                    backgroundcolor = Color.new(0.3,0.3,0.3,1),
+                    textborder = Color.new(0,0,0,1),
                     cornerradius = UDim.new(1, 0)
                 },
             },
@@ -38,7 +41,8 @@ function love.load()
 
         input = textinput:new {
             position = UDim2.new(0, 10, 0, 10),
-            size = UDim2.new(1, -20, 0.1, 0)
+            size = UDim2.new(1, -20, 0.1, 0),
+            textborder = Color.new(1,0,0)
         }
     }
 

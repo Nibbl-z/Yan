@@ -8,7 +8,9 @@ require "yan.datatypes.color"
 ---@field halign? "left" | "center" | "right" | "justify"
 ---@field valign? "top" | "center" | "bottom"
 ---@field textcolor? Color
+---@field textborder? Color
 ---@field _font? love.Font
+---@field _shader? love.Shader
 textlabel = uibase:new({})
 textlabel.__index = textlabel
 
@@ -20,13 +22,17 @@ function textlabel:new(props)
         textsize = 20,
         halign = "center",
         valign = "center",
-        textcolor = Color.new(0,0,0,1)
+        textcolor = Color.new(0,0,0,1),
+        textborder = Color.new(0,0,0,0)
     }, "TextLabel")
     
     setmetatable(object, self)
 
     object._font = love.graphics.newFont(object.textsize)
-    
+
+    object._shader = love.graphics.newShader("yan/shaders/textborder.glsl")
+    object._shader:send("textcolor", {object.textcolor:get()})
+    object._shader:send("bordercolor", {object.textborder:get()})
     return object
 end
 
@@ -46,9 +52,16 @@ function textlabel:draw()
         yoffset = sY * 1 - self._font:getHeight() * #lines
     end
     
-    love.graphics.setColor(self.textcolor:get())
+    
     love.graphics.setFont(self._font)
+
+    if self.textborder.a > 0 then
+        self._shader:send("textcolor", {self.textcolor:get()})
+        self._shader:send("bordercolor", {self.textborder:get()})
+        love.graphics.setShader(self._shader)
+    end
     love.graphics.printf(self.text, pX, pY + yoffset, sX, self.halign)
+    love.graphics.setShader()
     love.graphics.setColor(1,1,1,1)
 end
 

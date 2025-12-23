@@ -9,10 +9,12 @@ local utf8 = require("utf8")
 ---@field halign? "left" | "center" | "right" | "justify"
 ---@field valign? "top" | "center" | "bottom"
 ---@field textcolor? Color
+---@field textborder? Color
 ---@field placeholdertextcolor? Color
 ---@field typingindicatorenabled? boolean
 ---@field _font? love.Font
 ---@field _typing? boolean
+---@field _shader? love.Shader
 textinput = uibase:new({})
 textinput.__index = textinput
 
@@ -26,6 +28,7 @@ function textinput:new(props)
         halign = "center",
         valign = "center",
         textcolor = Color.new(0,0,0,1),
+        textborder = Color.new(0,0,0,0),
         placeholdertextcolor = Color.new(0.5, 0.5, 0.5, 1),
         typingindicatorenabled = true
     }, "TextInput")
@@ -33,6 +36,10 @@ function textinput:new(props)
     
     object._font = love.graphics.newFont(object.textsize)
     object._typing = false
+
+    object._shader = love.graphics.newShader("yan/shaders/textborder.glsl")
+    object._shader:send("textcolor", {object.textcolor:get()})
+    object._shader:send("bordercolor", {object.textborder:get()})
 
     return object
 end
@@ -75,13 +82,29 @@ function textinput:draw()
     
     love.graphics.setFont(self._font)
     
+    
+
     if text == "" then
+        if self.textborder.a > 0 then
+            self._shader:send("textcolor", {self.placeholdertextcolor:get()})
+            self._shader:send("bordercolor", {self.textborder:get()})
+            love.graphics.setShader(self._shader)
+        end
+
         love.graphics.setColor(self.placeholdertextcolor:get())
         love.graphics.printf(self.placeholdertext, pX, pY + yoffset, sX, self.halign)
     else
+        if self.textborder.a > 0 then
+            self._shader:send("textcolor", {self.textcolor:get()})
+            self._shader:send("bordercolor", {self.textborder:get()})
+            love.graphics.setShader(self._shader)
+        end
+
         love.graphics.setColor(self.textcolor:get())
         love.graphics.printf(text, pX, pY + yoffset, sX, self.halign)
     end
+
+    love.graphics.setShader()
     
     love.graphics.setColor(1,1,1,1)
 end
