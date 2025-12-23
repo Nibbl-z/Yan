@@ -16,6 +16,9 @@ local manager = require "yan.manager"
 ---@field anchorpoint? Vector2 The origin point where the element will be positioned and scaled from
 ---@field backgroundcolor? Color Background color of the element
 ---@field clipdescendants? boolean Should the children of this element be masked?
+---@field cornerradius? UDim Radius of rounded corners
+---@field bordersize? number Size of border
+---@field bordercolor? Color Color of border
 ---@field leftpadding? UDim The amount of padding on children elements on the left side
 ---@field toppadding? UDim The amount of padding on children elements on the top side
 ---@field rightpadding? UDim The amount of padding on children elements on the right side
@@ -56,6 +59,10 @@ function uibase:new(props)
         zindex = 0,
         children = {},
         parent = nil,
+
+        cornerradius = UDim.new(0, 0),
+        bordersize = 0,
+        bordercolor = Color.new(0,0,0,1),
 
         leftpadding = UDim.new(0, 0),
         toppadding = UDim.new(0, 0),
@@ -169,8 +176,20 @@ end
 
 --- Draws the UIBase to the screen
 function uibase:draw()
+    
+    local pX, pY, sX, sY = self:getdrawingcoordinates()
+
+    local rX = math.min(sX / 2, self.cornerradius.offset + self.cornerradius.scale * (sX / 2))
+    local rY = math.min(sY / 2, self.cornerradius.offset + self.cornerradius.scale * (sY / 2))
+
+    if self.bordersize > 0 then
+        love.graphics.setColor(self.bordercolor:get())
+
+        love.graphics.rectangle("fill", pX - self.bordersize, pY - self.bordersize, sX + self.bordersize * 2, sY + self.bordersize * 2, rX + self.bordersize, rY + self.bordersize)
+    end
+
     love.graphics.setColor(self.backgroundcolor:get())
-    love.graphics.rectangle("fill", self:getdrawingcoordinates())
+    love.graphics.rectangle("fill", pX, pY, sX, sY, rX, rY)
     love.graphics.setColor(1,1,1,1)
 end
 

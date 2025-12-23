@@ -18,10 +18,14 @@ function love.load()
             size = UDim2.new(0.5,0,0.5,0),
             anchorpoint = Vector2.new(0, 0.5),
             backgroundcolor = Color.new(1,0,1,1),
+            cornerradius = UDim.new(0, 10),
+            bordersize = 5,
+            bordercolor = Color.new(0.7, 0, 0.7),
             children = {
                 helloworld = textlabel:new {
                     size = UDim2.new(0.5,0,0.5,0),
                     text = "hello world :3",
+                    cornerradius = UDim.new(1, 0)
                 },
             },
             mouseenter = function (self)
