@@ -4,7 +4,7 @@ require "yan.datatypes.vector2"
 require "yan.datatypes.color"
 
 local common = require "yan.common"
-local manager = require "yan.manager"
+local registry = require "yan.registry"
 
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
@@ -98,7 +98,7 @@ function uibase:new(props)
             end
         else
             if type(v) == "function" and type(object[k]) ~= "function" then
-                manager:addupdatefunc(object, k, v)
+                registry:addupdatefunc(object, k, v)
                 object[k] = v()
             else
                 object[k] = v

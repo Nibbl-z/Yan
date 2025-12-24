@@ -23,4 +23,31 @@ function UDim2.new(xscale, xoffset, yscale, yoffset)
     return self
 end
 
+function UDim2.__add(a, b)
+    return UDim2.new(
+        a.xscale + b.xscale,
+        a.xoffset + b.xoffset,
+        a.yscale + b.yscale,
+        a.yoffset + b.yoffset
+    )
+end
+
+function UDim2.__sub(a, b)
+    return UDim2.new(
+        a.xscale - b.xscale,
+        a.xoffset - b.xoffset,
+        a.yscale - b.yscale,
+        a.yoffset - b.yoffset
+    )
+end
+
+function UDim2.__mul(a, b)
+    return UDim2.new(
+        a.xscale * b,
+        a.xoffset * b,
+        a.yscale * b,
+        a.yoffset * b
+    )
+end
+
 return UDim2

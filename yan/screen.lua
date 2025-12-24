@@ -6,7 +6,7 @@
 screen = {}
 screen.__index = screen
 
-local manager = require "yan.manager"
+local registry = require "yan.registry"
 
 --- Creates a new Screen with elements
 ---@param elements UIBase[]
@@ -38,7 +38,7 @@ function screen:new(elements)
         addChildrenElements(v.children, 0)
     end
 
-    manager:addscreen(object)
+    registry:addscreen(object)
 
     return object
 end

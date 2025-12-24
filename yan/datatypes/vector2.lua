@@ -18,4 +18,25 @@ function Vector2.new(x, y)
     return self
 end
 
+function Vector2.__add(a, b)
+    return Vector2.new(
+        a.x + b.x,
+        a.y + b.y
+    )
+end
+
+function Vector2.__sub(a, b)
+    return Vector2.new(
+        a.x - b.x,
+        a.y - b.y
+    )
+end
+
+function Vector2.__mul(a, b)
+    return Vector2.new(
+        a.x * b,
+        a.y * b
+    )
+end
+
 return Vector2

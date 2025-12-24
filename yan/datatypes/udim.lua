@@ -17,4 +17,25 @@ function UDim.new(scale, offset)
     return self
 end
 
+function UDim.__add(a, b)
+    return UDim.new(
+        a.scale + b.scale,
+        a.offset + b.offset
+    )
+end
+
+function UDim.__sub(a, b)
+    return UDim.new(
+        a.scale - b.scale,
+        a.offset - b.offset
+    )
+end
+
+function UDim.__mul(a, b)
+    return UDim.new(
+        a.scale * b.scale,
+        a.offset * b.offset
+    )
+end
+
 return UDim
