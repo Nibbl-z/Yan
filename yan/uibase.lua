@@ -23,7 +23,13 @@ local manager = require "yan.manager"
 ---@field toppadding? UDim The amount of padding on children elements on the top side
 ---@field rightpadding? UDim The amount of padding on children elements on the right side
 ---@field bottompadding? UDim The amount of padding on children elements on the bottom side
+---@field layout? "default"|"list" The way that child elements are positioned.
+---@field listpadding? number The amount of pixels of padding between elements when `layout` is set to `list`
+---@field listdirection? "vertical"|"horizontal" The direction that elements will be placed when `layout` is set to `list`
+---@field listhalign? "left"|"center"|"right" The horizontal alignment of elements when `layout` is set to `list`
+---@field listvalign? "top"|"center"|"bottom" The vertical alignment of elements when `layout` is set to `list`
 ---@field zindex? number The order that the element is drawn in based on every other element in the Screen
+---@field layoutorder? number The order that the element is drawn when the parent has `layout` set to `list`
 ---@field children? table A table of children that this element contains
 ---@field parent? UIBase The element that this element is parented to, `nil` if element has no parent
 ---@field mouseenter? fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
@@ -41,8 +47,6 @@ uibase.__index = uibase
 
 local creationIndex = 0
 
-
-
 --- Creates a new UIBase
 ---@param props UIBase
 function uibase:new(props)
@@ -57,8 +61,14 @@ function uibase:new(props)
         
         clipdescendants = false,
         zindex = 0,
+        layoutorder = 0,
         children = {},
         parent = nil,
+        layout = "default",
+        listpadding = 0,
+        listdirection = "vertical",
+        listhalign = "left",
+        listvalign = "top",
 
         cornerradius = UDim.new(0, 0),
         bordersize = 0,
@@ -80,12 +90,6 @@ function uibase:new(props)
         _ancestorCount = 0
     }
 
-    -- for k, v in pairs(defaults) do
-    --     object[k] = v
-    -- end
-
-    -- object._creationorder = creationIndex
-
     for k, v in pairs(props) do
         if k == "children" then
             for name, element in pairs(v) do
@@ -102,7 +106,7 @@ function uibase:new(props)
         end
     end
     
-    creationIndex = creationIndex + 0.0001
+    creationIndex = creationIndex + 0.0000001
     
     setmetatable(object, self)
 
@@ -136,17 +140,65 @@ function uibase:get(name)
     return nil
 end
 
+function _handleListOffsets(self)
+    local x, y = 0, 0
+    local itemsX, itemsY = 0, 0
+
+    if self.parent.listdirection == "vertical" then
+        for _, element in pairs(self.parent.children) do
+            local _, _, sX, sY = element:getdrawingcoordinates(true)
+
+            itemsY = itemsY + sY
+            if element._creationorder == self._creationorder then
+                itemsX = sX
+            end
+            if element.layoutorder + element._creationorder < self.layoutorder + self._creationorder and element._creationorder ~= self._creationorder then
+                y = y + sY + self.parent.listpadding
+            end
+        end
+    else
+        for _, element in pairs(self.parent.children) do
+            local _, _, sX, sY = element:getdrawingcoordinates(true)
+
+            itemsX = itemsX + sX
+            if element._creationorder == self._creationorder then
+                itemsY = sY
+            end
+            if element.layoutorder + element._creationorder < self.layoutorder + self._creationorder and element._creationorder ~= self._creationorder then
+                x = x + sX + self.parent.listpadding
+            end
+        end
+    end
+
+    local _, _, parentsx, parentsy = self.parent:getdrawingcoordinates(true)
+
+    
+    if self.parent.listhalign == "center" then
+        x = x + parentsx / 2 - itemsX / 2
+    elseif self.parent.listhalign == "right" then
+        x = x + parentsx - itemsX
+    end
+
+    if self.parent.listvalign == "center" then
+        y = y + parentsy / 2 - itemsY / 2
+    elseif self.parent.listvalign == "bottom" then
+        y = y + parentsy - itemsY
+    end
+
+    return x, y
+end
+
 --- Gets the screenspace coordinates for position and size
 ---@return number pX X position
 ---@return number pY Y position
 ---@return number sX X size
 ---@return number sY Y size
-function uibase:getdrawingcoordinates()
+function uibase:getdrawingcoordinates(ignoreLayout)
     local width = love.graphics.getWidth()
     local height = love.graphics.getHeight()
     
     local pxextra, pyextra = 0, 0
-    
+
     if self.parent ~= nil then
         local parentpx, parentpy, parentsx, parentsy = self.parent:getdrawingcoordinates()
         
@@ -160,16 +212,26 @@ function uibase:getdrawingcoordinates()
         parentpy = parentpy + rightPadding
         parentsy = parentsy - rightPadding - self.parent.bottompadding.offset - self.parent.bottompadding.scale * parentsy
 
+        if self.parent.layout == "list" and not ignoreLayout then
+            local listx, listy = _handleListOffsets(self)
+
+            parentpx = parentpx + listx
+            parentpy = parentpy + listy
+        end
+
         pxextra, pyextra = parentpx, parentpy
         width = parentsx
         height = parentsy
     end
-    
+
     local sX = self.size.xscale * width + self.size.xoffset
     local sY = self.size.yscale * height + self.size.yoffset
+    local pX, pY = pxextra, pyextra
     
-    local pX = self.position.xscale * width + self.position.xoffset + pxextra - sX * self.anchorpoint.x
-    local pY = self.position.yscale * height + self.position.yoffset + pyextra - sY * self.anchorpoint.y
+    if self.parent == nil or (self.parent.layout ~= "list" and not ignoreLayout) then
+        pX = self.position.xscale * width + self.position.xoffset + pxextra - sX * self.anchorpoint.x
+        pY = self.position.yscale * height + self.position.yoffset + pyextra - sY * self.anchorpoint.y
+    end
 
     return pX, pY, sX, sY
 end

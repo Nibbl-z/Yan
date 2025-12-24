@@ -21,9 +21,32 @@ function love.load()
             cornerradius = UDim.new(0, 10),
             bordersize = 5,
             bordercolor = Color.new(0.7, 0, 0.7),
+            layout = "list",
+            listpadding = 5,
+            listdirection = "horizontal",
+            listhalign = "left",
+            listvalign = "center",
             children = {
                 helloworld = textlabel:new {
-                    size = UDim2.new(0.5,0,0.5,0),
+                    size = function ()
+                        return UDim2.new(math.sin(value * 2) / 7 + 0.35, 0, 0.5, 0)
+                    end,
+                    text = "hello world :3",
+                    textcolor = Color.new(1,1,1,1),
+                    backgroundcolor = Color.new(0.3,0.3,0.3,1),
+                    textborder = Color.new(0,0,0,1),
+                    cornerradius = UDim.new(1, 0)
+                },
+                helloworld2 = textlabel:new {
+                    size = UDim2.new(0.2,0,0.5,0),
+                    text = "hello world :3",
+                    textcolor = Color.new(1,1,1,1),
+                    backgroundcolor = Color.new(0.3,0.3,0.3,1),
+                    textborder = Color.new(0,0,0,1),
+                    cornerradius = UDim.new(1, 0)
+                },
+                helloworld3 = textlabel:new {
+                    size = UDim2.new(0,100,0,200),
                     text = "hello world :3",
                     textcolor = Color.new(1,1,1,1),
                     backgroundcolor = Color.new(0.3,0.3,0.3,1),
