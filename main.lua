@@ -7,7 +7,7 @@ function love.load()
         image = "examples/example_image.png",
         zindex = 10
     }
-    tween = tween:new(img, TweenInfo.new(3, EasingStyle.BounceOut), {
+    tween = tween:new(img, TweenInfo.new(2, EasingStyle.BounceOut, true, 1, 0), {
         position = UDim2.new(1, 0, 1, 0), 
         backgroundcolor = Color.new(1,0,0,1),
         anchorpoint = Vector2.new(1,1),
@@ -95,7 +95,7 @@ end
 
 function love.keypressed(key)
     yan:keypressed(key)
-
+    
     if key == "r" then
         tween:pause()
     elseif key == "s" then

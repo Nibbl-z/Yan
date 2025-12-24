@@ -24,7 +24,9 @@ function tween:new(element, tweeninfo, props)
 
         _isplaying = false,
         _originalValues = {},
-        _progress = 0.0
+        _progress = -tweeninfo.delay,
+        _repeats = 0,
+        _reversing = false
     }
 
     setmetatable(object, self)
@@ -35,15 +37,17 @@ function tween:new(element, tweeninfo, props)
 end
 
 function tween:play()
-    if self._progress == 0.0 then
+    if self._progress <= 0 then
         for k, _ in pairs(self.props) do
             self._originalValues[k] = self.element[k]
         end
         
-        self._progress = 0.0
+        self._progress = -self.tweeninfo.delay
+        self._repeats = 1
+        self._reversing = false
     end
+
     self._isplaying = true
-    
 end
 
 function tween:pause()
@@ -52,7 +56,9 @@ end
 
 function tween:cancel()
     self._isplaying = false
-    self._progress = 0.0
+    self._progress = -self.tweeninfo.delay
+    self._repeats = 1
+    self._reversing = false
 
     for k, _ in pairs(self.props) do
         self.element[k] = self._originalValues[k]
@@ -60,17 +66,28 @@ function tween:cancel()
 end
 
 function tween:_update(dt)
-    if self._isplaying then    
-        self._progress = self._progress + dt
-        local easeMod = self.tweeninfo.easingstyle(self._progress / self.tweeninfo.duration)
+    if self._isplaying then
+        self._progress = self._progress + dt * (self._reversing and -1 or 1)
+        local easeMod = self.tweeninfo.easingstyle(math.max(self._progress, 0) / self.tweeninfo.duration)
     
         for k, v in pairs(self.props) do
             self.element[k] = self._originalValues[k] + (v - self._originalValues[k]) * easeMod
         end
 
-        if self._progress >= self.tweeninfo.duration then
-            self._isplaying = false
-            self._progress = 0.0
+        if self._progress >= self.tweeninfo.duration or (self._progress <= 0 and self._reversing) then
+            if self.tweeninfo.reverses and not self._reversing then
+                self._reversing = true
+            else
+                if self._repeats <= self.tweeninfo.repeatcount then
+                    self._repeats = self._repeats + 1
+                    self._progress = 0.0
+                    self._reversing = false
+                else
+                    self._isplaying = false
+                    self._progress = -self.tweeninfo.delay
+                    self._reversing = false
+                end
+            end
         end
     end
 end
