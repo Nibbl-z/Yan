@@ -334,4 +334,22 @@ function uibase:applyallpadding(udim)
     self.bottompadding = udim
 end
 
+--- Checks if this element should be visible, based on its ancestry.
+---@return boolean
+function uibase:isvisible()
+    local parent = self.parent
+
+    if parent == nil then 
+        return self.visible 
+    end
+
+    repeat
+        if parent.visible == false then
+            return false
+        end
+    until parent.parent == nil
+
+    return true
+end
+
 return uibase

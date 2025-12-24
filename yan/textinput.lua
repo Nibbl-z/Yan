@@ -47,7 +47,7 @@ end
 function textinput:update()
     uibase.update(self)
 
-    if self._clicked then
+    if self._button1clicked then
         self._typing = true
     end
 

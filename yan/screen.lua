@@ -83,7 +83,7 @@ function screen:draw()
     end)
     
     for _, element in ipairs(self.elements) do
-        if element.visible then
+        if element:isvisible() then
             element:stencil(element.parent)
             element:draw()
             love.graphics.setStencilTest()
