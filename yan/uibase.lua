@@ -145,10 +145,11 @@ function _handleListOffsets(self)
     local itemsX, itemsY = 0, 0
 
     if self.parent.listdirection == "vertical" then
+        itemsY = itemsY - self.parent.listpadding
         for _, element in pairs(self.parent.children) do
             local _, _, sX, sY = element:getdrawingcoordinates(true)
 
-            itemsY = itemsY + sY
+            itemsY = itemsY + sY + self.parent.listpadding
             if element._creationorder == self._creationorder then
                 itemsX = sX
             end
@@ -157,10 +158,11 @@ function _handleListOffsets(self)
             end
         end
     else
+        itemsX = itemsX - self.parent.listpadding
         for _, element in pairs(self.parent.children) do
             local _, _, sX, sY = element:getdrawingcoordinates(true)
 
-            itemsX = itemsX + sX
+            itemsX = itemsX + sX + self.parent.listpadding
             if element._creationorder == self._creationorder then
                 itemsY = sY
             end

@@ -22,15 +22,13 @@ function love.load()
             bordersize = 5,
             bordercolor = Color.new(0.7, 0, 0.7),
             layout = "list",
-            listpadding = 5,
+            listpadding = 20,
             listdirection = "horizontal",
-            listhalign = "left",
+            listhalign = "right",
             listvalign = "center",
             children = {
                 helloworld = textlabel:new {
-                    size = function ()
-                        return UDim2.new(math.sin(value * 2) / 7 + 0.35, 0, 0.5, 0)
-                    end,
+                    size = UDim2.new(0.1,0,0.5,0),
                     text = "hello world :3",
                     textcolor = Color.new(1,1,1,1),
                     backgroundcolor = Color.new(0.3,0.3,0.3,1),
