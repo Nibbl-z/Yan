@@ -36,8 +36,11 @@ local registry = require "yan.registry"
 ---@field mouseexit? fun(self: UIBase, x: number, y: number) Function that runs when the mouse exits the element
 ---@field mousebutton1down? fun(self: UIBase) Function that runs when the primary mouse button is clicked within the element
 ---@field mousebutton1up? fun(self: UIBase) Function that runs when the primary mouse button is released within the element
+---@field mousebutton2down? fun(self: UIBase) Function that runs when the secondary mouse button is clicked within the element
+---@field mousebutton2up? fun(self: UIBase) Function that runs when the secondary mouse button is released within the element
 ---@field _hovered? boolean
----@field _clicked? boolean
+---@field _button1clicked? boolean
+---@field _button2clicked? boolean
 ---@field _creationorder? number
 ---@field _ancestorCount? number
 uibase = {}
@@ -83,9 +86,12 @@ function uibase:new(props)
         mouseexit = function () end,
         mousebutton1down = function () end,
         mousebutton1up = function () end,
+        mousebutton2down = function () end,
+        mousebutton2up = function () end,
 
         _hovered = false,
-        _clicked = false,
+        _button1clicked = false,
+        _button2clicked = false,
         _creationorder = creationIndex,
         _ancestorCount = 0
     }
@@ -270,15 +276,24 @@ function uibase:update()
     elseif self._hovered and not isColliding then
         self:mouseexit(mx, my)
         self._hovered = false
-        self._clicked = false
+        self._button1clicked = false
+        self._button2clicked = false
     end
     
-    if not self._clicked and isColliding and love.mouse.isDown(1) then
+    if not self._button1clicked and isColliding and love.mouse.isDown(1) then
         self:mousebutton1down()
-        self._clicked = true
-    elseif self._clicked and isColliding and not love.mouse.isDown(1) then
+        self._button1clicked = true
+    elseif self._button1clicked and isColliding and not love.mouse.isDown(1) then
         self:mousebutton1up()
-        self._clicked = false
+        self._button1clicked = false
+    end
+
+    if not self._button2clicked and isColliding and love.mouse.isDown(2) then
+        self:mousebutton2down()
+        self._button2clicked = true
+    elseif self._button2clicked and isColliding and not love.mouse.isDown(2) then
+        self:mousebutton2up()
+        self._button2clicked = false
     end
 end
 
