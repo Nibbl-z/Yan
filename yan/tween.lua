@@ -17,6 +17,17 @@ local registry = require "yan.registry"
 ---@param props table Table of properties to tween to
 ---@return Tween
 function tween:new(element, tweeninfo, props)
+    
+    for k, v in pairs(props) do
+        if type(v) ~= "number" and type(v) ~= "table" then
+            props[k] = nil
+        end
+
+        if type(element[k]) ~= "number" and type(element[k]) ~= "table" then
+            props[k] = nil
+        end
+    end
+
     local object = {
         element = element,
         tweeninfo = tweeninfo,
@@ -36,6 +47,7 @@ function tween:new(element, tweeninfo, props)
     return object
 end
 
+--- Plays the tween
 function tween:play()
     if self._progress <= 0 then
         for k, _ in pairs(self.props) do
@@ -50,14 +62,16 @@ function tween:play()
     self._isplaying = true
 end
 
+--- Pauses the tween. Can be continued through `:play()`
 function tween:pause()
     self._isplaying = false
 end
 
+--- Cancels the tween, and resets the element to its default values
 function tween:cancel()
     self._isplaying = false
     self._progress = -self.tweeninfo.delay
-    self._repeats = 1
+    self._repeats = 0
     self._reversing = false
 
     for k, _ in pairs(self.props) do
@@ -65,6 +79,8 @@ function tween:cancel()
     end
 end
 
+--- Updates the tween
+---@param dt number
 function tween:_update(dt)
     if self._isplaying then
         self._progress = self._progress + dt * (self._reversing and -1 or 1)

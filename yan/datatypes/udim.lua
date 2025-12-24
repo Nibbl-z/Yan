@@ -8,6 +8,7 @@ UDim.__index = UDim
 --- Creates a new UDim
 ---@param scale number
 ---@param offset number
+---@return UDim
 function UDim.new(scale, offset)
     local self = setmetatable({
         scale = scale,

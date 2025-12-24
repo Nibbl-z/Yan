@@ -12,6 +12,7 @@ Color.__index = Color
 ---@param g number Green value from 0-1
 ---@param b number Blue value from 0-1
 ---@param a? number Alpha value from 0-1
+---@return Color
 function Color.new(r, g, b, a)
     local self = setmetatable({
         r = math.min(r, 1),
@@ -28,6 +29,7 @@ end
 ---@param g number Green value from 0-255
 ---@param b number Blue value from 0-255
 ---@param a? number Alpha value from 0-255
+---@return Color
 function Color.fromRgb(r, g, b, a)
     a = a or 255
 

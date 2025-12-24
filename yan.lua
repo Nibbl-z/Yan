@@ -15,12 +15,13 @@ TweenInfo = require "yan.datatypes.tweeninfo"
 
 local registry = require "yan.registry"
 
---- Draws all screens. Call this in `love.draw`.
+--- Updates yan. Call this in `love.update`.
+---@param dt number
 function yan:update(dt)
     registry:update(dt)
 end
 
---- Updates yan. Call this in `love.update`.
+--- Draws all screens. Call this in `love.draw`.
 function yan:draw()
     registry:draw()
 end

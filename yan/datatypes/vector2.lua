@@ -8,7 +8,7 @@ Vector2.__index = Vector2
 --- Creates a new Vector2
 ---@param x number
 ---@param y number
----@return Vector2 vector
+---@return Vector2
 function Vector2.new(x, y)
     local self = setmetatable({
         x = x,

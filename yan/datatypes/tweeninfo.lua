@@ -14,6 +14,7 @@ TweenInfo.__index = TweenInfo
 ---@param reverses? boolean Should the tween reverse after finishing playback?
 ---@param repeatcount? number Number of times the tween repeats after finishing
 ---@param delay? number Seconds until the tween begins when `:play()` is called.
+---@return TweenInfo
 function TweenInfo.new(duration, easingstyle, reverses, repeatcount, delay)
     local self = {
         duration = duration,
