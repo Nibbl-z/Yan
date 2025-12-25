@@ -97,6 +97,7 @@ function tween:_update(dt)
         if self._progress >= self.tweeninfo.duration or (self._progress <= 0 and self._reversing) then
             if self.tweeninfo.reverses and not self._reversing then
                 self._reversing = true
+                self._progress = self.tweeninfo.duration
             else
                 if self._repeats < self.tweeninfo.repeatcount then
                     self._repeats = self._repeats + 1
