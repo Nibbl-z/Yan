@@ -2,7 +2,7 @@ require "yan.uibase"
 
 --- Displays an image
 ---@class ImageLabel : UIBase
----@field image? string The path to the current image.
+---@field image? string The path to the image
 ---@field _lastImage? string
 ---@field _loadedImage? love.Image
 imagelabel = uibase:new({})

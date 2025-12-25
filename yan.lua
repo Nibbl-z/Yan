@@ -1,3 +1,17 @@
+--[[                                
+     _   _  __ _ _ __  
+    | | | |/ _` | '_ \ 
+    | |_| | (_| | | | |
+    \__, |\__,_|_| |_|
+     __/ |            
+    |___/             
+
+
+    A simple UI library for Love2D, based on Roblox's UI system and inspired by dphfox's Fusion.
+    Made by @Nibbl-z 
+    https://github.com/Nibbl-z/Yan
+]]
+
 yan = {}
 
 uibase = require "yan.uibase"

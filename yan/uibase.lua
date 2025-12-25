@@ -9,8 +9,8 @@ local registry = require "yan.registry"
 --- The base of all interface elements that other elements inherit from
 ---@class UIBase
 ---@field _type? string The type of interface element
----@field name? string The name of the element, to be used in `screen:get()`.
----@field visible? boolean Should the element be rendered?
+---@field name? string The name of the element, to be used in `screen:get()`
+---@field visible? boolean If true, the element and its children will be rendered. If false, the element and its children will not render, and also disables all events from running on the element, but not updating functions
 ---@field position? UDim2 Position of the element
 ---@field size? UDim2 Size of the element
 ---@field anchorpoint? Vector2 The origin point where the element will be positioned and scaled from
@@ -23,7 +23,7 @@ local registry = require "yan.registry"
 ---@field toppadding? UDim The amount of padding on children elements on the top side
 ---@field rightpadding? UDim The amount of padding on children elements on the right side
 ---@field bottompadding? UDim The amount of padding on children elements on the bottom side
----@field layout? "default"|"list" The way that child elements are positioned.
+---@field layout? "default"|"list" The way that child elements are positioned
 ---@field listpadding? number The amount of pixels of padding between elements when `layout` is set to `list`
 ---@field listdirection? "vertical"|"horizontal" The direction that elements will be placed when `layout` is set to `list`
 ---@field listhalign? "left"|"center"|"right" The horizontal alignment of elements when `layout` is set to `list`
@@ -42,11 +42,8 @@ local registry = require "yan.registry"
 ---@field _button1clicked? boolean
 ---@field _button2clicked? boolean
 ---@field _creationorder? number
----@field _ancestorCount? number
 uibase = {}
 uibase.__index = uibase
-
---- Creates a new UIBase
 
 local creationIndex = 0
 
@@ -93,7 +90,6 @@ function uibase:new(props)
         _button1clicked = false,
         _button2clicked = false,
         _creationorder = creationIndex,
-        _ancestorCount = 0
     }
 
     for k, v in pairs(props) do
@@ -245,8 +241,7 @@ function uibase:getdrawingcoordinates(ignoreLayout)
 end
 
 --- Draws the UIBase to the screen
-function uibase:draw()
-    
+function uibase:draw()  
     local pX, pY, sX, sY = self:getdrawingcoordinates()
 
     local rX = math.min(sX / 2, self.cornerradius.offset + self.cornerradius.scale * (sX / 2))
@@ -335,7 +330,7 @@ function uibase:applyallpadding(udim)
     self.bottompadding = udim
 end
 
---- Checks if this element should be visible, based on its ancestry.
+--- Checks if this element should be visible, based on its ancestry
 ---@return boolean
 function uibase:isvisible()
     local parent = self.parent

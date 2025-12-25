@@ -1,7 +1,7 @@
 --- Contains UI elements and handles the updating and rendering of them all
 ---@class Screen
 ---@field elements UIBase[] A table of all elements in the Screen
----@field enabled boolean Should the screen render?
+---@field enabled boolean If enabled, the screen will render. This does not stop elements from updating
 ---@field layoutorder boolean The order that the screens will render compared to other screens
 screen = {}
 screen.__index = screen

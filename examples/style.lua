@@ -20,7 +20,7 @@ return function (page)
                 position = UDim2.new(0,0,0.1,0),
                 halign = "center",
                 valign = "top",
-                text = "yan provides some simple styling properties, including rounded corners and outlines!", 
+                text = "yan provides some simple styling properties, including fonts, rounded corners and outlines!", 
                 backgroundcolor = Color.new(1,0,0,0),
                 textcolor = Color.new(1,1,1,1)
             },
@@ -48,7 +48,8 @@ return function (page)
                         textcolor = Color.new(1,1,1,1),
                         textborder = Color.new(0,0,0,1),
                         textsize = 30,
-                        text = "look at my text border!!"
+                        fontpath = "examples/examplefont.ttf",
+                        text = "look at my text border and my font!!"
                     }
                 }
             }

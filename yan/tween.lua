@@ -4,7 +4,7 @@
 ---@field tweeninfo TweenInfo Information for the tween. Create with `TweenInfo.new`
 ---@field props table Table of properties to tween to
 ---@field _originalValues table
----@field _isplaying boolean Is the tween currently playing?
+---@field _isplaying boolean If true, the tween is currently playing
 ---@field _progress number
 tween = {}
 tween.__index = tween

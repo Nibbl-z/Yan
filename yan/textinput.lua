@@ -3,18 +3,21 @@ local utf8 = require("utf8")
 
 --- A field for users to input text
 ---@class TextInput : UIBase
----@field text? string
----@field placeholdertext? string
----@field textsize? number
----@field halign? "left" | "center" | "right" | "justify"
----@field valign? "top" | "center" | "bottom"
----@field textcolor? Color
----@field textborder? Color
----@field placeholdertextcolor? Color
----@field typingindicatorenabled? boolean
+---@field text? string The text that is typed in
+---@field placeholdertext? string Text that shows when there is no text in the TextInput
+---@field textsize? number Size of text
+---@field halign? "left" | "center" | "right" Horizontal alignment of text
+---@field valign? "top" | "center" | "bottom" Vertical alignment of text
+---@field textcolor? Color Color of text
+---@field textborder? Color Color of text border. Set the alpha component to 0 to disable the effect
+---@field fontpath? string Path of custom font to use
+---@field placeholdertextcolor? Color Color of placeholder text
+---@field typingindicatorenabled? boolean If enabled, a line will show where the user is typing
 ---@field _font? love.Font
 ---@field _typing? boolean
 ---@field _shader? love.Shader
+---@field _lastFontpath? string
+---@field _lastTextsize? number
 textinput = uibase:new({})
 textinput.__index = textinput
 
@@ -34,7 +37,15 @@ function textinput:new(props)
     }, "TextInput")
     setmetatable(object, self)
     
-    object._font = love.graphics.newFont(object.textsize)
+    if object.fontpath == nil then
+        object._font = love.graphics.newFont(object.textsize)
+    else
+        object._font = love.graphics.newFont(object.fontpath, object.textsize)
+    end
+
+    object._lastFontpath = object.fontpath
+    object._lastTextsize = object.textsize
+
     object._typing = false
 
     object._shader = love.graphics.newShader("yan/shaders/textborder.glsl")
@@ -44,6 +55,7 @@ function textinput:new(props)
     return object
 end
 
+--- Updates the TextInput
 function textinput:update()
     uibase.update(self)
 
@@ -80,10 +92,29 @@ function textinput:draw()
         yoffset = sY * 1 - self._font:getHeight() * #lines
     end
     
+    if self.fontpath ~= nil then
+        if self._lastFontpath ~= self.fontpath then
+            if self._font ~= nil then
+                self._font:release()
+            end
+            self._font = love.graphics.newFont(self.fontpath, self.textsize)
+        end
+    end
+
+    if self._lastTextsize ~= self.textsize then
+        if self._font ~= nil then
+            self._font:release()
+        end
+
+        if self.fontpath ~= nil then
+            self._font = love.graphics.newFont(self.fontpath, self.textsize)
+        else
+            self._font = love.graphics.newFont(self.textsize)
+        end
+    end
+
     love.graphics.setFont(self._font)
     
-    
-
     if text == "" then
         if self.textborder.a > 0 then
             self._shader:send("textcolor", {self.placeholdertextcolor:get()})
