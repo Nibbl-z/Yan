@@ -8,7 +8,7 @@ vec4 effect ( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords
         return vec4(0.0,0.0,0.0,0.0);
     }
 
-    if (pixel.a > 0.0 && pixel.a < 0.5) {
+    if (pixel.a > 0.0 && pixel.a < 0.7) {
         return vec4(bordercolor.r, bordercolor.g, bordercolor.b, pixel.a);
     }
 
