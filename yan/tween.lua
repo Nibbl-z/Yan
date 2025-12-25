@@ -49,13 +49,15 @@ end
 
 --- Plays the tween
 function tween:play()
+    if self._isplaying then return end
+
     if self._progress <= 0 then
         for k, _ in pairs(self.props) do
             self._originalValues[k] = self.element[k]
         end
         
         self._progress = -self.tweeninfo.delay
-        self._repeats = 1
+        self._repeats = 0
         self._reversing = false
     end
 
@@ -75,7 +77,9 @@ function tween:cancel()
     self._reversing = false
 
     for k, _ in pairs(self.props) do
-        self.element[k] = self._originalValues[k]
+        if self._originalValues[k] ~= nil then
+            self.element[k] = self._originalValues[k]
+        end
     end
 end
 
@@ -94,7 +98,7 @@ function tween:_update(dt)
             if self.tweeninfo.reverses and not self._reversing then
                 self._reversing = true
             else
-                if self._repeats <= self.tweeninfo.repeatcount then
+                if self._repeats < self.tweeninfo.repeatcount then
                     self._repeats = self._repeats + 1
                     self._progress = 0.0
                     self._reversing = false

@@ -32,12 +32,12 @@ local registry = require "yan.registry"
 ---@field layoutorder? number The order that the element is drawn when the parent has `layout` set to `list`
 ---@field children? table A table of children that this element contains
 ---@field parent? UIBase The element that this element is parented to, `nil` if element has no parent
----@field mouseenter? fun(self: UIBase, x: number, y: number) Function that runs when the mouse enters the element
----@field mouseexit? fun(self: UIBase, x: number, y: number) Function that runs when the mouse exits the element
----@field mousebutton1down? fun(self: UIBase) Function that runs when the primary mouse button is clicked within the element
----@field mousebutton1up? fun(self: UIBase) Function that runs when the primary mouse button is released within the element
----@field mousebutton2down? fun(self: UIBase) Function that runs when the secondary mouse button is clicked within the element
----@field mousebutton2up? fun(self: UIBase) Function that runs when the secondary mouse button is released within the element
+---@field mouseenter? fun(self, x: number, y: number) Function that runs when the mouse enters the element
+---@field mouseexit? fun(self, x: number, y: number) Function that runs when the mouse exits the element
+---@field mousebutton1down? fun(self) Function that runs when the primary mouse button is clicked within the element
+---@field mousebutton1up? fun(self) Function that runs when the primary mouse button is released within the element
+---@field mousebutton2down? fun(self) Function that runs when the secondary mouse button is clicked within the element
+---@field mousebutton2up? fun(self) Function that runs when the secondary mouse button is released within the element
 ---@field _hovered? boolean
 ---@field _button1clicked? boolean
 ---@field _button2clicked? boolean
@@ -105,7 +105,7 @@ function uibase:new(props)
         else
             if type(v) == "function" and type(object[k]) ~= "function" then
                 registry:addupdatefunc(object, k, v)
-                object[k] = v()
+                object[k] = v(object, 1/60)
             else
                 object[k] = v
             end
@@ -265,6 +265,7 @@ end
 
 -- Handles functions like mouseenter and mouseleave
 function uibase:update()
+    if self:isvisible() == false then return end
     local mx, my = love.mouse.getPosition()
     local px, py, sx, sy = self:getdrawingcoordinates()
     
@@ -343,11 +344,15 @@ function uibase:isvisible()
         return self.visible 
     end
 
-    repeat
+    while true do
         if parent.visible == false then
             return false
         end
-    until parent.parent == nil
+        if parent.parent == nil then
+            break
+        end
+        parent = parent.parent
+    end
 
     return true
 end

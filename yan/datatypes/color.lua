@@ -18,7 +18,7 @@ function Color.new(r, g, b, a)
         r = math.min(r, 1),
         g = math.min(g, 1),
         b = math.min(b, 1),
-        a = math.min(a, 1) or 1
+        a = math.min(a or 1, 1)
     }, Color)
     
     return self

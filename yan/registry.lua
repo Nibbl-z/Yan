@@ -31,7 +31,7 @@ function registry:update(dt)
     end
 
     for _, func in ipairs(self.updatefuncs) do
-        func.element[func.property] = func.func()
+        func.element[func.property] = func.func(func.element, dt)
     end
 
     for _, tween in ipairs(self.tweens) do

@@ -60,6 +60,7 @@ function textlabel:draw()
         self._shader:send("bordercolor", {self.textborder:get()})
         love.graphics.setShader(self._shader)
     end
+    love.graphics.setColor(self.textcolor:get())
     love.graphics.printf(self.text, pX, pY + yoffset, sX, self.halign)
     love.graphics.setShader()
     love.graphics.setColor(1,1,1,1)

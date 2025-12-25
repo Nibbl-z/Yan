@@ -18,24 +18,11 @@ function screen:new(elements)
         layoutorder = 0
     }
     
-    
     setmetatable(object, self)
-
-    function addChildrenElements(elements, previousIndex)
-        for name, element in pairs(elements) do
-            object:addelement(element)
-            element._ancestorCount = previousIndex + 1
-            addChildrenElements(element.children, previousIndex + 1)
-        end
-    end
 
     for k, v in pairs(elements) do
         v.name = k
         table.insert(object.elements, v)
-    end
-
-    for k, v in pairs(object.elements) do
-        addChildrenElements(v.children, 0)
     end
 
     registry:addscreen(object)
@@ -74,54 +61,78 @@ end
 function screen:draw()
     if not self.enabled then return end
 
-    table.sort(self.elements, function (a, b)
-        return a.zindex + a._creationorder < b.zindex + b._creationorder
-    end)
+    local function drawElements(elements)
+        table.sort(elements, function (a, b)
+            return a.zindex + a._creationorder < b.zindex + b._creationorder
+        end)
 
-    table.sort(self.elements, function (a, b)
-        return a._ancestorCount < b._ancestorCount
-    end)
-    
-    for _, element in ipairs(self.elements) do
-        if element:isvisible() then
-            element:stencil(element.parent)
-            element:draw()
-            love.graphics.setStencilTest()
+        for _, element in ipairs(elements) do
+            if element:isvisible() then
+                element:stencil(element.parent)
+                element:draw()
+                love.graphics.setStencilTest()
+            end
+            if #element.children > 0 then
+                drawElements(element.children)
+            end
         end
     end
+
+    drawElements(self.elements)
 end
 
 --- Updates all elements in the screen
 function screen:update()
     if not self.enabled then return end
 
-    for _, element in ipairs(self.elements) do
-        element:update()
+    local function updateElements(elements)
+        for _, element in ipairs(elements) do
+            element:update()
+            if #element.children > 0 then
+                updateElements(element.children)
+            end
+        end
     end
+
+    updateElements(self.elements)
 end
 
 --- Calls `love.textinput` on all elements that need it
 function screen:textinput(text)
     if not self.enabled then return end
 
-    for _, element in ipairs(self.elements) do
-        if element._type == "TextInput" then
-            ---@diagnostic disable-next-line: undefined-field
-            element:textinput(text)
+    local function updateElements(elements)
+        for _, element in ipairs(elements) do
+            if element._type == "TextInput" then
+                ---@diagnostic disable-next-line: undefined-field
+                element:textinput(text)
+            end
+            if #element.children > 0 then
+                updateElements(element.children)
+            end
         end
     end
+
+    updateElements(self.elements)
 end
 
 --- Calls `love.keypressed` on all elements that need it
 function screen:keypressed(key)
     if not self.enabled then return end
 
-    for _, element in ipairs(self.elements) do
-        if element._type == "TextInput" then
-            ---@diagnostic disable-next-line: undefined-field
-            element:keypressed(key)
+    local function updateElements(elements)
+        for _, element in ipairs(elements) do
+            if element._type == "TextInput" then
+                ---@diagnostic disable-next-line: undefined-field
+                element:keypressed(key)
+            end
+            if #element.children > 0 then
+                updateElements(element.children)
+            end
         end
     end
+
+    updateElements(self.elements)
 end
 
 return screen
