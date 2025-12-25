@@ -3,9 +3,9 @@ Yan is a simple UI library for Love2D, based on Roblox's UI system and inspired 
 
 ### Demo
 
-(todo)
+https://github.com/user-attachments/assets/3d1125c0-59c6-4ad2-a875-6bb7603b234e
 
-You can view the code to the examples in the demo video in /examples and main.lua to further understand how to use Yan!
+You can view the code to the examples in the demo video in `/examples` and `main.lua` to further understand how to use Yan!
 
 ### Features
 - Short and simple syntax for instantiating UI elements and their children
