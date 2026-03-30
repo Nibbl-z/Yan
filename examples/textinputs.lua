@@ -34,9 +34,12 @@ return function (page)
                 bottompadding = UDim.new(0,5),
                 children = {
                     input = textinput:new {
-                        size = UDim2.new(1,0,0.2,0),
+                        size = UDim2.new(1,0,0.15,0),
                     },
-
+                    input2 = textinput:new {
+                        position = UDim2.new(0,0,0.2,0),
+                        size = UDim2.new(1,0,0.15,0),
+                    },
                     label = textlabel:new {
                         text = function(self)
                             if self.parent == nil then return "" end
@@ -44,7 +47,7 @@ return function (page)
 
                             return "the same text but in red to show that you can access the text from the textinput :P -> "..input.text
                         end,
-                        position = UDim2.new(0,0,0.3,0),
+                        position = UDim2.new(0,0,0.5,0),
                         size = UDim2.new(1,0,0.4,0),
                         textcolor = Color.new(1,0,0,1)
                     }

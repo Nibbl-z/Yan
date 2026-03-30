@@ -26,8 +26,25 @@ function registry:draw()
 end
 
 function registry:update(dt)
+    local typing = false
+
+    local function checkTyping(elements)
+        for _, element in ipairs(elements) do
+            if element._typing == true then
+                typing = true
+            end
+            if #element.children > 0 then
+                checkTyping(element.children)
+            end
+        end
+    end
+
     for _, screen in ipairs(self.screens) do
         screen:update()
+
+        if not yan.config.alwaysSetKeyRepeat then
+            checkTyping(screen.elements)
+        end
     end
 
     for _, func in ipairs(self.updatefuncs) do
@@ -36,6 +53,10 @@ function registry:update(dt)
 
     for _, tween in ipairs(self.tweens) do
         tween:_update(dt)
+    end
+
+    if not yan.config.alwaysSetKeyRepeat then
+        love.keyboard.setKeyRepeat(typing)
     end
 end
 

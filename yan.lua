@@ -29,6 +29,10 @@ TweenInfo = require "yan.datatypes.tweeninfo"
 
 local registry = require "yan.registry"
 
+yan.config = {
+    alwaysSetKeyRepeat = false
+}
+
 --- Updates yan. Call this in `love.update`.
 ---@param dt number
 function yan:update(dt)

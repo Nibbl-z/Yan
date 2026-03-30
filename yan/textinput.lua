@@ -64,12 +64,6 @@ function textinput:update()
         self._typing = true
     end
 
-    if self._typing then
-        love.keyboard.setKeyRepeat(true)
-    else
-        love.keyboard.setKeyRepeat(false)
-    end
-
     if not self._hovered and love.mouse.isDown(1) then
         self._typing = false
     end
