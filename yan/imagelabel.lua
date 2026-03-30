@@ -3,6 +3,7 @@ require "yan.uibase"
 --- Displays an image
 ---@class ImageLabel : UIBase
 ---@field image? string The path to the image
+---@field filter? love.FilterMode
 ---@field _lastImage? string
 ---@field _loadedImage? love.Image
 imagelabel = uibase:new({})
@@ -12,7 +13,8 @@ imagelabel.__index = imagelabel
 ---@param props ImageLabel
 function imagelabel:new(props)
     local object = uibase:_inherit(props, {
-        image = ""
+        image = "",
+        filter = "linear"
     }, "ImageLabel")
     setmetatable(object, self)
     
@@ -32,6 +34,7 @@ function imagelabel:draw()
             self._loadedImage:release()
         end
         self._loadedImage = love.graphics.newImage(self.image)
+        self._loadedImage:setFilter(self.filter)
     end
 
     self._lastImage = self.image
