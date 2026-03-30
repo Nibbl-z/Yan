@@ -333,6 +333,8 @@ end
 --- Checks if this element should be visible, based on its ancestry
 ---@return boolean
 function uibase:isvisible()
+    if self.visible == false then return false end
+
     local parent = self.parent
 
     if parent == nil then 
