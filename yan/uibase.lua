@@ -99,7 +99,7 @@ function uibase:new(props)
                 element:setparent(object)
             end
         else
-            if type(v) == "function" and type(object[k]) ~= "function" then
+            if type(v) == "function" and type(object[k]) ~= "function" and k ~= "onenter" then
                 registry:addupdatefunc(object, k, v)
                 object[k] = v(object, 1/60)
             else

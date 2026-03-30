@@ -18,6 +18,7 @@ local utf8 = require("utf8")
 ---@field _shader? love.Shader
 ---@field _lastFontpath? string
 ---@field _lastTextsize? number
+---@field onenter? fun(self)
 textinput = uibase:new({})
 textinput.__index = textinput
 
@@ -161,6 +162,7 @@ function textinput:keypressed(key)
         end
     elseif key == "return" then
         self._typing = false
+        self:onenter()
     end
 end
 
